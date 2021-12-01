@@ -1,0 +1,7 @@
+/server/node_modules
+/server/.env
+/server/dist
+
+/client/.dart_tool/
+/client/.packages
+/client/build/
