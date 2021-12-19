@@ -1,0 +1,21 @@
+{
+	"window.title": "Senior Project Left-over! Flutter App",
+	"editor.fontSize": 12,
+	"terminal.integrated.fontSize": 12,
+	"markdown.preview.fontSize": 12,
+	"vetur.format.options.tabSize": 4,
+	"editor.tabSize": 4,
+	"prettier.printWidth": 99999,
+	"prettier.semi": false,
+	"prettier.singleQuote": true,
+	"editor.detectIndentation": false,
+	"prettier.trailingComma": "none",
+	"workbench.colorCustomizations": {
+		"statusBar.background": "#3c0180",
+		"statusBar.foreground": "#e7e7e7"
+	},
+	"peacock.color": "#3c0180",
+	"editor.defaultFormatter": "esbenp.prettier-vscode",
+	"editor.formatOnSave": true,
+	"prettier.tabWidth": 4
+}
