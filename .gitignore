@@ -1,9 +1,9 @@
 /server/node_modules
 /server/dist
 
-/client/.dart_tool/
-/client/.packages
-/client/build/
+/client/left_over/.dart_tool/
+/client/left_over/.packages
+/client/left_over/build/
 
 # Miscellaneous
 /client/*.class
