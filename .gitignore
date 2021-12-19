@@ -4,3 +4,72 @@
 /client/.dart_tool/
 /client/.packages
 /client/build/
+
+# Miscellaneous
+/client/*.class
+/client/*.log
+/client/*.pyc
+/client/*.swp
+/client/.DS_Store
+/client/.atom/
+/client/.buildlog/
+/client/.history
+/client/.svn/
+
+# IntelliJ related
+/client/*.iml
+/client/*.ipr
+/client/*.iws
+/client/.idea/
+
+
+# Flutter/Dart/Pub related
+/client/**/doc/api/
+/client/.dart_tool/
+/client/.flutter-plugins
+/client/.packages
+/client/.pub-cache/
+/client/.pub/
+/client/build/
+
+# Android related
+/client/**/android/**/gradle-wrapper.jar
+/client/**/android/.gradle
+/client/**/android/captures/
+/client/**/android/gradlew
+/client/**/android/gradlew.bat
+/client/**/android/local.properties
+/client/**/android/**/GeneratedPluginRegistrant.java
+
+# iOS/XCode related
+/client/**/ios/**/*.mode1v3
+/client/**/ios/**/*.mode2v3
+/client/**/ios/**/*.moved-aside
+/client/**/ios/**/*.pbxuser
+/client/**/ios/**/*.perspectivev3
+/client/**/ios/**/*sync/
+/client/**/ios/**/.sconsign.dblite
+/client/**/ios/**/.tags*
+/client/**/ios/**/.vagrant/
+/client/**/ios/**/DerivedData/
+/client/**/ios/**/Icon?
+/client/**/ios/**/Pods/
+/client/**/ios/**/.symlinks/
+/client/**/ios/**/profile
+/client/**/ios/**/xcuserdata
+/client/**/ios/.generated/
+/client/**/ios/Flutter/App.framework
+/client/**/ios/Flutter/Flutter.framework
+/client/**/ios/Flutter/Generated.xcconfig
+/client/**/ios/Flutter/app.flx
+/client/**/ios/Flutter/app.zip
+/client/**/ios/Flutter/flutter_assets/
+/client/**/ios/ServiceDefinitions.json
+/client/**/ios/Runner/GeneratedPluginRegistrant.*
+
+# Exceptions to above rules.
+/client/!**/ios/**/default.mode1v3
+/client/!**/ios/**/default.mode2v3
+/client/!**/ios/**/default.pbxuser
+/client/!**/ios/**/default.perspectivev3
+/client/!/packages/flutter_tools/test/data/dart_dependencies_test/**/.packages
