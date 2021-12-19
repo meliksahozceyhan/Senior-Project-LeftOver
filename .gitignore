@@ -1,5 +1,4 @@
 /server/node_modules
-/server/.env
 /server/dist
 
 /client/.dart_tool/
