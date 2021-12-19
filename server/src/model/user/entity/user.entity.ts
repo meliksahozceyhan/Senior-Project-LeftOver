@@ -14,7 +14,7 @@ export class User {
 
 	@IsNotEmpty()
 	@Length(1, 64)
-	@Column({ length: 128, nullable: false })
+	@Column({ length: 128, nullable: false, unique: true })
 	email: String
 
 	@IsNotEmpty()
