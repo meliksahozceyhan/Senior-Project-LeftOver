@@ -17,10 +17,10 @@ client/left_over/.history
 client/left_over/.svn/
 
 # IntelliJ related
-client/*.iml
-client/*.ipr
-client/*.iws
-client/.idea/
+client/left_over/*.iml
+client/left_over/*.ipr
+client/left_over/*.iws
+client/left_over/.idea/
 
 
 # Flutter/Dart/Pub related
