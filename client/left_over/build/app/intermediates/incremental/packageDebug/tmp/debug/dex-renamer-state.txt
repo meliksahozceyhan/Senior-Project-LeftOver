@@ -1,4 +1,0 @@
-#Sun Dec 19 16:55:32 EET 2021
-base.0=D\:\\workspace\\workspace-senior\\Senior Project Left Over\\client\\left_over\\build\\app\\intermediates\\dex\\debug\\mergeDexDebug\\classes.dex
-path.0=classes.dex
-renamed.0=classes.dex
