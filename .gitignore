@@ -6,15 +6,15 @@
 /client/left_over/build/
 
 # Miscellaneous
-/client/*.class
-/client/*.log
-/client/*.pyc
-/client/*.swp
-/client/.DS_Store
-/client/.atom/
-/client/.buildlog/
-/client/.history
-/client/.svn/
+/client/left_over/*.class
+/client/left_over/*.log
+/client/left_over/*.pyc
+/client/left_over/*.swp
+/client/left_over/.DS_Store
+/client/left_over/.atom/
+/client/left_over/.buildlog/
+/client/left_over/.history
+/client/left_over/.svn/
 
 # IntelliJ related
 /client/*.iml
@@ -24,52 +24,52 @@
 
 
 # Flutter/Dart/Pub related
-/client/**/doc/api/
-/client/.dart_tool/
-/client/.flutter-plugins
-/client/.packages
-/client/.pub-cache/
-/client/.pub/
-/client/build/
+/client/left_over/**/doc/api/
+/client/left_over/.dart_tool/
+/client/left_over/.flutter-plugins
+/client/left_over/.packages
+/client/left_over/.pub-cache/
+/client/left_over/.pub/
+/client/left_over/build/
 
 # Android related
-/client/**/android/**/gradle-wrapper.jar
-/client/**/android/.gradle
-/client/**/android/captures/
-/client/**/android/gradlew
-/client/**/android/gradlew.bat
-/client/**/android/local.properties
-/client/**/android/**/GeneratedPluginRegistrant.java
+/client/left_over/**/android/**/gradle-wrapper.jar
+/client/left_over/**/android/.gradle
+/client/left_over/**/android/captures/
+/client/left_over/**/android/gradlew
+/client/left_over/**/android/gradlew.bat
+/client/left_over/**/android/local.properties
+/client/left_over/**/android/**/GeneratedPluginRegistrant.java
 
 # iOS/XCode related
-/client/**/ios/**/*.mode1v3
-/client/**/ios/**/*.mode2v3
-/client/**/ios/**/*.moved-aside
-/client/**/ios/**/*.pbxuser
-/client/**/ios/**/*.perspectivev3
-/client/**/ios/**/*sync/
-/client/**/ios/**/.sconsign.dblite
-/client/**/ios/**/.tags*
-/client/**/ios/**/.vagrant/
-/client/**/ios/**/DerivedData/
-/client/**/ios/**/Icon?
-/client/**/ios/**/Pods/
-/client/**/ios/**/.symlinks/
-/client/**/ios/**/profile
-/client/**/ios/**/xcuserdata
-/client/**/ios/.generated/
-/client/**/ios/Flutter/App.framework
-/client/**/ios/Flutter/Flutter.framework
-/client/**/ios/Flutter/Generated.xcconfig
-/client/**/ios/Flutter/app.flx
-/client/**/ios/Flutter/app.zip
-/client/**/ios/Flutter/flutter_assets/
-/client/**/ios/ServiceDefinitions.json
-/client/**/ios/Runner/GeneratedPluginRegistrant.*
+/client/left_over/**/ios/**/*.mode1v3
+/client/left_over/**/ios/**/*.mode2v3
+/client/left_over/**/ios/**/*.moved-aside
+/client/left_over/**/ios/**/*.pbxuser
+/client/left_over/**/ios/**/*.perspectivev3
+/client/left_over/**/ios/**/*sync/
+/client/left_over/**/ios/**/.sconsign.dblite
+/client/left_over/**/ios/**/.tags*
+/client/left_over/**/ios/**/.vagrant/
+/client/left_over/**/ios/**/DerivedData/
+/client/left_over/**/ios/**/Icon?
+/client/left_over/**/ios/**/Pods/
+/client/left_over/**/ios/**/.symlinks/
+/client/left_over/**/ios/**/profile
+/client/left_over/**/ios/**/xcuserdata
+/client/left_over/**/ios/.generated/
+/client/left_over/**/ios/Flutter/App.framework
+/client/left_over/**/ios/Flutter/Flutter.framework
+/client/left_over/**/ios/Flutter/Generated.xcconfig
+/client/left_over/**/ios/Flutter/app.flx
+/client/left_over/**/ios/Flutter/app.zip
+/client/left_over/**/ios/Flutter/flutter_assets/
+/client/left_over/**/ios/ServiceDefinitions.json
+/client/left_over/**/ios/Runner/GeneratedPluginRegistrant.*
 
 # Exceptions to above rules.
-/client/!**/ios/**/default.mode1v3
-/client/!**/ios/**/default.mode2v3
-/client/!**/ios/**/default.pbxuser
-/client/!**/ios/**/default.perspectivev3
-/client/!/packages/flutter_tools/test/data/dart_dependencies_test/**/.packages
+/client/left_over/!**/ios/**/default.mode1v3
+/client/left_over/!**/ios/**/default.mode2v3
+/client/left_over/!**/ios/**/default.pbxuser
+/client/left_over/!**/ios/**/default.perspectivev3
+/client/left_over/!/packages/flutter_tools/test/data/dart_dependencies_test/**/.packages
