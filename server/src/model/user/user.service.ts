@@ -14,4 +14,12 @@ export class UserService extends TypeOrmCrudService<User> {
 	public async saveUser(user: User): Promise<User> {
 		return this.userRepo.save(user)
 	}
+
+	public async login(email: string, password: string): Promise<User> {
+		let user = await this.userRepo.findOne({ where: { email: email } })
+		if (user !== undefined && user !== null) {
+			return user.password === password ? user : null
+		}
+		return null
+	}
 }
