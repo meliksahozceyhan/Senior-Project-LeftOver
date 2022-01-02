@@ -133,8 +133,9 @@ class Body extends StatelessWidget {
                   print("${response.body}");
                   return response;
                 }
+                print("endddd");
 
-                if (getPassword == getPasswordConfirmation) postRequest();
+                postRequest();
 
                 // GET REQUEST
                 // print("heree");
