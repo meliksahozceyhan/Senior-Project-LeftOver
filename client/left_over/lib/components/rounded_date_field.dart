@@ -3,15 +3,19 @@ import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:left_over/components/text_field_container.dart';
 import 'package:left_over/constants.dart';
 
-class RoundedInputField extends StatelessWidget {
+class RoundedDateField extends StatelessWidget {
   final String hintText;
   final IconData icon;
   final ValueChanged<String> onChanged;
-  const RoundedInputField({
+  final Function() onTap;
+  final TextEditingController textEditingController;
+  const RoundedDateField({
     Key key,
     @required this.hintText,
-    this.icon = Icons.person,
+    this.icon = Icons.calendar_today_outlined,
     @required this.onChanged,
+    @required this.onTap,
+    @required this.textEditingController
   }) : super(key: key);
 
   @override
@@ -19,7 +23,9 @@ class RoundedInputField extends StatelessWidget {
     return TextFieldContainer(
       child: TextField(
         onChanged: onChanged,
+        onTap: onTap,
         cursorColor: kPrimaryColor,
+        controller: textEditingController,
         decoration: InputDecoration(
           icon: Icon(
             icon,

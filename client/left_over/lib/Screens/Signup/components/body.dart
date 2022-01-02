@@ -3,12 +3,14 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:left_over/Screens/Login/login_screen.dart';
 import 'package:left_over/Screens/Signup/components/background.dart';
 import 'package:left_over/Screens/Signup/components/or_divider.dart';
 import 'package:left_over/Screens/Signup/components/social_icon.dart';
 import 'package:left_over/components/already_have_an_account_acheck.dart';
 import 'package:left_over/components/rounded_button.dart';
+import 'package:left_over/components/rounded_date_field.dart';
 import 'package:left_over/components/rounded_input_field.dart';
 import 'package:left_over/components/rounded_password_field.dart';
 import 'package:flutter_svg/svg.dart';
@@ -19,6 +21,8 @@ class Body extends StatelessWidget {
   var getName = "";
   var getEmail = "";
   var getPassword = "";
+  var getDateofBirth = "";
+  var txt = TextEditingController();
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -58,6 +62,37 @@ class Body extends StatelessWidget {
                hintText: "Password Confirmation",
               onChanged: (value) {
                 getPassword = value;
+              },
+            ),
+             RoundedDateField(
+               hintText: "Date of Birth",
+               textEditingController: txt,
+                onChanged: (value){
+                  getDateofBirth = value;
+                },
+                 onTap: (){
+                   DatePicker.showDatePicker(context,
+                              showTitleActions: true,
+                              minTime: DateTime(1921, 1, 1),
+                              maxTime: DateTime.now(), onChanged: (date) {
+                            //print('change $date');
+                            //return date;
+                          }, onConfirm: (date) {
+                            getDateofBirth = date.toString();
+                            txt.text = date.toUtc().toIso8601String().split("T")[0].split("-").reversed.join("-");
+                          }, currentTime: DateTime.now(), locale: LocaleType.en);
+                 }
+            ),
+            RoundedInputField(
+              hintText: "City",
+              onChanged: (value) {
+                getEmail = value;
+              },
+            ),
+            RoundedInputField(
+              hintText: "Address",
+              onChanged: (value) {
+                getEmail = value;
               },
             ),
             RoundedButton(
