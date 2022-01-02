@@ -1,3 +1,7 @@
+// ignore_for_file: prefer_const_constructors
+
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:left_over/Screens/Login/login_screen.dart';
 import 'package:left_over/Screens/Signup/components/background.dart';
@@ -8,8 +12,13 @@ import 'package:left_over/components/rounded_button.dart';
 import 'package:left_over/components/rounded_input_field.dart';
 import 'package:left_over/components/rounded_password_field.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:http/http.dart' as http;
+import 'dart:async';
 
 class Body extends StatelessWidget {
+  var getName = "";
+  var getEmail = "";
+  var getPassword = "";
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -23,20 +32,74 @@ class Body extends StatelessWidget {
               style: TextStyle(fontWeight: FontWeight.bold),
             ),
             SizedBox(height: size.height * 0.03),
-            SvgPicture.asset(
-              "assets/icons/signup.svg",
-              height: size.height * 0.35,
+            // SvgPicture.asset(
+            //   "assets/icons/signup.svg",
+            //   height: size.height * 0.35,
+            // ),
+            RoundedInputField(
+              hintText: "Fullname",
+              onChanged: (value) {
+                getName = value;
+              },
             ),
             RoundedInputField(
-              hintText: "Your Email",
-              onChanged: (value) {},
+              hintText: "Email",
+              onChanged: (value) {
+                getEmail = value;
+              },
             ),
             RoundedPasswordField(
-              onChanged: (value) {},
+              onChanged: (value) {
+                getPassword = value;
+              },
             ),
             RoundedButton(
               text: "SIGNUP",
-              press: () {},
+              press: () async{
+                
+                Future<http.Response> postRequest () async {
+
+                  var urlAndParams = "http://10.0.2.2:43951/api/User/InsertNewUser?userName=" +getName
+                                                                                    +"&userEmail="+getEmail
+                                                                                    +"&userPassword="+getPassword;
+
+                  // var url = Uri.parse('http://10.0.2.2:43951/api/User/InsertNewUser');
+
+                  var url = Uri.parse(urlAndParams);
+                    
+                  // Map data = {
+                  //   'userName': 'FLUTTER',
+                  //   'userEmail': 'flutterpost@gmail.com',
+                  //   'userPassword': '123FLUTTER'
+                  // };
+                  // //encode Map to JSON
+                  // var body = json.encode(data);
+                  
+                  var response = await http.post(url,
+                      headers: {"Content-Type": "application/json"}
+                      // body: body
+                  );
+                  print("${response.request}");
+                  print("${response.statusCode}");
+                  print("${response.body}");
+                  
+                  
+                  return response;
+
+                }
+                postRequest();
+
+
+                
+
+                // GET REQUEST
+                // print("heree");
+                // var url = Uri.parse('http://10.0.2.2:43951/api/User/GetAllUsers');
+                // var response = await http.get(url);
+                // print('${response.statusCode}');
+                // print('${response.body}');
+
+              },
             ),
             SizedBox(height: size.height * 0.03),
             AlreadyHaveAnAccountCheck(
@@ -52,24 +115,24 @@ class Body extends StatelessWidget {
                 );
               },
             ),
-            OrDivider(),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                SocalIcon(
-                  iconSrc: "assets/icons/facebook.svg",
-                  press: () {},
-                ),
-                SocalIcon(
-                  iconSrc: "assets/icons/twitter.svg",
-                  press: () {},
-                ),
-                SocalIcon(
-                  iconSrc: "assets/icons/google-plus.svg",
-                  press: () {},
-                ),
-              ],
-            )
+            //OrDivider(),
+            // Row(
+            //   mainAxisAlignment: MainAxisAlignment.center,
+            //   children: <Widget>[
+            //     SocalIcon(
+            //       iconSrc: "assets/icons/facebook.svg",
+            //       press: () {},
+            //     ),
+            //     SocalIcon(
+            //       iconSrc: "assets/icons/twitter.svg",
+            //       press: () {},
+            //     ),
+            //     SocalIcon(
+            //       iconSrc: "assets/icons/google-plus.svg",
+            //       press: () {},
+            //     ),
+            //   ],
+            // )
           ],
         ),
       ),
