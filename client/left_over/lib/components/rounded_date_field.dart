@@ -1,33 +1,37 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:left_over/components/text_field_container.dart';
 import 'package:left_over/constants.dart';
 
-class RoundedPasswordField extends StatelessWidget {
-  final ValueChanged<String> onChanged;
+class RoundedDateField extends StatelessWidget {
   final String hintText;
-  const RoundedPasswordField({
+  final IconData icon;
+  final ValueChanged<String> onChanged;
+  final Function() onTap;
+  final TextEditingController textEditingController;
+  const RoundedDateField({
     Key key,
-    @required this.onChanged,
     @required this.hintText,
+    this.icon = Icons.calendar_today_outlined,
+    @required this.onChanged,
+    @required this.onTap,
+    @required this.textEditingController
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return TextFieldContainer(
       child: TextField(
-        obscureText: true,
         onChanged: onChanged,
+        onTap: onTap,
         cursorColor: kPrimaryColor,
+        controller: textEditingController,
         decoration: InputDecoration(
-          hintText: hintText,
           icon: Icon(
-            Icons.lock,
+            icon,
             color: kPrimaryColor,
           ),
-          suffixIcon: Icon(
-            Icons.visibility,
-            color: kPrimaryColor,
-          ),
+          hintText: hintText,
           border: InputBorder.none,
         ),
       ),
