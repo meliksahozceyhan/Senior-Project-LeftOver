@@ -49,6 +49,13 @@ class Body extends StatelessWidget {
               },
             ),
             RoundedPasswordField(
+              hintText: "Password",
+              onChanged: (value) {
+                getPassword = value;
+              },
+            ),
+             RoundedPasswordField(
+               hintText: "Password Confirmation",
               onChanged: (value) {
                 getPassword = value;
               },
@@ -66,7 +73,7 @@ class Body extends StatelessWidget {
                   // var url = Uri.parse('http://10.0.2.2:43951/api/User/InsertNewUser');
 
                   var url = Uri.parse(urlAndParams);
-                    
+
                   // Map data = {
                   //   'userName': 'FLUTTER',
                   //   'userEmail': 'flutterpost@gmail.com',
