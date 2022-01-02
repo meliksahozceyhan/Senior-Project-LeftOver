@@ -11,6 +11,7 @@ export class UserController {
 	}
 	@Get('/login')
 	public async login(@Query('email') email: string, @Query('password') password: string): Promise<User> {
+		console.log('deneme')
 		return this.userService.login(email, password)
 	}
 }
