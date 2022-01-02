@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:left_over/Screens/Login/components/background.dart';
 import 'package:left_over/Screens/Products/products_screen.dart';
 import 'package:left_over/Screens/Signup/signup_screen.dart';
@@ -8,12 +9,13 @@ import 'package:left_over/components/rounded_input_field.dart';
 import 'package:left_over/components/rounded_password_field.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Body extends StatelessWidget {
   const Body({
     Key key,
   }) : super(key: key);
-  
+
   @override
   Widget build(BuildContext context) {
     var getEmail = "";
@@ -25,7 +27,7 @@ class Body extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Text(
+            const Text(
               "LOGIN",
               style: TextStyle(fontWeight: FontWeight.bold),
             ),
@@ -42,31 +44,34 @@ class Body extends StatelessWidget {
               },
             ),
             RoundedPasswordField(
+              hintText: "Password",
               onChanged: (value) {
                 getPassword = value;
               },
             ),
             RoundedButton(
               text: "LOGIN",
-              press: () async{
-
-                var url = Uri.parse('http://10.0.2.2:43951/api/User/GetAuthUser?userEmail=' + getEmail + "&userPassword=" + getPassword);
+              press: () async {
+                var url = Uri.parse(dotenv.env['API_URL'] +
+                    "/user/login?email=" +
+                    getEmail +
+                    "&password=" +
+                    getPassword);
                 var response = await http.get(url);
+                final prefs = await SharedPreferences.getInstance();
+                prefs.setString('token', 'Bearer ${response.body}');
+                
 
-                print('${response.statusCode}');
-                print('${response.body}');
-
-                if(response.statusCode == 200) {
-                    Navigator.push(
-                      context,
-                        MaterialPageRoute(
-                          builder: (context) {
-                            return ProductsScreen();
-                          },
-                        ),
-                    );
+                if (response.statusCode == 200) {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) {
+                        return ProductsScreen();
+                      },
+                    ),
+                  );
                 }
-
               },
             ),
             SizedBox(height: size.height * 0.03),

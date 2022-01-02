@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:left_over/Screens/Login/login_screen.dart';
+import 'package:left_over/Screens/Products/products_screen.dart';
 import 'package:left_over/Screens/Signup/components/background.dart';
 import 'package:left_over/Screens/Signup/components/or_divider.dart';
 import 'package:left_over/Screens/Signup/components/social_icon.dart';
@@ -17,6 +18,8 @@ import 'package:left_over/components/rounded_password_field.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:http/http.dart' as http;
 import 'dart:async';
+
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Body extends StatelessWidget {
   var getName = "";
@@ -110,7 +113,6 @@ class Body extends StatelessWidget {
               press: () async {
                 Future<http.Response> postRequest() async {
                   var url = Uri.parse(dotenv.env['API_URL'] + "/user/");
-                  print(url.toString());
 
                   //var url = Uri.parse(urlAndParams);
 
@@ -128,9 +130,23 @@ class Body extends StatelessWidget {
                   var response = await http.post(url,
                       headers: {"Content-Type": "application/json"},
                       body: body);
+                  final prefs = await SharedPreferences.getInstance();
+                  prefs.setString('token', 'Bearer ${response.body}');
                   print("${response.request}");
                   print("${response.statusCode}");
                   print("${response.body}");
+
+                  if (response.statusCode == 200) {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) {
+                        return ProductsScreen();
+                      },
+                    ),
+                  );
+                }
+
                   return response;
                 }
 

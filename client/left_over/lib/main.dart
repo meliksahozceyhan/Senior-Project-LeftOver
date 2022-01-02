@@ -4,9 +4,10 @@ import 'package:left_over/Screens/Welcome/welcome_screen.dart';
 import 'package:left_over/constants.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+
+
 Future<void> main() async {
   await dotenv.load();
-
   runApp( MyApp());
 }
 class MyApp extends StatelessWidget {
