@@ -9,7 +9,7 @@ class RoundedButton extends StatelessWidget {
     Key key,
     @required this.text,
     @required this.press,
-    this.color = kPrimaryColor,
+    this.color = Colors.black,
     this.textColor = Colors.white,
   }) : super(key: key);
 
@@ -20,7 +20,7 @@ class RoundedButton extends StatelessWidget {
       margin: EdgeInsets.symmetric(vertical: 10),
       width: size.width * 0.8,
       child: ClipRRect(
-        borderRadius: BorderRadius.circular(29),
+        //borderRadius: BorderRadius.circular(29),
         child: newElevatedButton(),
       ),
     );
