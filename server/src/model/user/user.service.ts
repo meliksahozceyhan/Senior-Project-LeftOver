@@ -12,6 +12,7 @@ export class UserService extends TypeOrmCrudService<User> {
 	}
 
 	public async saveUser(user: User): Promise<User> {
+		console.log(user)
 		return this.userRepo.save(user)
 	}
 

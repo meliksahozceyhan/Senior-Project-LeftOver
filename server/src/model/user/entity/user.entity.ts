@@ -19,9 +19,18 @@ export class User {
 
 	@IsNotEmpty()
 	@Column({ nullable: false })
-	name: String
+	fullName: String
 
 	@IsNotEmpty()
 	@Column({ nullable: false })
 	password: String
+
+	@Column({ nullable: true })
+	dateOfBirth: Date
+
+	@Column({ nullable: true })
+	city: String
+
+	@Column({ nullable: true })
+	address: String
 }

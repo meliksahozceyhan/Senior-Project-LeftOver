@@ -3,6 +3,7 @@ server/dist
 
 client/left_over/.dart_tool/
 client/left_over/.packages
+client/left_over/.flutter-plugins-dependencies
 client/left_over/build/
 
 # Miscellaneous
