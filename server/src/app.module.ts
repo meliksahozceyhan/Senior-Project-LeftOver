@@ -5,9 +5,10 @@ import { DatabaseModule } from './database/database.module'
 import { AppController } from './app.controller'
 import { AppService } from './app.service'
 import { UserModule } from './model/user/user.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
-	imports: [ConfigModule.forRoot({ load: [databaseConfig], isGlobal: true }), DatabaseModule, UserModule],
+	imports: [ConfigModule.forRoot({ load: [databaseConfig], isGlobal: true }), DatabaseModule, UserModule, AuthModule],
 	controllers: [AppController],
 	providers: [AppService]
 })
