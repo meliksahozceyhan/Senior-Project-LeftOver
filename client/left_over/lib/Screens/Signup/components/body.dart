@@ -4,6 +4,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:left_over/Screens/Login/login_screen.dart';
 import 'package:left_over/Screens/Signup/components/background.dart';
 import 'package:left_over/Screens/Signup/components/or_divider.dart';
@@ -32,10 +33,10 @@ class Body extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Text(
-              "SIGNUP",
-              style: TextStyle(fontWeight: FontWeight.bold),
+              "Register",
+              style: GoogleFonts.comfortaa(fontSize: 45),
             ),
-            SizedBox(height: size.height * 0.03),
+            SizedBox(height: size.height * 0.01),
             // SvgPicture.asset(
             //   "assets/icons/signup.svg",
             //   height: size.height * 0.35,
@@ -58,31 +59,36 @@ class Body extends StatelessWidget {
                 getPassword = value;
               },
             ),
-             RoundedPasswordField(
-               hintText: "Password Confirmation",
+            RoundedPasswordField(
+              hintText: "Password Confirmation",
               onChanged: (value) {
                 getPassword = value;
               },
             ),
-             RoundedDateField(
-               hintText: "Date of Birth",
-               textEditingController: txt,
-                onChanged: (value){
+            RoundedDateField(
+                hintText: "Date of Birth",
+                textEditingController: txt,
+                onChanged: (value) {
                   getDateofBirth = value;
                 },
-                 onTap: (){
-                   DatePicker.showDatePicker(context,
-                              showTitleActions: true,
-                              minTime: DateTime(1921, 1, 1),
-                              maxTime: DateTime.now(), onChanged: (date) {
-                            //print('change $date');
-                            //return date;
-                          }, onConfirm: (date) {
-                            getDateofBirth = date.toString();
-                            txt.text = date.toUtc().toIso8601String().split("T")[0].split("-").reversed.join("-");
-                          }, currentTime: DateTime.now(), locale: LocaleType.en);
-                 }
-            ),
+                onTap: () {
+                  DatePicker.showDatePicker(context,
+                      showTitleActions: true,
+                      minTime: DateTime(1921, 1, 1),
+                      maxTime: DateTime.now(), onChanged: (date) {
+                    //print('change $date');
+                    //return date;
+                  }, onConfirm: (date) {
+                    getDateofBirth = date.toString();
+                    txt.text = date
+                        .toUtc()
+                        .toIso8601String()
+                        .split("T")[0]
+                        .split("-")
+                        .reversed
+                        .join("-");
+                  }, currentTime: DateTime.now(), locale: LocaleType.en);
+                }),
             RoundedInputField(
               hintText: "City",
               onChanged: (value) {
@@ -97,13 +103,15 @@ class Body extends StatelessWidget {
             ),
             RoundedButton(
               text: "SIGNUP",
-              press: () async{
-                
-                Future<http.Response> postRequest () async {
-
-                  var urlAndParams = "http://10.0.2.2:43951/api/User/InsertNewUser?userName=" +getName
-                                                                                    +"&userEmail="+getEmail
-                                                                                    +"&userPassword="+getPassword;
+              press: () async {
+                Future<http.Response> postRequest() async {
+                  var urlAndParams =
+                      "http://10.0.2.2:43951/api/User/InsertNewUser?userName=" +
+                          getName +
+                          "&userEmail=" +
+                          getEmail +
+                          "&userPassword=" +
+                          getPassword;
 
                   // var url = Uri.parse('http://10.0.2.2:43951/api/User/InsertNewUser');
 
@@ -116,23 +124,19 @@ class Body extends StatelessWidget {
                   // };
                   // //encode Map to JSON
                   // var body = json.encode(data);
-                  
-                  var response = await http.post(url,
-                      headers: {"Content-Type": "application/json"}
-                      // body: body
-                  );
+
+                  var response = await http
+                      .post(url, headers: {"Content-Type": "application/json"}
+                          // body: body
+                          );
                   print("${response.request}");
                   print("${response.statusCode}");
                   print("${response.body}");
-                  
-                  
+
                   return response;
-
                 }
+
                 postRequest();
-
-
-                
 
                 // GET REQUEST
                 // print("heree");
@@ -140,7 +144,6 @@ class Body extends StatelessWidget {
                 // var response = await http.get(url);
                 // print('${response.statusCode}');
                 // print('${response.body}');
-
               },
             ),
             SizedBox(height: size.height * 0.03),

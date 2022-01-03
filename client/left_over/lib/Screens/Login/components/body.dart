@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:left_over/Screens/Login/components/background.dart';
 import 'package:left_over/Screens/Products/products_screen.dart';
 import 'package:left_over/Screens/Signup/signup_screen.dart';
@@ -13,7 +14,7 @@ class Body extends StatelessWidget {
   const Body({
     Key key,
   }) : super(key: key);
-  
+
   @override
   Widget build(BuildContext context) {
     var getEmail = "";
@@ -27,12 +28,7 @@ class Body extends StatelessWidget {
           children: <Widget>[
             Text(
               "LOGIN",
-              style: TextStyle(fontWeight: FontWeight.bold),
-            ),
-            SizedBox(height: size.height * 0.03),
-            SvgPicture.asset(
-              "assets/icons/login.svg",
-              height: size.height * 0.35,
+              style: GoogleFonts.comfortaa(fontSize: 45),
             ),
             SizedBox(height: size.height * 0.03),
             RoundedInputField(
@@ -42,31 +38,34 @@ class Body extends StatelessWidget {
               },
             ),
             RoundedPasswordField(
+              hintText: "Password",
               onChanged: (value) {
                 getPassword = value;
               },
             ),
             RoundedButton(
               text: "LOGIN",
-              press: () async{
-
-                var url = Uri.parse('http://10.0.2.2:43951/api/User/GetAuthUser?userEmail=' + getEmail + "&userPassword=" + getPassword);
+              press: () async {
+                var url = Uri.parse(
+                    'http://10.0.2.2:43951/api/User/GetAuthUser?userEmail=' +
+                        getEmail +
+                        "&userPassword=" +
+                        getPassword);
                 var response = await http.get(url);
 
                 print('${response.statusCode}');
                 print('${response.body}');
 
-                if(response.statusCode == 200) {
-                    Navigator.push(
-                      context,
-                        MaterialPageRoute(
-                          builder: (context) {
-                            return ProductsScreen();
-                          },
-                        ),
-                    );
+                if (response.statusCode == 200) {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) {
+                        return ProductsScreen();
+                      },
+                    ),
+                  );
                 }
-
               },
             ),
             SizedBox(height: size.height * 0.03),

@@ -9,14 +9,14 @@ class RoundedDateField extends StatelessWidget {
   final ValueChanged<String> onChanged;
   final Function() onTap;
   final TextEditingController textEditingController;
-  const RoundedDateField({
-    Key key,
-    @required this.hintText,
-    this.icon = Icons.calendar_today_outlined,
-    @required this.onChanged,
-    @required this.onTap,
-    @required this.textEditingController
-  }) : super(key: key);
+  const RoundedDateField(
+      {Key key,
+      @required this.hintText,
+      this.icon = Icons.calendar_today_outlined,
+      @required this.onChanged,
+      @required this.onTap,
+      @required this.textEditingController})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +29,7 @@ class RoundedDateField extends StatelessWidget {
         decoration: InputDecoration(
           icon: Icon(
             icon,
-            color: kPrimaryColor,
+            color: bPinkButton,
           ),
           hintText: hintText,
           border: InputBorder.none,
