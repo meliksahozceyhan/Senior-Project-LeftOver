@@ -1,70 +1,91 @@
 import 'package:flutter/material.dart';
 
 class Product {
-  final String image, title, description;
-  final int price, size, id;
-  final Color color;
+  final String image, category, name, sharer, releaseDate;
+  String receiver ="",status = "";
+  final int id;
   Product({
     this.id,
     this.image,
-    this.title,
-    this.price,
-    this.description,
-    this.size,
-    this.color,
+    this.category,
+    this.name,
+    this.sharer,
+    this.releaseDate,
+    this.receiver,
+    this.status,
   });
 }
 
 List<Product> products = [
   Product(
       id: 1,
-      title: "Office Code",
-      price: 234,
-      size: 12,
-      description: dummyText,
+      category: "Consumable",
+      name: "bread",
+      sharer: "yagmur",
+      releaseDate: "03.01.2022",
+      receiver: "",
+      status: "fresh",
       image: "assets/images/leftover_logo_black.png",
-      color: Color(0xFF3D82AE)),
+    ),
   Product(
       id: 2,
-      title: "Belt Bag",
-      price: 234,
-      size: 8,
-      description: dummyText,
+      category: "Consumable",
+      name: "cake",
+      sharer: "didem",
+      releaseDate: "03.01.2022",
+      receiver: "",
+      status: "fresh",
       image: "assets/images/leftover_logo_black.png",
-      color: Color(0xFFD3A984)),
-  Product(
+    ),
+    Product(
       id: 3,
-      title: "Hang Top",
-      price: 234,
-      size: 10,
-      description: dummyText,
+      category: "Reusable",
+      name: "comic book",
+      sharer: "furkan",
+      releaseDate: "01.01.2022",
+      receiver: "",
+      status: "",
       image: "assets/images/leftover_logo_black.png",
-      color: Color(0xFF989493)),
-  Product(
+    ),
+    Product(
       id: 4,
-      title: "Old Fashion",
-      price: 234,
-      size: 11,
-      description: dummyText,
+      category: "Consumable",
+      name: "donut",
+      sharer: "meliksah",
+      releaseDate: "02.01.2022",
+      receiver: "",
+      status: "",
       image: "assets/images/leftover_logo_black.png",
-      color: Color(0xFFE6B398)),
-  Product(
+    ),
+    Product(
       id: 5,
-      title: "Office Code",
-      price: 234,
-      size: 12,
-      description: dummyText,
+      category: "Reusable",
+      name: "dress",
+      sharer: "didem",
+      releaseDate: "01.01.2022",
+      receiver: "",
+      status: "",
       image: "assets/images/leftover_logo_black.png",
-      color: Color(0xFFFB7883)),
-  Product(
-    id: 6,
-    title: "Office Code",
-    price: 234,
-    size: 12,
-    description: dummyText,
-    image: "assets/images/leftover_logo_black.png",
-    color: Color(0xFFAEAEAE),
-  ),
+    ),
+    Product(
+      id: 6,
+      category: "Reusable",
+      name: "calculator",
+      sharer: "yagmur",
+      receiver: "",
+      status: "",
+      image: "assets/images/leftover_logo_black.png",
+    ),
+    Product(
+      id: 7,
+      category: "Reusable",
+      name: "spoon",
+      sharer: "furkan",
+      receiver: "",
+      status: "",
+      image: "assets/images/leftover_logo_black.png",
+    ),
+  
 ];
 
 String dummyText =
