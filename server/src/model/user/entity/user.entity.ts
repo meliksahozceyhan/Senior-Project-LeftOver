@@ -1,5 +1,6 @@
 import { IsNotEmpty, Length } from 'class-validator'
-import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm'
+import { Item } from 'src/model/item/entity/item.entity'
+import { Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm'
 
 @Entity()
 export class User {
@@ -33,4 +34,7 @@ export class User {
 
 	@Column({ nullable: true })
 	address: String
+
+	@OneToMany(() => Item, (item) => item.user)
+	students: Item[]
 }
