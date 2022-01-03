@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:left_over/constants%20copy.dart';
+import 'package:left_over/constants_copy.dart';
 
 import '../../../constants.dart';
 
@@ -7,13 +7,13 @@ import '../../../constants.dart';
 
 class Categories extends StatefulWidget {
   @override
-  _CategoriesState createState() => _CategoriesState();
+  CategoriesState createState() => CategoriesState();
 }
 
-class _CategoriesState extends State<Categories> {
-  List<String> categories = ["Consumable", "Re-usable"];
+class CategoriesState extends State<Categories> {
+  static List<String> categories = ["Consumable", "Reusable"];
   // By default our first item will be selected
-  int selectedIndex = 0;
+  static int selectedIndex = 0;
   @override
   Widget build(BuildContext context) {
     return Padding(

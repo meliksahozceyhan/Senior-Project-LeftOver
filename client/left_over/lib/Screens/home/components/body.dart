@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:left_over/constants%20copy.dart';
+import 'package:left_over/constants_copy.dart';
 import 'package:left_over/constants.dart';
-import 'package:left_over/models/Product.dart';
+import 'package:left_over/Models/Product.dart';
 
 import 'categorries.dart';
 import 'item_card.dart';
@@ -35,7 +35,8 @@ class Body extends StatelessWidget {
                   childAspectRatio: 0.75,
                 ),
                 itemBuilder: (context, index) => ItemCard(
-                      product: products[index],
+                      product: products[index].category == CategoriesState.categories[CategoriesState.selectedIndex] ?? products[index] ,
+                      //product: products[index],
                       press: () => Navigator.push(
                           context,
                           MaterialPageRoute(

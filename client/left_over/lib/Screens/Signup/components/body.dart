@@ -7,7 +7,7 @@ import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:left_over/Screens/Login/login_screen.dart';
-import 'package:left_over/Screens/Products/products_screen.dart';
+import 'package:left_over/Screens/home/home_screen.dart';
 import 'package:left_over/Screens/Signup/components/background.dart';
 import 'package:left_over/Screens/Signup/components/or_divider.dart';
 import 'package:left_over/Screens/Signup/components/social_icon.dart';
@@ -143,7 +143,7 @@ class Body extends StatelessWidget {
                       context,
                       MaterialPageRoute(
                         builder: (context) {
-                          return ProductsScreen();
+                          return HomeScreen();
                         },
                       ),
                     );
