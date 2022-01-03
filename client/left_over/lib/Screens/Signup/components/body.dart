@@ -11,6 +11,7 @@ import 'package:left_over/Screens/home/home_screen.dart';
 import 'package:left_over/Screens/Signup/components/background.dart';
 import 'package:left_over/Screens/Signup/components/or_divider.dart';
 import 'package:left_over/Screens/Signup/components/social_icon.dart';
+import 'package:left_over/Screens/home/home_screen.dart';
 import 'package:left_over/components/already_have_an_account_acheck.dart';
 import 'package:left_over/components/rounded_button.dart';
 import 'package:left_over/components/rounded_date_field.dart';
