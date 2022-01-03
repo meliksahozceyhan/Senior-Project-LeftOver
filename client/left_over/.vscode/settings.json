@@ -17,5 +17,6 @@
 	"peacock.color": "#3c0180",
 	"editor.defaultFormatter": "esbenp.prettier-vscode",
 	"editor.formatOnSave": true,
-	"prettier.tabWidth": 4
+	"prettier.tabWidth": 4,
+	"terminal.integrated.defaultProfile.windows": "PowerShell"
 }

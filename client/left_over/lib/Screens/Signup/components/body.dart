@@ -4,8 +4,9 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:left_over/Screens/Login/login_screen.dart';
+import 'package:left_over/Screens/Products/products_screen.dart';
 import 'package:left_over/Screens/Signup/components/background.dart';
 import 'package:left_over/Screens/Signup/components/or_divider.dart';
 import 'package:left_over/Screens/Signup/components/social_icon.dart';
@@ -18,11 +19,16 @@ import 'package:flutter_svg/svg.dart';
 import 'package:http/http.dart' as http;
 import 'dart:async';
 
+import 'package:shared_preferences/shared_preferences.dart';
+
 class Body extends StatelessWidget {
   var getName = "";
   var getEmail = "";
   var getPassword = "";
+  var getPasswordConfirmation = "";
   var getDateofBirth = "";
+  var getCity = "";
+  var getAddress = "";
   var txt = TextEditingController();
   @override
   Widget build(BuildContext context) {
@@ -62,7 +68,7 @@ class Body extends StatelessWidget {
             RoundedPasswordField(
               hintText: "Password Confirmation",
               onChanged: (value) {
-                getPassword = value;
+                getPasswordConfirmation = value;
               },
             ),
             RoundedDateField(
@@ -82,8 +88,9 @@ class Body extends StatelessWidget {
                     getDateofBirth = date.toString();
                     txt.text = date
                         .toUtc()
-                        .toIso8601String()
-                        .split("T")[0]
+                        .toUtc()
+                        .toString()
+                        .split(" ")[0]
                         .split("-")
                         .reversed
                         .join("-");
@@ -92,49 +99,58 @@ class Body extends StatelessWidget {
             RoundedInputField(
               hintText: "City",
               onChanged: (value) {
-                getEmail = value;
+                getCity = value;
               },
             ),
             RoundedInputField(
               hintText: "Address",
               onChanged: (value) {
-                getEmail = value;
+                getAddress = value;
               },
             ),
             RoundedButton(
               text: "SIGNUP",
               press: () async {
                 Future<http.Response> postRequest() async {
-                  var urlAndParams =
-                      "http://10.0.2.2:43951/api/User/InsertNewUser?userName=" +
-                          getName +
-                          "&userEmail=" +
-                          getEmail +
-                          "&userPassword=" +
-                          getPassword;
+                  var url = Uri.parse(dotenv.env['API_URL'] + "/user/");
 
-                  // var url = Uri.parse('http://10.0.2.2:43951/api/User/InsertNewUser');
+                  //var url = Uri.parse(urlAndParams);
 
-                  var url = Uri.parse(urlAndParams);
+                  Map data = {
+                    'email': getEmail,
+                    'fullName': getName,
+                    'password': getPassword,
+                    'dateOfBirth': getDateofBirth,
+                    'city': getCity,
+                    'address': getAddress
+                  };
+                  //encode Map to JSON
+                  var body = json.encode(data);
 
-                  // Map data = {
-                  //   'userName': 'FLUTTER',
-                  //   'userEmail': 'flutterpost@gmail.com',
-                  //   'userPassword': '123FLUTTER'
-                  // };
-                  // //encode Map to JSON
-                  // var body = json.encode(data);
-
-                  var response = await http
-                      .post(url, headers: {"Content-Type": "application/json"}
-                          // body: body
-                          );
+                  var response = await http.post(url,
+                      headers: {"Content-Type": "application/json"},
+                      body: body);
+                  final prefs = await SharedPreferences.getInstance();
+                  prefs.setString('token', 'Bearer ${response.body}');
                   print("${response.request}");
                   print("${response.statusCode}");
                   print("${response.body}");
 
+                  if (response.statusCode == 200) {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) {
+                          return ProductsScreen();
+                        },
+                      ),
+                    );
+                  }
+
                   return response;
                 }
+
+                print("endddd");
 
                 postRequest();
 

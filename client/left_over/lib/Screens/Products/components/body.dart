@@ -6,14 +6,23 @@ import 'package:left_over/components/rounded_button.dart';
 import 'package:left_over/components/rounded_input_field.dart';
 import 'package:left_over/components/rounded_password_field.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Body extends StatelessWidget {
   const Body({
     Key key,
   }) : super(key: key);
 
+  Future<String> getToken() async {
+    final prefs = await SharedPreferences.getInstance();
+    final text = prefs.getString('token');
+    print(text);
+    return text;
+  }
+
   @override
   Widget build(BuildContext context) {
+    getToken();
     Size size = MediaQuery.of(context).size;
     return Background(
       child: SingleChildScrollView(
@@ -21,7 +30,7 @@ class Body extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Text(
-              "PRODUCTSSSSSSSSSSSSSS PAGEEE",
+              "token",
               style: TextStyle(fontWeight: FontWeight.bold),
             ),
             SizedBox(height: size.height * 0.03),

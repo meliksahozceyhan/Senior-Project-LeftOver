@@ -6,11 +6,11 @@ import { UserService } from './user.service'
 export class UserController {
 	constructor(private readonly userService: UserService) {}
 	@Post('/')
-	public async saveUser(@Body() user: User): Promise<User> {
+	public async saveUser(@Body() user: User): Promise<String> {
 		return this.userService.saveUser(user)
 	}
 	@Get('/login')
-	public async login(@Query('email') email: string, @Query('password') password: string): Promise<User> {
+	public async login(@Query('email') email: string, @Query('password') password: string): Promise<any> {
 		return this.userService.login(email, password)
 	}
 }
