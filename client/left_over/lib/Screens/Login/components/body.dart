@@ -10,6 +10,7 @@ import 'package:left_over/components/rounded_password_field.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class Body extends StatelessWidget {
   const Body({
@@ -27,10 +28,7 @@ class Body extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            const Text(
-              "LOGIN",
-              style: GoogleFonts.comfortaa(fontSize: 45),
-            ),
+            Text("LOGIN", style: GoogleFonts.comfortaa(fontSize: 45)),
             SizedBox(height: size.height * 0.03),
             RoundedInputField(
               hintText: "Your Email",
