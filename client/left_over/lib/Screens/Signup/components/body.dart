@@ -42,6 +42,7 @@ class Body extends StatelessWidget {
             Text(
               "Register",
               style: GoogleFonts.comfortaa(fontSize: 45),
+              //GoogleFonts.comfortaa(fontSize: 45),
             ),
             SizedBox(height: size.height * 0.01),
             // SvgPicture.asset(
