@@ -6,10 +6,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:left_over/Screens/Login/login_screen.dart';
-import 'package:left_over/Screens/Products/products_screen.dart';
 import 'package:left_over/Screens/Signup/components/background.dart';
 import 'package:left_over/Screens/Signup/components/or_divider.dart';
 import 'package:left_over/Screens/Signup/components/social_icon.dart';
+import 'package:left_over/Screens/home/home_screen.dart';
 import 'package:left_over/components/already_have_an_account_acheck.dart';
 import 'package:left_over/components/rounded_button.dart';
 import 'package:left_over/components/rounded_date_field.dart';
@@ -113,6 +113,7 @@ class Body extends StatelessWidget {
               press: () async {
                 Future<http.Response> postRequest() async {
                   var url = Uri.parse(dotenv.env['API_URL'] + "/user/");
+                  print(url.toString());
 
                   //var url = Uri.parse(urlAndParams);
 
@@ -136,12 +137,12 @@ class Body extends StatelessWidget {
                   print("${response.statusCode}");
                   print("${response.body}");
 
-                  if (response.statusCode == 200) {
+                  if (response.statusCode == 201) {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
                       builder: (context) {
-                        return ProductsScreen();
+                        return HomeScreen();
                       },
                     ),
                   );
