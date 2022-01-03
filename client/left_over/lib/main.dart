@@ -20,7 +20,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
           primaryColor: kPrimaryColor,
           scaffoldBackgroundColor: Colors.white,
-          textTheme: GoogleFonts.rokkittTextTheme(
+          textTheme: GoogleFonts.robotoTextTheme(
             Theme.of(context).textTheme,
           )),
       home: WelcomeScreen(),

@@ -5,11 +5,12 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:left_over/Screens/Login/login_screen.dart';
+import 'package:left_over/Screens/Products/products_screen.dart';
 import 'package:left_over/Screens/Signup/components/background.dart';
 import 'package:left_over/Screens/Signup/components/or_divider.dart';
 import 'package:left_over/Screens/Signup/components/social_icon.dart';
-import 'package:left_over/Screens/home/home_screen.dart';
 import 'package:left_over/components/already_have_an_account_acheck.dart';
 import 'package:left_over/components/rounded_button.dart';
 import 'package:left_over/components/rounded_date_field.dart';
@@ -39,10 +40,11 @@ class Body extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Text(
-              "SIGNUP",
-              style: TextStyle(fontWeight: FontWeight.bold),
+              "Register",
+              style: GoogleFonts.comfortaa(fontSize: 45),
+              //GoogleFonts.comfortaa(fontSize: 45),
             ),
-            SizedBox(height: size.height * 0.03),
+            SizedBox(height: size.height * 0.01),
             // SvgPicture.asset(
             //   "assets/icons/signup.svg",
             //   height: size.height * 0.35,
@@ -113,7 +115,6 @@ class Body extends StatelessWidget {
               press: () async {
                 Future<http.Response> postRequest() async {
                   var url = Uri.parse(dotenv.env['API_URL'] + "/user/");
-                  print(url.toString());
 
                   //var url = Uri.parse(urlAndParams);
 
@@ -137,19 +138,20 @@ class Body extends StatelessWidget {
                   print("${response.statusCode}");
                   print("${response.body}");
 
-                  if (response.statusCode == 201) {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) {
-                        return HomeScreen();
-                      },
-                    ),
-                  );
-                }
+                  if (response.statusCode == 200) {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) {
+                          return ProductsScreen();
+                        },
+                      ),
+                    );
+                  }
 
                   return response;
                 }
+
                 print("endddd");
 
                 postRequest();

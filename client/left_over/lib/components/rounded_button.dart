@@ -19,6 +19,7 @@ class RoundedButton extends StatelessWidget {
     return Container(
       margin: EdgeInsets.symmetric(vertical: 10),
       width: size.width * 0.8,
+      height: size.height * 0.08,
       child: ClipRRect(
         //borderRadius: BorderRadius.circular(29),
         child: newElevatedButton(),
