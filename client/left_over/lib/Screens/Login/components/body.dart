@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:left_over/Screens/Login/components/background.dart';
 import 'package:left_over/Screens/Signup/signup_screen.dart';
-import 'package:left_over/Screens/home/home_screen.dart';
+import 'package:left_over/Screens/item/item_screen.dart';
 import 'package:left_over/components/already_have_an_account_acheck.dart';
 import 'package:left_over/components/rounded_button.dart';
 import 'package:left_over/components/rounded_input_field.dart';
@@ -59,7 +59,7 @@ class Body extends StatelessWidget {
                     context,
                     MaterialPageRoute(
                       builder: (context) {
-                        return HomeScreen();
+                        return ItemScreen();
                       },
                     ),
                   );

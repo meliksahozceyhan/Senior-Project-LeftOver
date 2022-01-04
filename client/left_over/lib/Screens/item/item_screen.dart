@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:left_over/constants_copy.dart';
 import 'package:left_over/constants.dart';
-import 'package:left_over/screens/home/components/body.dart';
+import 'package:left_over/screens/item/components/body.dart';
 
-class HomeScreen extends StatelessWidget {
+class ItemScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
