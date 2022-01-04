@@ -8,49 +8,11 @@ import 'categorries.dart';
 import 'search_card.dart';
 
 class SearchBody extends StatelessWidget {
-  List<Product> categorizedItems = products
-      .where((item) =>
-          item.category ==
-          CategoriesState.categories[CategoriesState.selectedIndex])
-      .toList();
-
-  @override
+    @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: kDefaultPaddin),
-          child: Text(
-            "Search",
-            style: GoogleFonts.comfortaa(fontSize: 45),
-          ),
-        ),
-        Categories(),
-        Expanded(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: kDefaultPaddin),
-            child: GridView.builder(
-                itemCount: categorizedItems.length,
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  mainAxisSpacing: kDefaultPaddin,
-                  crossAxisSpacing: kDefaultPaddin,
-                  childAspectRatio: 0.75,
-                ),
-                itemBuilder: (context, index) => SearchCard(
-                      product: categorizedItems[index],
-                      press: () => Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              // builder: (context) => DetailsScreen(
-                              //   product: products[index],
-                              // ),
-                              )),
-                    )),
-          ),
-        ),
-      ],
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: kDefaultPaddin),
+      child: SizedBox(height: 25, child: Text("Message")),
     );
   }
 }

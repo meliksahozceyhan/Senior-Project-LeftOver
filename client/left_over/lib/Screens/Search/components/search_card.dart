@@ -36,13 +36,13 @@ class SearchCard extends StatelessWidget {
             ),*/
             child: Hero(
               tag: "${product.id}",
-              child: Image.asset(product.image, fit: BoxFit.cover),
+              child: Image.asset(product.itemImage, fit: BoxFit.cover),
             ),
           ),
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 10),
             child: Text(
-              product.name,
+              product.itemName,
               //textAlign: TextAlign.center,
               style: TextStyle(color: Colors.black),
             ),

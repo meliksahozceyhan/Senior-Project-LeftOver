@@ -32,7 +32,7 @@ class ItemCard extends StatelessWidget {
               ),*/
               child: Hero(
                 tag: "${product.id}",
-                child: Image.asset(product.image, fit: BoxFit.cover),
+                child: Image.asset(product.itemImage, fit: BoxFit.cover),
               ),
             ),
           ),
