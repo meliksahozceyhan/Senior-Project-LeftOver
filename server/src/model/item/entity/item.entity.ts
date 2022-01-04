@@ -21,8 +21,8 @@ export class Item {
 	@Column({ name: 'sub_category', nullable: false })
 	subCategory: string
 
-	@Column({ name: 'item_image', type: 'bytea', nullable: true })
-	itemImage: Uint8Array
+	@Column({ name: 'item_image', nullable: true })
+	itemImage: string
 
 	@ManyToOne(() => User, (item) => item.students, { nullable: false, eager: true })
 	@JoinColumn({ name: 'user_id' })
