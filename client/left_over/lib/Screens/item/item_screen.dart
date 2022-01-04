@@ -17,42 +17,30 @@ class _ItemScreenState extends State<ItemScreen> {
       selectedIndex = index;
     });
   }*/
+  int selectedIndex = 2;
 
   @override
   Widget build(BuildContext context) {
-    int selectedIndex = 0;
     return Scaffold(
         appBar: buildAppBar(),
         body: Body(),
         bottomNavigationBar: BottomNavigationBar(
+          type: BottomNavigationBarType.fixed,
           currentIndex: selectedIndex,
           showSelectedLabels: false,
           showUnselectedLabels: false,
-          onTap: (i) => setState(() {
-            selectedIndex = i;
-            print('$selectedIndex Selected!');
-          }),
-          items: const [
+          items: const <BottomNavigationBarItem>[
             BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
-            //icon: Image.asset("assets/icons/home.svg"), label: "home"),
             BottomNavigationBarItem(icon: Icon(Icons.search), label: "Search"),
-            //icon: Image.asset("assets/icons/search.svg"), label: "search"),
             BottomNavigationBarItem(icon: Icon(Icons.add), label: "Add"),
-            //icon: Image.asset("assets/icons/new.svg"), label: "add"),
             BottomNavigationBarItem(
                 icon: Icon(Icons.message), label: "Message"),
-            //icon: Image.asset("assets/icons/message.svg"), label: "message"),
             BottomNavigationBarItem(icon: Icon(Icons.person), label: "User"),
-            //icon: Image.asset("assets/icons/user.svg"), label: "user")
           ],
           selectedItemColor: bPinkButton,
-          backgroundColor: Colors.white,
-          unselectedItemColor: Colors.black,
-          /*onTap: (index) {
-            setState(() {
-              _selectedIndex = index;
-            });
-          },*/
+          onTap: (i) => setState(() {
+            selectedIndex = i;
+          }),
         ));
   }
 
