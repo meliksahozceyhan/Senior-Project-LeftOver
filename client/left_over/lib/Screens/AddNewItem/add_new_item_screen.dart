@@ -8,12 +8,12 @@ import 'package:left_over/Screens/item/components/item_body.dart';
 import 'package:left_over/constants_copy.dart';
 import 'package:left_over/constants.dart';
 
-class ItemScreen extends StatefulWidget {
+class AddNewItemScreen extends StatefulWidget {
   @override
-  _ItemScreenState createState() => _ItemScreenState();
+  _AddNewItemScreenState createState() => _AddNewItemScreenState();
 }
 
-class _ItemScreenState extends State<ItemScreen> {
+class _AddNewItemScreenState extends State<AddNewItemScreen> {
   List screens = [
     ItemBody(),
     SearchBody(),
@@ -21,14 +21,13 @@ class _ItemScreenState extends State<ItemScreen> {
     MessageBody(),
     AccountBody()
   ];
-
   int selectedIndex = 0;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: buildAppBar(),
-      body: screens[selectedIndex],
+      body: AddNewItemBody(),
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
         currentIndex: selectedIndex,
@@ -58,7 +57,36 @@ class _ItemScreenState extends State<ItemScreen> {
         icon: SvgPicture.asset("assets/images/search.svg"),
         onPressed: () {},
       ),
+    );
+  }
+}
+/*
+class ItemScreen extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: buildAppBar(),
+      body: Body(),
+    );
+  }
+
+  AppBar buildAppBar() {
+    return AppBar(
+      backgroundColor: Colors.white,
+      elevation: 0,
+      leading: IconButton(
+        icon: SvgPicture.asset("assets/images/search.svg"),
+        onPressed: () {},
+      ),
       actions: <Widget>[
+        IconButton(
+          icon: SvgPicture.asset(
+            "assets/images/search.svg",
+            // By default our  icon color is white
+            color: kTextColor,
+          ),
+          onPressed: () {},
+        ),
         IconButton(
           icon: SvgPicture.asset(
             "assets/images/search.svg",
@@ -71,4 +99,4 @@ class _ItemScreenState extends State<ItemScreen> {
       ],
     );
   }
-}
+}*/

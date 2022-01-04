@@ -8,12 +8,12 @@ import 'package:left_over/Screens/item/components/item_body.dart';
 import 'package:left_over/constants_copy.dart';
 import 'package:left_over/constants.dart';
 
-class ItemScreen extends StatefulWidget {
+class MessageScreen extends StatefulWidget {
   @override
-  _ItemScreenState createState() => _ItemScreenState();
+  _MessageScreenState createState() => _MessageScreenState();
 }
 
-class _ItemScreenState extends State<ItemScreen> {
+class _MessageScreenState extends State<MessageScreen> {
   List screens = [
     ItemBody(),
     SearchBody(),
@@ -21,14 +21,13 @@ class _ItemScreenState extends State<ItemScreen> {
     MessageBody(),
     AccountBody()
   ];
-
   int selectedIndex = 0;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: buildAppBar(),
-      body: screens[selectedIndex],
+      body: MessageBody(),
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
         currentIndex: selectedIndex,
@@ -58,17 +57,6 @@ class _ItemScreenState extends State<ItemScreen> {
         icon: SvgPicture.asset("assets/images/search.svg"),
         onPressed: () {},
       ),
-      actions: <Widget>[
-        IconButton(
-          icon: SvgPicture.asset(
-            "assets/images/search.svg",
-            // By default our  icon color is white
-            color: kTextColor,
-          ),
-          onPressed: () {},
-        ),
-        SizedBox(width: kDefaultPaddin / 2)
-      ],
     );
   }
 }

@@ -7,7 +7,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'categorries.dart';
 import 'item_card.dart';
 
-class Body extends StatelessWidget {
+class ItemBody extends StatelessWidget {
   List<Product> categorizedItems = products
       .where((item) =>
           item.category ==

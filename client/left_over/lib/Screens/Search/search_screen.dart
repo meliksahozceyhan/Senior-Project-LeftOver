@@ -8,12 +8,12 @@ import 'package:left_over/Screens/item/components/item_body.dart';
 import 'package:left_over/constants_copy.dart';
 import 'package:left_over/constants.dart';
 
-class ItemScreen extends StatefulWidget {
+class SearchScreen extends StatefulWidget {
   @override
-  _ItemScreenState createState() => _ItemScreenState();
+  _SearchScreenState createState() => _SearchScreenState();
 }
 
-class _ItemScreenState extends State<ItemScreen> {
+class _SearchScreenState extends State<SearchScreen> {
   List screens = [
     ItemBody(),
     SearchBody(),
@@ -28,9 +28,10 @@ class _ItemScreenState extends State<ItemScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: buildAppBar(),
-      body: screens[selectedIndex],
+      body: SearchBody(),
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
+        mouseCursor: SystemMouseCursors.grab,
         currentIndex: selectedIndex,
         showSelectedLabels: false,
         showUnselectedLabels: false,
@@ -58,17 +59,6 @@ class _ItemScreenState extends State<ItemScreen> {
         icon: SvgPicture.asset("assets/images/search.svg"),
         onPressed: () {},
       ),
-      actions: <Widget>[
-        IconButton(
-          icon: SvgPicture.asset(
-            "assets/images/search.svg",
-            // By default our  icon color is white
-            color: kTextColor,
-          ),
-          onPressed: () {},
-        ),
-        SizedBox(width: kDefaultPaddin / 2)
-      ],
     );
   }
 }
