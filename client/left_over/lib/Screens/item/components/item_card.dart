@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:left_over/constants_copy.dart';
-import 'package:left_over/Models/Product.dart';
+import 'package:left_over/models/Product.dart';
 
 import '../../../constants.dart';
 
@@ -41,8 +41,8 @@ class ItemCard extends StatelessWidget {
             padding: const EdgeInsets.symmetric(vertical: 10),
             child: Text(
               // products is out demo list
-              product.name,
-              style: TextStyle(color: Colors.black),
+              product.itemName,
+              style: TextStyle(color: kTextLightColor),
             ),
           ),
         ],
