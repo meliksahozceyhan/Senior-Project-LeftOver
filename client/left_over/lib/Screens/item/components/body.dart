@@ -2,14 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:left_over/constants_copy.dart';
 import 'package:left_over/constants.dart';
 import 'package:left_over/Models/Product.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import 'categorries.dart';
 import 'item_card.dart';
 
 class Body extends StatelessWidget {
-  
-  List<Product> categorizedItems = products.where((item) => item.category == CategoriesState.categories[CategoriesState.selectedIndex]).toList();
-  
+  List<Product> categorizedItems = products
+      .where((item) =>
+          item.category ==
+          CategoriesState.categories[CategoriesState.selectedIndex])
+      .toList();
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -19,10 +23,7 @@ class Body extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: kDefaultPaddin),
           child: Text(
             "Products",
-            style: Theme.of(context)
-                .textTheme
-                .headline5
-                .copyWith(fontWeight: FontWeight.bold),
+            style: GoogleFonts.comfortaa(fontSize: 45),
           ),
         ),
         Categories(),
@@ -42,10 +43,10 @@ class Body extends StatelessWidget {
                       press: () => Navigator.push(
                           context,
                           MaterialPageRoute(
-                            // builder: (context) => DetailsScreen(
-                            //   product: products[index],
-                            // ),
-                          )),
+                              // builder: (context) => DetailsScreen(
+                              //   product: products[index],
+                              // ),
+                              )),
                     )),
           ),
         ),
