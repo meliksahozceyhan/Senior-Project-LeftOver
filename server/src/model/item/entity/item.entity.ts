@@ -14,6 +14,10 @@ export class Item {
 	updatedAt: Date
 
 	@IsNotEmpty()
+	@Column({ name: 'item_name', nullable: false })
+	itemName: string
+
+	@IsNotEmpty()
 	@Column({ name: 'category', nullable: false })
 	category: string
 
