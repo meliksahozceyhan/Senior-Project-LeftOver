@@ -21,27 +21,30 @@ class SearchCard extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Expanded(
+            /*
             child: Container(
-              padding: EdgeInsets.all(kDefaultPaddin),
+              //padding: EdgeInsets.all(kDefaultPaddin),
               // For  demo we use fixed height  and width
               // Now we dont need them
               // height: 180,
               // width: 160,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(0),
-              ),
+              color: Colors.black,
               child: Hero(
                 tag: "${product.id}",
-                child: Image.asset(product.image),
+                child: Image.asset(product.image, fit: BoxFit.cover),
               ),
+            ),*/
+            child: Hero(
+              tag: "${product.id}",
+              child: Image.asset(product.image, fit: BoxFit.cover),
             ),
           ),
           Padding(
-            padding: const EdgeInsets.symmetric(vertical: kDefaultPaddin / 4),
+            padding: const EdgeInsets.symmetric(vertical: 10),
             child: Text(
-              // products is out demo list
               product.name,
-              style: TextStyle(color: kTextLightColor),
+              //textAlign: TextAlign.center,
+              style: TextStyle(color: Colors.black),
             ),
           ),
         ],
