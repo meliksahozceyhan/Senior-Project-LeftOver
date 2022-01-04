@@ -7,6 +7,9 @@ import 'categorries.dart';
 import 'item_card.dart';
 
 class Body extends StatelessWidget {
+  
+  List<Product> categorizedItems = products.where((item) => item.category == CategoriesState.categories[CategoriesState.selectedIndex]).toList();
+  
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -27,7 +30,7 @@ class Body extends StatelessWidget {
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: kDefaultPaddin),
             child: GridView.builder(
-                itemCount: products.length,
+                itemCount: categorizedItems.length,
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2,
                   mainAxisSpacing: kDefaultPaddin,
@@ -35,8 +38,7 @@ class Body extends StatelessWidget {
                   childAspectRatio: 0.75,
                 ),
                 itemBuilder: (context, index) => ItemCard(
-                      product: products[index].category == CategoriesState.categories[CategoriesState.selectedIndex] ?? products[index] ,
-                      //product: products[index],
+                      product: categorizedItems[index],
                       press: () => Navigator.push(
                           context,
                           MaterialPageRoute(
