@@ -28,7 +28,8 @@ class ItemCard extends StatelessWidget {
               // height: 180,
               // width: 160,
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(0),
+                color: kTextLightColor,
+                borderRadius: BorderRadius.circular(16),
               ),
               child: Hero(
                 tag: "${product.id}",
@@ -40,8 +41,14 @@ class ItemCard extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.symmetric(vertical: kDefaultPaddin / 4),
             child: Text(
-              // products is out demo list
-              product.itemName,
+              product.category,
+              style: TextStyle(color: kTextLightColor),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: kDefaultPaddin / 4),
+            child: Text(
+              product.subCategory,
               style: TextStyle(color: kTextLightColor),
             ),
           ),
