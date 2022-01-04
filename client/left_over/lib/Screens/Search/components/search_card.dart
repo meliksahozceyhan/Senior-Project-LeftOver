@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:left_over/constants_copy.dart';
-import 'package:left_over/models/Product.dart';
+import 'package:left_over/Models/Product.dart';
 
 import '../../../constants.dart';
 
-class ItemCard extends StatelessWidget {
+class SearchCard extends StatelessWidget {
   final Product product;
   final Function press;
-  const ItemCard({
+  const SearchCard({
     Key key,
     this.product,
     this.press,
@@ -21,28 +21,30 @@ class ItemCard extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Expanded(
+            /*
             child: Container(
-              //padding: EdgeInsets.all(0),
+              //padding: EdgeInsets.all(kDefaultPaddin),
               // For  demo we use fixed height  and width
               // Now we dont need them
               // height: 180,
               // width: 160,
-              /*decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(0),
-              ),*/
+              color: Colors.black,
               child: Hero(
                 tag: "${product.id}",
-                child: Image.asset(product.itemImage, fit: BoxFit.cover),
+                child: Image.asset(product.image, fit: BoxFit.cover),
               ),
+            ),*/
+            child: Hero(
+              tag: "${product.id}",
+              child: Image.asset(product.itemImage, fit: BoxFit.cover),
             ),
           ),
           Padding(
-            //padding: const EdgeInsets.symmetric(vertical: kDefaultPaddin / 4),
             padding: const EdgeInsets.symmetric(vertical: 10),
             child: Text(
-              // products is out demo list
               product.itemName,
-              style: TextStyle(color: kTextLightColor),
+              //textAlign: TextAlign.center,
+              style: TextStyle(color: Colors.black),
             ),
           ),
         ],

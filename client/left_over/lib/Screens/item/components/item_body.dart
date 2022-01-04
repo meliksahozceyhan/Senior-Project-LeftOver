@@ -11,12 +11,12 @@ import 'package:http/http.dart' as http;
 import 'categorries.dart';
 import 'item_card.dart';
 
-class Body extends StatefulWidget {
+class ItemBody extends StatefulWidget {
   @override
   _BodyState createState() => _BodyState();
 }
 
-class _BodyState  extends State<Body> {
+class _BodyState  extends State<ItemBody> {
 
   List<Product> products = [];
 
