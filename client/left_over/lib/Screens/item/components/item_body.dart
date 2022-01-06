@@ -46,7 +46,7 @@ class _BodyState  extends State<ItemBody> {
 
   @override
   Widget build(BuildContext context) {
-      fetchProduct();
+      //fetchProduct();
       return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
