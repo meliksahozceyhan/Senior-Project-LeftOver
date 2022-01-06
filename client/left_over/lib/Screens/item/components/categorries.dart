@@ -17,7 +17,8 @@ class CategoriesState extends State<Categories> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: kDefaultPaddin),
+      padding: const EdgeInsets.only(left: 0.0, top: kDefaultPaddin),
+      //padding: const EdgeInsets.symmetric(vertical: kDefaultPaddin),
       child: SizedBox(
         height: 25,
         child: ListView.builder(
@@ -45,6 +46,7 @@ class CategoriesState extends State<Categories> {
               categories[index],
               style: TextStyle(
                 fontWeight: FontWeight.bold,
+                fontSize: 15,
                 color: selectedIndex == index ? kTextColor : kTextLightColor,
               ),
             ),
@@ -52,7 +54,7 @@ class CategoriesState extends State<Categories> {
               margin: EdgeInsets.only(top: kDefaultPaddin / 4), //top padding 5
               height: 2,
               width: 30,
-              color: selectedIndex == index ? Colors.black : Colors.transparent,
+              color: selectedIndex == index ? bPinkButton : Colors.transparent,
             )
           ],
         ),

@@ -45,6 +45,7 @@ class CategoriesState extends State<Categories> {
               categories[index],
               style: TextStyle(
                 fontWeight: FontWeight.bold,
+                fontSize: 15,
                 color: selectedIndex == index ? kTextColor : kTextLightColor,
               ),
             ),
@@ -52,7 +53,7 @@ class CategoriesState extends State<Categories> {
               margin: EdgeInsets.only(top: kDefaultPaddin / 4), //top padding 5
               height: 2,
               width: 30,
-              color: selectedIndex == index ? Colors.black : Colors.transparent,
+              color: selectedIndex == index ? bPinkButton : Colors.transparent,
             )
           ],
         ),

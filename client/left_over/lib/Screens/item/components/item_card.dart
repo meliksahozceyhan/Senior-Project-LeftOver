@@ -22,7 +22,7 @@ class ItemCard extends StatelessWidget {
         children: <Widget>[
           Expanded(
             child: Container(
-              //padding: EdgeInsets.all(0),
+              padding: EdgeInsets.all(0.0),
               // For  demo we use fixed height  and width
               // Now we dont need them
               // height: 180,

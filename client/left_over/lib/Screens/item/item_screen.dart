@@ -27,7 +27,6 @@ class _ItemScreenState extends State<ItemScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: buildAppBar(),
       body: screens[selectedIndex],
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
@@ -46,29 +45,6 @@ class _ItemScreenState extends State<ItemScreen> {
           selectedIndex = i;
         }),
       ),
-      //body: _widgetOptions.elementAt(selectedIndex),
-    );
-  }
-
-  buildAppBar() {
-    return AppBar(
-      backgroundColor: Colors.white,
-      elevation: 0,
-      leading: IconButton(
-        icon: SvgPicture.asset("assets/images/search.svg"),
-        onPressed: () {},
-      ),
-      actions: <Widget>[
-        IconButton(
-          icon: SvgPicture.asset(
-            "assets/images/search.svg",
-            // By default our  icon color is white
-            color: kTextColor,
-          ),
-          onPressed: () {},
-        ),
-        SizedBox(width: kDefaultPaddin / 2)
-      ],
     );
   }
 }
