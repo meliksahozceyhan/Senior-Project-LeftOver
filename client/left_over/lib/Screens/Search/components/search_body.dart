@@ -20,7 +20,8 @@ class SearchBody extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: kDefaultPaddin),
+          padding: const EdgeInsets.only(top: 50.0, left: 15.0),
+          //padding: const EdgeInsets.symmetric(horizontal: kDefaultPaddin),
           child: Text(
             "Search",
             style: GoogleFonts.comfortaa(fontSize: 45),

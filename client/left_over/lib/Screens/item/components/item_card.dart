@@ -22,7 +22,7 @@ class ItemCard extends StatelessWidget {
         children: <Widget>[
           Expanded(
             child: Container(
-              //padding: EdgeInsets.all(0),
+              padding: EdgeInsets.all(0.0),
               // For  demo we use fixed height  and width
               // Now we dont need them
               // height: 180,
@@ -30,10 +30,13 @@ class ItemCard extends StatelessWidget {
               /*decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(0),
               ),*/
+              decoration: BoxDecoration(
+                  color: Colors.white, borderRadius: BorderRadius.circular(15)),
               child: Hero(
-                tag: "${product.id}",
-                child: Image.asset(product.image, fit: BoxFit.cover),
-              ),
+                  tag: "${product.id}",
+                  //child: Image.asset(product.image, fit: BoxFit.cover),
+                  child: Image.asset("assets/images/frenchToast.png",
+                      fit: BoxFit.cover)),
             ),
           ),
           Padding(
@@ -42,7 +45,7 @@ class ItemCard extends StatelessWidget {
             child: Text(
               // products is out demo list
               product.name,
-              style: TextStyle(color: Colors.black),
+              style: TextStyle(color: Colors.black, fontSize: 18),
             ),
           ),
         ],

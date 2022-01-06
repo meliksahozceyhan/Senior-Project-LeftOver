@@ -51,14 +51,33 @@ class _SearchScreenState extends State<SearchScreen> {
     );
   }
 
-  buildAppBar() {
+  AppBar buildAppBar() {
     return AppBar(
-      backgroundColor: Colors.white,
+      backgroundColor: Colors.black,
       elevation: 0,
       leading: IconButton(
-        icon: SvgPicture.asset("assets/images/search.svg"),
+        icon: SvgPicture.asset("assets/icons/back.svg"),
         onPressed: () {},
       ),
+      actions: <Widget>[
+        IconButton(
+          icon: SvgPicture.asset(
+            "assets/icons/search.svg",
+            // By default our  icon color is white
+            color: kTextColor,
+          ),
+          onPressed: () {},
+        ),
+        IconButton(
+          icon: SvgPicture.asset(
+            "assets/icons/cart.svg",
+            // By default our  icon color is white
+            color: kTextColor,
+          ),
+          onPressed: () {},
+        ),
+        SizedBox(width: kDefaultPaddin / 2)
+      ],
     );
   }
 }
