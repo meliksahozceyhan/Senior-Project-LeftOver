@@ -40,7 +40,7 @@ class SearchCard extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 10),
             child: Text(
-              product.name,
+              product.itemName,
               //textAlign: TextAlign.center,
               style: TextStyle(color: Colors.black, fontSize: 18),
             ),
