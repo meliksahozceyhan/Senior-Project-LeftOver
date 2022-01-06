@@ -33,7 +33,7 @@ class ItemCard extends StatelessWidget {
               ),
               child: Hero(
                 tag: "${product.id}",
-                child: Image.asset(product.itemImage, fit: BoxFit.cover),
+                child: Image.asset("assets/images/"+product.itemImage, fit: BoxFit.cover),
               ),
             ),
           ),
@@ -41,14 +41,14 @@ class ItemCard extends StatelessWidget {
             //padding: const EdgeInsets.symmetric(vertical: kDefaultPaddin / 4),
             padding: const EdgeInsets.symmetric(vertical: 10),
             child: Text(
-              product.category,
+              product.itemName,
               style: TextStyle(color: kTextLightColor),
             ),
           ),
           Padding(
             padding: const EdgeInsets.symmetric(vertical: kDefaultPaddin / 4),
             child: Text(
-              product.subCategory,
+              product.category,
               style: TextStyle(color: kTextLightColor),
             ),
           ),
