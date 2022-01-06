@@ -5,7 +5,7 @@ import 'package:left_over/Screens/AddNewItem/components/addItem_body.dart';
 import 'package:left_over/Screens/Message/components/message_body.dart';
 import 'package:left_over/Screens/Search/components/search_body.dart';
 import 'package:left_over/Screens/item/components/item_body.dart';
-import 'package:left_over/constants_copy.dart';
+import 'package:left_over/constants.dart';
 import 'package:left_over/constants.dart';
 
 class SearchScreen extends StatefulWidget {
@@ -56,7 +56,7 @@ class _SearchScreenState extends State<SearchScreen> {
       backgroundColor: Colors.black,
       elevation: 0,
       leading: IconButton(
-        icon: SvgPicture.asset("assets/icons/back.svg"),
+        icon: SvgPicture.asset("assets/icons/search.svg"),
         onPressed: () {},
       ),
       actions: <Widget>[
@@ -70,7 +70,7 @@ class _SearchScreenState extends State<SearchScreen> {
         ),
         IconButton(
           icon: SvgPicture.asset(
-            "assets/icons/cart.svg",
+            "assets/icons/search.svg",
             // By default our  icon color is white
             color: kTextColor,
           ),

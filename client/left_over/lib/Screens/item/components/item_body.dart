@@ -2,7 +2,8 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:left_over/constants_copy.dart';
+import 'package:left_over/Screens/details/details_screen.dart';
+import 'package:left_over/constants.dart';
 import 'package:left_over/constants.dart';
 import 'package:left_over/models/Product.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -37,8 +38,6 @@ class _BodyState extends State<ItemBody> {
               .toList();
     });
 
-    print(response.body);
-    print(response.statusCode);
   }
 
   @override
@@ -80,9 +79,9 @@ class _BodyState extends State<ItemBody> {
                           press: () => Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  // builder: (context) => DetailsScreen(
-                                  //   product: products[index],
-                                  // ),
+                                  builder: (context) => DetailsScreen(
+                                    product: _postJson[index],
+                                  ),
                                   )),
                         )),
               ),

@@ -5,7 +5,7 @@ import 'package:left_over/Screens/AddNewItem/components/addItem_body.dart';
 import 'package:left_over/Screens/Message/components/message_body.dart';
 import 'package:left_over/Screens/Search/components/search_body.dart';
 import 'package:left_over/Screens/item/components/item_body.dart';
-import 'package:left_over/constants_copy.dart';
+import 'package:left_over/constants.dart';
 import 'package:left_over/constants.dart';
 
 class MessageScreen extends StatefulWidget {
