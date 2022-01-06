@@ -8,11 +8,19 @@ import 'categorries.dart';
 import 'search_card.dart';
 
 class SearchBody extends StatelessWidget {
-    @override
+  @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: kDefaultPaddin),
-      child: SizedBox(height: 25, child: Text("Message")),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        Padding(
+          padding: const EdgeInsets.only(top: 50.0, left: 15.0),
+          child: Text(
+            "Search",
+            style: GoogleFonts.comfortaa(fontSize: 45),
+          ),
+        ),
+      ],
     );
   }
 }
