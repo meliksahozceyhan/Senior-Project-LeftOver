@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:left_over/constants_copy.dart';
-import 'package:left_over/Models/Product.dart';
+import 'package:left_over/models/Product.dart';
 
 import '../../../constants.dart';
 
@@ -33,10 +33,9 @@ class ItemCard extends StatelessWidget {
               decoration: BoxDecoration(
                   color: Colors.white, borderRadius: BorderRadius.circular(15)),
               child: Hero(
-                  tag: "${product.id}",
-                  //child: Image.asset(product.image, fit: BoxFit.cover),
-                  child: Image.asset("assets/images/frenchToast.png",
-                      fit: BoxFit.cover)),
+                tag: "${product.id}",
+                child: Image.asset(product.itemImage, fit: BoxFit.cover),
+              ),
             ),
           ),
           Padding(
@@ -44,8 +43,8 @@ class ItemCard extends StatelessWidget {
             padding: const EdgeInsets.symmetric(vertical: 10),
             child: Text(
               // products is out demo list
-              product.name,
-              style: TextStyle(color: Colors.black, fontSize: 18),
+              product.itemName,
+              style: TextStyle(color: kTextLightColor),
             ),
           ),
         ],
