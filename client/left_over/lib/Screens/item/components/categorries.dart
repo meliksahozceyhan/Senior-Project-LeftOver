@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:left_over/constants_copy.dart';
+import 'package:left_over/models/MyNotification.dart';
 
 import '../../../constants.dart';
 
@@ -36,6 +37,7 @@ class CategoriesState extends State<Categories> {
         setState(() {
           selectedIndex = index;
         });
+        MyNotification().dispatch(context);
       },
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: kDefaultPaddin),

@@ -49,42 +49,45 @@ class _BodyState extends State<ItemBody> {
 
   @override
   Widget build(BuildContext context) {
-    //fetchProduct();
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        Padding(
-          padding: const EdgeInsets.only(top: 50.0, left: 15.0),
-          child: Text(
-            "Products",
-            style: GoogleFonts.comfortaa(fontSize: 45),
-          ),
-        ),
-        Categories(),
-        Expanded(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: kDefaultPaddin),
-            child: GridView.builder(
-                itemCount: _postJson.length,
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  mainAxisSpacing: kDefaultPaddin,
-                  crossAxisSpacing: kDefaultPaddin,
-                  childAspectRatio: 0.75,
-                ),
-                itemBuilder: (context, index) => ItemCard(
-                      product: _postJson[index],
-                      press: () => Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              // builder: (context) => DetailsScreen(
-                              //   product: products[index],
-                              // ),
-                              )),
-                    )),
-          ),
-        ),
-      ],
-    );
+    return NotificationListener(
+        onNotification: (_) {
+          fetchProduct();
+        },
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Padding(
+              padding: const EdgeInsets.only(top: 50.0, left: 15.0),
+              child: Text(
+                "Products",
+                style: GoogleFonts.comfortaa(fontSize: 45),
+              ),
+            ),
+            Categories(),
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: kDefaultPaddin),
+                child: GridView.builder(
+                    itemCount: _postJson.length,
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      mainAxisSpacing: kDefaultPaddin,
+                      crossAxisSpacing: kDefaultPaddin,
+                      childAspectRatio: 0.75,
+                    ),
+                    itemBuilder: (context, index) => ItemCard(
+                          product: _postJson[index],
+                          press: () => Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  // builder: (context) => DetailsScreen(
+                                  //   product: products[index],
+                                  // ),
+                                  )),
+                        )),
+              ),
+            ),
+          ],
+        ));
   }
 }
