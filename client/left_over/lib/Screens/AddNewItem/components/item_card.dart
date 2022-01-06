@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:left_over/constants_copy.dart';
+import 'package:left_over/constants.dart';
 import 'package:left_over/Models/Product.dart';
 
 import '../../../constants.dart';
@@ -32,7 +32,7 @@ class ItemCard extends StatelessWidget {
               ),
               child: Hero(
                 tag: "${product.id}",
-                child: Image.asset(product.itemImage),
+                child: Image.asset("assets/images/"+product.itemImage),
               ),
             ),
           ),

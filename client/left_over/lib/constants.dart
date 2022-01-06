@@ -6,3 +6,8 @@ const bPrimaryColor = Color(0xFF212f45);
 const bExclamationColor = Color(0xFF006466);
 const bgreen = Color(0xFF2a9d8f);
 const bGrayColor = Color(0xFF7f7f7f);
+
+const kTextColor = Color(0xFF535353);
+const kTextLightColor = Color(0xFFACACAC);
+
+const kDefaultPaddin = 20.0;
