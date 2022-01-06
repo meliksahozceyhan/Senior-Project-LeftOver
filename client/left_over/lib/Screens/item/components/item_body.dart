@@ -20,39 +20,33 @@ class _BodyState  extends State<ItemBody> {
 
   List<Product> products = [];
 
-  Future<List<Product>> fetchProduct() async {
+  var _postJson = [];
+
+  void fetchProduct() async {
     //return http.get(Uri.parse(dotenv.env['API_URL'] + "/item"));
 
-      final response = await http
-        .get(Uri.parse(dotenv.env['API_URL'] + "/item"));
+      final response = await http.get(Uri.parse(dotenv.env['API_URL'] + "/item"));
+
+      var jsonData = jsonDecode(response.body) as List;
+
+      setState(() {
+        _postJson =  List<Product>.from(jsonData.map((model)=> Product.fromJson(model))).where((item) => item.category == CategoriesState.categories[CategoriesState.selectedIndex]).toList();
+      });
 
       print(response.body);
       print(response.statusCode);
 
-      if (response.statusCode == 200) {
+  }
 
-        Iterable l = json.decode(response.body);
-        products = List<Product>.from(l.map((model)=> Product.fromJson(model)));
-        print(products.length);
-        print("PROOO");
-
-        setState(() {
-          products = products.where((item) => item.category == CategoriesState.categories[CategoriesState.selectedIndex]).toList();
-          print(products.length);
-          print("PRO STATEEE");
-        });
-
-        return products;
-        
-      } else {
-          throw Exception('Failed to load album');
-      }
+  @override
+  void initState() {
+    super.initState();
+    fetchProduct();
   }
 
   @override
   Widget build(BuildContext context) {
-
-    if(products.length > 0){
+      fetchProduct();
       return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
@@ -68,7 +62,7 @@ class _BodyState  extends State<ItemBody> {
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: kDefaultPaddin),
               child: GridView.builder(
-                  itemCount: products.length,
+                  itemCount: _postJson.length,
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 2,
                     mainAxisSpacing: kDefaultPaddin,
@@ -76,7 +70,7 @@ class _BodyState  extends State<ItemBody> {
                     childAspectRatio: 0.75,
                   ),
                   itemBuilder: (context, index) => ItemCard(
-                        product: products[index],
+                        product: _postJson[index],
                         press: () => Navigator.push(
                             context,
                             MaterialPageRoute(
@@ -89,10 +83,5 @@ class _BodyState  extends State<ItemBody> {
           ),
         ],
       );
-    }
-    else {
-      var prods = fetchProduct();
-      return Container(child: Text("wait for complition"),);
-    }
   }
 }
