@@ -49,7 +49,7 @@ class CategoriesState extends State<Categories> {
               style: TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: 15,
-                color: selectedIndex == index ? kTextColor : kTextLightColor,
+                color: selectedIndex == index ? bDarkBlue : kTextLightColor,
               ),
             ),
             Container(
