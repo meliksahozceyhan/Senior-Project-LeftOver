@@ -16,8 +16,7 @@ class ItemBody extends StatefulWidget {
   _BodyState createState() => _BodyState();
 }
 
-class _BodyState  extends State<ItemBody> {
-
+class _BodyState extends State<ItemBody> {
   List<Product> products = [];
 
   var _postJson = [];
@@ -25,17 +24,21 @@ class _BodyState  extends State<ItemBody> {
   void fetchProduct() async {
     //return http.get(Uri.parse(dotenv.env['API_URL'] + "/item"));
 
-      final response = await http.get(Uri.parse(dotenv.env['API_URL'] + "/item"));
+    final response = await http.get(Uri.parse(dotenv.env['API_URL'] + "/item"));
 
-      var jsonData = jsonDecode(response.body) as List;
+    var jsonData = jsonDecode(response.body) as List;
 
-      setState(() {
-        _postJson =  List<Product>.from(jsonData.map((model)=> Product.fromJson(model))).where((item) => item.category == CategoriesState.categories[CategoriesState.selectedIndex]).toList();
-      });
+    setState(() {
+      _postJson =
+          List<Product>.from(jsonData.map((model) => Product.fromJson(model)))
+              .where((item) =>
+                  item.category ==
+                  CategoriesState.categories[CategoriesState.selectedIndex])
+              .toList();
+    });
 
-      print(response.body);
-      print(response.statusCode);
-
+    print(response.body);
+    print(response.statusCode);
   }
 
   @override
@@ -46,42 +49,42 @@ class _BodyState  extends State<ItemBody> {
 
   @override
   Widget build(BuildContext context) {
-      //fetchProduct();
-      return Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Padding(
+    //fetchProduct();
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        Padding(
+          padding: const EdgeInsets.only(top: 50.0, left: 15.0),
+          child: Text(
+            "Products",
+            style: GoogleFonts.comfortaa(fontSize: 45),
+          ),
+        ),
+        Categories(),
+        Expanded(
+          child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: kDefaultPaddin),
-            child: Text(
-              "Products",
-              style: GoogleFonts.comfortaa(fontSize: 45),
-            ),
+            child: GridView.builder(
+                itemCount: _postJson.length,
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
+                  mainAxisSpacing: kDefaultPaddin,
+                  crossAxisSpacing: kDefaultPaddin,
+                  childAspectRatio: 0.75,
+                ),
+                itemBuilder: (context, index) => ItemCard(
+                      product: _postJson[index],
+                      press: () => Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              // builder: (context) => DetailsScreen(
+                              //   product: products[index],
+                              // ),
+                              )),
+                    )),
           ),
-          Categories(),
-          Expanded(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: kDefaultPaddin),
-              child: GridView.builder(
-                  itemCount: _postJson.length,
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
-                    mainAxisSpacing: kDefaultPaddin,
-                    crossAxisSpacing: kDefaultPaddin,
-                    childAspectRatio: 0.75,
-                  ),
-                  itemBuilder: (context, index) => ItemCard(
-                        product: _postJson[index],
-                        press: () => Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                // builder: (context) => DetailsScreen(
-                                //   product: products[index],
-                                // ),
-                                )),
-                      )),
-            ),
-          ),
-        ],
-      );
+        ),
+      ],
+    );
   }
 }

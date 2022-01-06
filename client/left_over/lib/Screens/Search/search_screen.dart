@@ -42,7 +42,7 @@ class _SearchScreenState extends State<SearchScreen> {
           BottomNavigationBarItem(icon: Icon(Icons.message), label: "Message"),
           BottomNavigationBarItem(icon: Icon(Icons.person), label: "User"),
         ],
-        selectedItemColor: bPinkButton,
+        selectedItemColor: bgreen,
         onTap: (i) => setState(() {
           selectedIndex = i;
         }),

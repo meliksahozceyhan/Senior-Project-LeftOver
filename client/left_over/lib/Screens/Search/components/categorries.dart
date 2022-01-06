@@ -53,7 +53,7 @@ class CategoriesState extends State<Categories> {
               margin: EdgeInsets.only(top: kDefaultPaddin / 4), //top padding 5
               height: 2,
               width: 30,
-              color: selectedIndex == index ? bPinkButton : Colors.transparent,
+              color: selectedIndex == index ? bgreen : Colors.transparent,
             )
           ],
         ),

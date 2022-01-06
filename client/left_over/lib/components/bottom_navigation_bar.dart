@@ -24,7 +24,7 @@ class BottomNavigationMenu extends StatelessWidget {
         //icon: Image.asset("assets/icons/user.svg"), label: "user")
       ], // the variable is undefined
       onTap: onClicked, // the function is undefined
-      selectedItemColor: bPinkButton,
+      selectedItemColor: bgreen,
       backgroundColor: Colors.white,
       unselectedItemColor: Colors.black,
     );
