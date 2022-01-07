@@ -90,7 +90,6 @@ class Body extends StatelessWidget {
                     getDateofBirth = date.toString();
                     txt.text = date
                         .toUtc()
-                        .toUtc()
                         .toString()
                         .split(" ")[0]
                         .split("-")

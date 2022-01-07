@@ -4,7 +4,7 @@ import 'User.dart';
 
 class Product {
   String id, createdAt, updatedAt, itemName, category, subCategory, itemImage, requestStatus,
-         itemCondition, expirationDate;
+        itemCondition, expirationDate;
 
   User user;
 
@@ -33,6 +33,7 @@ class Product {
       itemImage: json['itemImage'],
       requestStatus: json['requestStatus'],
       expirationDate: json['expirationDate'],
+      itemCondition: json['itemCondition'],
       user: User.fromJson(json['user']),
     );
   }

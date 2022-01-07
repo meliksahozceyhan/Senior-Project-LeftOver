@@ -18,24 +18,6 @@ class AddToCart extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: kDefaultPaddin),
       child: Row(
         children: <Widget>[
-          Container(
-            margin: EdgeInsets.only(right: kDefaultPaddin),
-            height: 50,
-            width: 58,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(18),
-              border: Border.all(
-                color: kPrimaryColor,
-              ),
-            ),
-            child: IconButton(
-              icon: SvgPicture.asset(
-                "assets/icons/search.svg",
-                color: kPrimaryColor,
-              ),
-              onPressed: () {},
-            ),
-          ),
           Expanded(
             child: SizedBox(
               height: 50,
@@ -45,7 +27,7 @@ class AddToCart extends StatelessWidget {
                 color: kPrimaryColor,
                 onPressed: () {},
                 child: Text(
-                  "Buy  Now".toUpperCase(),
+                  "Add To Cart".toUpperCase(),
                   style: TextStyle(
                     fontSize: 17,
                     fontWeight: FontWeight.bold,

@@ -3,8 +3,6 @@ import 'package:left_over/constants.dart';
 import 'package:left_over/models/Product.dart';
 
 import 'add_to_cart.dart';
-import 'color_and_size.dart';
-import 'counter_with_fav_btn.dart';
 import 'description.dart';
 import 'product_title_with_image.dart';
 
@@ -30,7 +28,7 @@ class Body extends StatelessWidget {
                     left: kDefaultPaddin,
                     right: kDefaultPaddin,
                   ),
-                  // height: 500,
+                  //height: 500,
                   decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.only(
@@ -40,17 +38,13 @@ class Body extends StatelessWidget {
                   ),
                   child: Column(
                     children: <Widget>[
-                      ColorAndSize(product: product),
-                      SizedBox(height: kDefaultPaddin / 2),
+                      SizedBox(height: kDefaultPaddin ),
                       Description(product: product),
-                      SizedBox(height: kDefaultPaddin / 2),
-                      CounterWithFavBtn(),
-                      SizedBox(height: kDefaultPaddin / 2),
-                      AddToCart(product: product)
+                      Expanded(child: AddToCart(product: product))
                     ],
                   ),
                 ),
-                ProductTitleWithImage(product: product)
+                ProductTitleWithImage(product: product),
               ],
             ),
           )
