@@ -56,7 +56,7 @@ class _BodyState extends State<ItemBody> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Padding(
-              padding: const EdgeInsets.only(top: 50.0, left: 15.0),
+              padding: const EdgeInsets.only(top: 10.0, left: 15.0),
               child: Text(
                 "Products",
                 style: GoogleFonts.comfortaa(fontSize: 45, color: bDarkBlue),

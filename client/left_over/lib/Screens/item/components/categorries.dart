@@ -18,7 +18,7 @@ class CategoriesState extends State<Categories> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(left: 0.0, top: kDefaultPaddin),
+      padding: const EdgeInsets.only(left: 0.0, top: 10,bottom: 15),
       //padding: const EdgeInsets.symmetric(vertical: kDefaultPaddin),
       child: SizedBox(
         height: 25,

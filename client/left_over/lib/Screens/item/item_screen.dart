@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:left_over/Screens/Account/components/account_body.dart';
 import 'package:left_over/Screens/AddNewItem/components/addItem_body.dart';
@@ -28,6 +29,7 @@ class _ItemScreenState extends State<ItemScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: screens[selectedIndex],
+      appBar: buildAppBar(context),
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
         currentIndex: selectedIndex,
@@ -45,6 +47,13 @@ class _ItemScreenState extends State<ItemScreen> {
           selectedIndex = i;
         }),
       ),
+    );
+  }
+
+  AppBar buildAppBar(BuildContext context) {
+    return AppBar(
+      backgroundColor: bExclamationColor,
+      elevation: 0,
     );
   }
 }
