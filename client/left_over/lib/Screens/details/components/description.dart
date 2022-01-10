@@ -16,7 +16,7 @@ class Description extends StatelessWidget {
     Size size = MediaQuery.of(context).size;
     return Padding(
         padding: const EdgeInsets.only(
-          right: 150,
+          right: 130,
           top: 70,
         ),
         child: Expanded(
