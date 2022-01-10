@@ -12,7 +12,7 @@ class DetailsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       // each product have a color
-      backgroundColor: kPrimaryColor,
+      backgroundColor: bgreen,
       appBar: buildAppBar(context),
       body: Body(product: product),
     );
@@ -20,9 +20,8 @@ class DetailsScreen extends StatelessWidget {
 
   AppBar buildAppBar(BuildContext context) {
     return AppBar(
-      backgroundColor: kPrimaryColor,
+      backgroundColor: bExclamationColor,
       elevation: 0,
-      
     );
   }
 }

@@ -15,7 +15,8 @@ class ProductTitleWithImage extends StatelessWidget {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: kDefaultPaddin),
+      padding:
+          const EdgeInsets.symmetric(horizontal: kDefaultPaddin, vertical: 30),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
@@ -28,19 +29,25 @@ class ProductTitleWithImage extends StatelessWidget {
           ),
           Text(
             product.category,
-            style: TextStyle(color: Colors.white, fontSize: 15),
+            style: TextStyle(
+                color: bPrimaryColor,
+                fontSize: 17,
+                fontWeight: FontWeight.bold),
           ),
           Text(
             product.subCategory,
-            style: TextStyle(color: Colors.white, fontSize: 15),
+            style: TextStyle(
+                color: bPrimaryColor,
+                fontSize: 17,
+                fontWeight: FontWeight.bold),
           ),
           SizedBox(height: kDefaultPaddin),
           Row(
             children: <Widget>[
               Container(
-                  margin: EdgeInsets.only(top: size.width * 0.3),
+                  margin: EdgeInsets.only(top: size.width * 0.1),
                   padding: EdgeInsets.only(
-                    top: size.height * 0.12,
+                    top: size.height * 0.10,
                     left: kDefaultPaddin,
                     right: kDefaultPaddin,
                   ),
@@ -51,12 +58,25 @@ class ProductTitleWithImage extends StatelessWidget {
                 height: size.height / 2.5,
                 width: size.width / 2,
                 child: Hero(
-                  tag: "${product.id}",
-                  child: Image.asset(
-                    "assets/images/" + product.itemImage,
-                    fit: BoxFit.cover,
-                  ),
-                ),
+                    tag: "${product.id}",
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(20),
+                      child: SizedBox.fromSize(
+                        size: Size.fromRadius(45), // Image radius
+                        child: Image.asset(
+                          "assets/images/" + product.itemImage,
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                    )
+
+                    //Image.asset(
+                    //"assets/images/" + product.itemImage,
+                    //fit: BoxFit.cover,
+                    //size: Size.fromRadius(48),
+                    //),
+
+                    ),
               ))
             ],
           )
