@@ -15,7 +15,7 @@ class AddToCart extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: kDefaultPaddin),
+      padding: const EdgeInsets.only(bottom: 70.0),
       child: Row(
         children: <Widget>[
           Expanded(
@@ -24,7 +24,7 @@ class AddToCart extends StatelessWidget {
               child: FlatButton(
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(18)),
-                color: kPrimaryColor,
+                color: bPrimaryColor,
                 onPressed: () {},
                 child: Text(
                   "Add To Cart".toUpperCase(),
