@@ -137,7 +137,7 @@ class Body extends StatelessWidget {
                   print("${response.statusCode}");
                   print("${response.body}");
 
-                  if (response.statusCode == 200) {
+                  if (response.statusCode == 201) {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
