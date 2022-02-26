@@ -22,14 +22,12 @@ class _ItemScreenState extends State<ItemScreen> {
     MessageBody(),
     AccountBody()
   ];
-
   int selectedIndex = 0;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: screens[selectedIndex],
-      appBar: buildAppBar(context),
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
         currentIndex: selectedIndex,
@@ -42,18 +40,12 @@ class _ItemScreenState extends State<ItemScreen> {
           BottomNavigationBarItem(icon: Icon(Icons.message), label: "Message"),
           BottomNavigationBarItem(icon: Icon(Icons.person), label: "User"),
         ],
-        selectedItemColor: bgreen,
+        selectedItemColor: blueBlockColor,
+        backgroundColor: lightBackgroundColor,
         onTap: (i) => setState(() {
           selectedIndex = i;
         }),
       ),
-    );
-  }
-
-  AppBar buildAppBar(BuildContext context) {
-    return AppBar(
-      backgroundColor: bExclamationColor,
-      elevation: 0,
     );
   }
 }

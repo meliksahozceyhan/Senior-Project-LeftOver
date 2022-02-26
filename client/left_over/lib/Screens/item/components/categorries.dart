@@ -18,10 +18,10 @@ class CategoriesState extends State<Categories> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(left: 0.0, top: 10,bottom: 15),
+      padding: const EdgeInsets.only(left: 10.0, top: 20),
       //padding: const EdgeInsets.symmetric(vertical: kDefaultPaddin),
       child: SizedBox(
-        height: 25,
+        height: 40,
         child: ListView.builder(
           scrollDirection: Axis.horizontal,
           itemCount: categories.length,
@@ -32,6 +32,7 @@ class CategoriesState extends State<Categories> {
   }
 
   Widget buildCategory(int index) {
+    Size size = MediaQuery.of(context).size;
     return GestureDetector(
       onTap: () {
         setState(() {
@@ -40,27 +41,37 @@ class CategoriesState extends State<Categories> {
         MyNotification().dispatch(context);
       },
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: kDefaultPaddin),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Text(
-              categories[index],
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 15,
-                color: selectedIndex == index ? bDarkBlue : kTextLightColor,
+          padding: EdgeInsets.only(left: size.width * 0.02),
+          child: Container(
+            height: size.height * 0.5,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(12),
+              color: selectedIndex == index ? selectedBlue : darkishBlue,
+              boxShadow: selectedIndex == index
+                  ? [
+                      BoxShadow(
+                          color: selectedBlue.withOpacity(0.3),
+                          offset: Offset(0, 4),
+                          blurRadius: 20),
+                    ]
+                  : [],
+            ),
+            child: Center(
+              child: Padding(
+                padding: EdgeInsets.symmetric(
+                    horizontal: size.width * 0.05,
+                    vertical: size.height * 0.01),
+                child: Text(
+                  categories[index],
+                  style: TextStyle(
+                    fontWeight: FontWeight.normal,
+                    fontSize: 15,
+                    color: Colors.white,
+                  ),
+                ),
               ),
             ),
-            Container(
-              margin: EdgeInsets.only(top: kDefaultPaddin / 4), //top padding 5
-              height: 2,
-              width: 30,
-              color: selectedIndex == index ? bgreen : Colors.transparent,
-            )
-          ],
-        ),
-      ),
+          )),
     );
   }
 }

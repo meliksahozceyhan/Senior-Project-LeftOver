@@ -22,26 +22,18 @@ class ProductTitleWithImage extends StatelessWidget {
         children: <Widget>[
           Text(
             product.itemName,
-            style: Theme.of(context)
-                .textTheme
-                .headline4
-                .copyWith(color: Colors.white, fontWeight: FontWeight.bold),
-          ),
-          Text(
-            product.category,
             style: TextStyle(
-                color: bPrimaryColor,
-                fontSize: 17,
-                fontWeight: FontWeight.bold),
+                color: Colors.white, fontSize: 40, fontWeight: FontWeight.bold),
           ),
-          Text(
-            product.subCategory,
-            style: TextStyle(
-                color: bPrimaryColor,
-                fontSize: 17,
-                fontWeight: FontWeight.bold),
-          ),
-          SizedBox(height: kDefaultPaddin),
+          SizedBox(height: kDefaultPaddinT),
+          Text(product.subCategory,
+              style: TextStyle(
+                color: Color(0xffffffff).withOpacity(0.7),
+                fontWeight: FontWeight.w400,
+                fontSize: 18,
+              )),
+
+          
           Row(
             children: <Widget>[
               Container(

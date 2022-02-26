@@ -40,7 +40,8 @@ class _AddNewItemScreenState extends State<AddNewItemScreen> {
           BottomNavigationBarItem(icon: Icon(Icons.message), label: "Message"),
           BottomNavigationBarItem(icon: Icon(Icons.person), label: "User"),
         ],
-        selectedItemColor: bgreen,
+        selectedItemColor: blueBlockColor,
+        backgroundColor: lightBackgroundColor,
         onTap: (i) => setState(() {
           selectedIndex = i;
         }),

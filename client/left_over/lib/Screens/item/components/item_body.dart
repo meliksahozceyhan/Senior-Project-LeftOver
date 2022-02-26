@@ -1,14 +1,10 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:left_over/Screens/details/details_screen.dart';
 import 'package:left_over/constants.dart';
-import 'package:left_over/constants.dart';
 import 'package:left_over/models/Product.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
-
 import 'categorries.dart';
 import 'item_card.dart';
 
@@ -37,7 +33,6 @@ class _BodyState extends State<ItemBody> {
                   CategoriesState.categories[CategoriesState.selectedIndex])
               .toList();
     });
-
   }
 
   @override
@@ -48,6 +43,7 @@ class _BodyState extends State<ItemBody> {
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     return NotificationListener(
         onNotification: (_) {
           fetchProduct();
@@ -56,10 +52,18 @@ class _BodyState extends State<ItemBody> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Padding(
-              padding: const EdgeInsets.only(top: 10.0, left: 15.0),
-              child: Text(
-                "Products",
-                style: GoogleFonts.comfortaa(fontSize: 45, color: bDarkBlue),
+              padding: const EdgeInsets.only(top: topPadding, left: 15.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    "Discover",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 45,
+                    ),
+                  )
+                ],
               ),
             ),
             Categories(),
@@ -79,14 +83,16 @@ class _BodyState extends State<ItemBody> {
                           press: () => Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => DetailsScreen(
-                                    product: _postJson[index],
-                                  ),
-                                  )),
+                                builder: (context) => DetailsScreen(
+                                  product: _postJson[index],
+                                ),
+                              )),
                         )),
               ),
             ),
           ],
         ));
   }
+
+  void onSearchIconTapped() {}
 }

@@ -18,6 +18,7 @@ import 'package:left_over/components/rounded_input_field.dart';
 import 'package:left_over/components/rounded_password_field.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:http/http.dart' as http;
+import 'package:left_over/constants.dart';
 import 'dart:async';
 
 import 'package:shared_preferences/shared_preferences.dart';
@@ -39,9 +40,10 @@ class Body extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
+            SizedBox(height: size.height * 0.04),
             Text(
               "Register",
-              style: GoogleFonts.comfortaa(fontSize: 45),
+              style: TextStyle(fontSize: 45, color: kPrimaryLightColor),
               //GoogleFonts.comfortaa(fontSize: 45),
             ),
             SizedBox(height: size.height * 0.01),
@@ -50,13 +52,15 @@ class Body extends StatelessWidget {
             //   height: size.height * 0.35,
             // ),
             RoundedInputField(
-              hintText: "Fullname",
+              hintText: "Full Name",
+              icon: Icons.person,
               onChanged: (value) {
                 getName = value;
               },
             ),
             RoundedInputField(
-              hintText: "Email",
+              hintText: "E-mail",
+              icon: Icons.mail,
               onChanged: (value) {
                 getEmail = value;
               },
@@ -99,18 +103,21 @@ class Body extends StatelessWidget {
                 }),
             RoundedInputField(
               hintText: "City",
+              icon: Icons.location_city,
               onChanged: (value) {
                 getCity = value;
               },
             ),
             RoundedInputField(
               hintText: "Address",
+              icon: Icons.location_on,
               onChanged: (value) {
                 getAddress = value;
               },
             ),
             RoundedButton(
-              text: "SIGNUP",
+              text: "SIGN UP",
+              color: lightBackgroundColor,
               press: () async {
                 Future<http.Response> postRequest() async {
                   var url = Uri.parse(dotenv.env['API_URL'] + "/user/");
@@ -163,7 +170,7 @@ class Body extends StatelessWidget {
                 // print('${response.body}');
               },
             ),
-            SizedBox(height: size.height * 0.03),
+            SizedBox(height: size.height * 0.02),
             AlreadyHaveAnAccountCheck(
               login: false,
               press: () {
