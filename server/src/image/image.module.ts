@@ -2,9 +2,9 @@ import { HttpException, HttpStatus, Module } from '@nestjs/common'
 import { ImageService } from './image.service'
 import { ImageController } from './image.controller'
 import { extname } from 'path'
-import { TypegooseModule } from 'nestjs-typegoose'
-import { ImageModel } from './image.model'
+import { ImageModel, ImageModelSchema } from './image.model'
 import { MulterModule } from '@nestjs/platform-express'
+import { MongooseModule } from '@nestjs/mongoose'
 
 const imageFilter = function (req, file, cb) {
 	// accept image only
@@ -17,10 +17,10 @@ const imageFilter = function (req, file, cb) {
 @Module({
 	controllers: [ImageController],
 	imports: [
-		TypegooseModule.forFeature([
+		MongooseModule.forFeature([
 			{
-				typegooseClass: ImageModel,
-				schemaOptions: { versionKey: false }
+				name: ImageModel.name,
+				schema: ImageModelSchema
 			}
 		]),
 		MulterModule.registerAsync({
