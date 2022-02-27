@@ -6,5 +6,8 @@ export default () => ({
 		password: process.env.TYPEORM_PASSWORD,
 		database: process.env.TYPEORM_DATABASE,
 		schema: process.env.TYPEORM_SCHEMA
+	},
+	mongo: {
+		uri: process.env.MONGO_URI
 	}
 })
