@@ -29,7 +29,7 @@ class RoundedDateField extends StatelessWidget {
         decoration: InputDecoration(
           icon: Icon(
             icon,
-            color: bgreen,
+            color: lightBlueColor,
           ),
           hintText: hintText,
           border: InputBorder.none,

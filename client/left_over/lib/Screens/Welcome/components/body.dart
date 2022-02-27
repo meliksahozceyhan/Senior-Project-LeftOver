@@ -17,10 +17,12 @@ class Body extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Image.asset('assets/images/leftover_logo_black.png'),
+            Image.asset('assets/images/leftover_logo.png'),
             SizedBox(height: size.height * 0.05),
             RoundedButton(
               text: "LOGIN",
+              color: lightBackgroundColor,
+              textColor: greenBlockColor,
               press: () {
                 Navigator.push(
                   context,
@@ -34,8 +36,7 @@ class Body extends StatelessWidget {
             ),
             RoundedButton(
               text: "SIGN UP",
-              color: bgreen,
-              textColor: Colors.black,
+              color: lightBackgroundColor,
               press: () {
                 Navigator.push(
                   context,

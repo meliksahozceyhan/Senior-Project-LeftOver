@@ -9,6 +9,7 @@ import 'package:left_over/components/rounded_input_field.dart';
 import 'package:left_over/components/rounded_password_field.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:http/http.dart' as http;
+import 'package:left_over/constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -28,10 +29,12 @@ class Body extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Text("LOGIN", style: GoogleFonts.comfortaa(fontSize: 45)),
+            Text("LOGIN",
+                style: TextStyle(color: kPrimaryLightColor, fontSize: 45)),
             SizedBox(height: size.height * 0.03),
             RoundedInputField(
               hintText: "Your Email",
+              icon: Icons.mail,
               onChanged: (value) {
                 getEmail = value;
               },
@@ -44,6 +47,8 @@ class Body extends StatelessWidget {
             ),
             RoundedButton(
               text: "LOGIN",
+              color: lightBackgroundColor,
+              textColor: greenBlockColor,
               press: () async {
                 var url = Uri.parse(dotenv.env['API_URL'] +
                     "/user/login?email=" +
@@ -66,7 +71,7 @@ class Body extends StatelessWidget {
                 }
               },
             ),
-            SizedBox(height: size.height * 0.03),
+            SizedBox(height: size.height * 0.02),
             AlreadyHaveAnAccountCheck(
               press: () {
                 Navigator.push(
