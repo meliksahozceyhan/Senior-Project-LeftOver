@@ -1,22 +1,25 @@
-import { prop } from '@typegoose/typegoose'
-import { Schema } from 'mongoose'
+import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose'
+import * as mongoose from 'mongoose'
+import { ImageFile } from './image_file.model'
 
+export type ImageDocument = ImageModel & mongoose.Document
+
+@Schema()
 export class ImageModel {
 	// Created automatically, just needed for TS
-	readonly _id: Schema.Types.ObjectId
+	readonly _id: mongoose.Schema.Types.ObjectId
 
-	@prop({ required: true })
+	@Prop({ type: 'string', required: true })
 	name: string
 
-	@prop({ default: { data: null, contentType: null } })
-	image_file: {
-		data: Buffer
-		contentType: string
-	}
+	@Prop({ default: { data: null, contentType: null } })
+	image_file: ImageFile
 
-	@prop({ default: Date.now() })
+	@Prop({ default: Date.now() })
 	createdAt: Date
 
 	// We'll manually populate this property
 	url: string
 }
+
+export const ImageModelSchema = SchemaFactory.createForClass(ImageModel)
