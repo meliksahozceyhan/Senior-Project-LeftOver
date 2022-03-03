@@ -1,5 +1,3 @@
-// ignore_for_file: sdk_version_set_literal
-
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:left_over/Screens/Login/components/background.dart';
@@ -22,7 +20,12 @@ import 'package:http/http.dart' as http;
 import 'categorries.dart';
 import 'item_card.dart';
 
-class AddNewItemBody extends StatelessWidget {  
+class AddNewItemBody extends StatefulWidget {
+  @override
+  _NewItemBodyState createState() => _NewItemBodyState();
+}
+
+class _NewItemBodyState extends State<AddNewItemBody> {
 
   var getItemName = "";
   var getCategory = "";
@@ -32,14 +35,17 @@ class AddNewItemBody extends StatelessWidget {
   var getImage = "";
   var txt = TextEditingController();
 
-  static List <String> subCategoryR = ['TopWear','BottomClothing','Book','Shoes','Accessories','Decoration','Tools'];
-  static List <String> subCategoryC = ['Bakery','Charcuterie','GreenGrocery'];
-  static List <String> subcategory = subCategoryR;
+  static List <List> subCategories = [['Select reusable category','TopWear','BottomClothing','Book','Shoes','Accessories','Decoration','Tools'],['Select consumable category','Bakery','Charcuterie','GreenGrocery']];
+  static List <String> subcategory = List <String>.from(subCategories.elementAt(0));
 
   static List <String> conditionList = ['Old','UnderUsed','Good','New'];
   String conditiondropdownvalue = conditionList.elementAt(0);
 
-  static bool isReusable = true;
+  //static bool isReusable = true;
+
+   var categories=['reusable','consumable'];
+   var categoryindex;
+
 
     @override
   Widget build(BuildContext context) {
@@ -97,26 +103,17 @@ class AddNewItemBody extends StatelessWidget {
               iconOn: Icons.autorenew,
               iconOff: Icons.restaurant,
               textSize: 13.0,              
-              onChanged: (bool state) async {
+              onChanged: (bool state) {
               //Use it to manage the different states
-                print('Current State of SWITCH IS: $state');
-                if(state == true){
-                  getCategory='reusable';
-                  subcategory =  subCategoryR;
-                  isReusable = true;
-                }else{
-                  getCategory='consumable';
-                  subcategory =  subCategoryC;
-                  isReusable = false;
-                }
+                setState(() {
+                categoryindex = state == true ? 0: 1;
+                });
+                subcategory =  List <String>.from(subCategories.elementAt(categoryindex));
+                print('state is $state');
               },
             ),
-            Title(
-              color: Colors.white,
-              child: Text('Select a sub-category:')
-            ),
             DropdownButton<String>(
-            value: subcategory.elementAt(0) ,
+            value: subcategory.elementAt(0),
             icon: Icon(Icons.arrow_drop_down),
             iconSize: 24,
             elevation: 16,
@@ -136,7 +133,7 @@ class AddNewItemBody extends StatelessWidget {
             }).toList(), 
           ),
           Visibility(
-            visible : !isReusable,
+            visible : (categoryindex==0?true:false),
             child :RoundedDateField(
                 hintText: "Expiration Date",
                 textEditingController: txt,
@@ -163,7 +160,7 @@ class AddNewItemBody extends StatelessWidget {
               })
             ),
             Visibility(
-              visible : isReusable,
+              visible : (categoryindex==0?false:true),
               child :DropdownButton<String>(
                 value: conditiondropdownvalue,
                 icon: Icon(Icons.arrow_drop_down),
@@ -194,10 +191,11 @@ class AddNewItemBody extends StatelessWidget {
                 Future<http.Response> postRequest() async {
                   //var url = Uri.parse(dotenv.env['API_URL'] + "/user/");
 
-                final prefs = await SharedPreferences.getInstance();                
+                final prefs = await SharedPreferences.getInstance();
                 var token = prefs.getString('token');
                 Map<String, dynamic> payload = Jwt.parseJwt(token);
                 var userid= payload["id"];
+                getCategory = categories.elementAt(categoryindex);
 
                 Map data = {
                     'userid': userid,
@@ -222,7 +220,7 @@ class AddNewItemBody extends StatelessWidget {
                  // return response;
                 }
                 //postRequest();
-                print('item sended');
+                print('item sent');
               
               },
             ),
