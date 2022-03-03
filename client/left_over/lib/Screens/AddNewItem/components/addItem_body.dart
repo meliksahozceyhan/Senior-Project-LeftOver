@@ -1,3 +1,5 @@
+// ignore_for_file: sdk_version_set_literal
+
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:left_over/Screens/Login/components/background.dart';
@@ -13,11 +15,14 @@ import 'package:left_over/constants.dart';
 import 'package:left_over/Models/Product.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lite_rolling_switch/lite_rolling_switch.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:jwt_decode/jwt_decode.dart';
+import 'package:http/http.dart' as http;
 
 import 'categorries.dart';
 import 'item_card.dart';
 
-class AddNewItemBody extends StatelessWidget {
+class AddNewItemBody extends StatelessWidget {  
 
   var getItemName = "";
   var getCategory = "";
@@ -27,26 +32,15 @@ class AddNewItemBody extends StatelessWidget {
   var getImage = "";
   var txt = TextEditingController();
 
-  static List <String> spinnerItems = [
-    'One', 
-    'Two', 
-    'Three', 
-    'Four', 
-    'Five'
-    ] ;
+  static List <String> subCategoryR = ['TopWear','BottomClothing','Book','Shoes','Accessories','Decoration','Tools'];
+  static List <String> subCategoryC = ['Bakery','Charcuterie','GreenGrocery'];
+  static List <String> subcategory = subCategoryR;
 
-    static List <String> conditionList = [
-    'new', 
-    'almost new', 
-    'underused', 
-    'tolerable', 
-    'old'
-    ] ;
+  static List <String> conditionList = ['Old','UnderUsed','Good','New'];
+  String conditiondropdownvalue = conditionList.elementAt(0);
 
-    String dropdownvalue = spinnerItems.elementAt(0);
-    String conditiondropdownvalue = conditionList.elementAt(0);
+  static bool isReusable = true;
 
- 
     @override
   Widget build(BuildContext context) {
     return Background(
@@ -63,13 +57,24 @@ class AddNewItemBody extends StatelessWidget {
             //   "assets/icons/signup.svg",
             //   height: size.height * 0.35,
             // ),
-            RoundedButton(
-              text: "Add Image",
-              color: bgreen,
-              textColor: Colors.white,
-              press: () {
-                print("add image is pressed");
-              },
+            ElevatedButton.icon(
+              icon: const Icon(
+                    Icons.add_a_photo,
+                    color: Colors.white,
+              ),
+             onPressed:(){
+               print('add image pressed');
+             } ,
+              label: Text(
+                      "Add Image",
+                      style: const TextStyle(
+                      fontSize: 16,
+                      color: Colors.white),
+              ),
+              style: ElevatedButton.styleFrom(
+              primary: Color.fromARGB(255, 3, 133, 194),
+              fixedSize: const Size(208, 43),
+              ),
             ),
             RoundedInputField(
               hintText: "Item Name",
@@ -78,6 +83,10 @@ class AddNewItemBody extends StatelessWidget {
                 getItemName = value;
               },
             ),
+            Title(
+              color: Colors.white,
+              child: Text('Select a category:')
+              ),
             LiteRollingSwitch(
             //initial value
               value: true,
@@ -87,20 +96,27 @@ class AddNewItemBody extends StatelessWidget {
               colorOff: bDarkBlue,
               iconOn: Icons.autorenew,
               iconOff: Icons.restaurant,
-              textSize: 13.0,
-              
-              onChanged: (bool state) {
+              textSize: 13.0,              
+              onChanged: (bool state) async {
               //Use it to manage the different states
                 print('Current State of SWITCH IS: $state');
                 if(state == true){
                   getCategory='reusable';
+                  subcategory =  subCategoryR;
+                  isReusable = true;
                 }else{
                   getCategory='consumable';
+                  subcategory =  subCategoryC;
+                  isReusable = false;
                 }
               },
             ),
+            Title(
+              color: Colors.white,
+              child: Text('Select a sub-category:')
+            ),
             DropdownButton<String>(
-            value: dropdownvalue,
+            value: subcategory.elementAt(0) ,
             icon: Icon(Icons.arrow_drop_down),
             iconSize: 24,
             elevation: 16,
@@ -110,17 +126,18 @@ class AddNewItemBody extends StatelessWidget {
               color: Colors.deepPurpleAccent,
             ),
             onChanged: (String data) {
-                dropdownvalue = data;
-                getSubcategory =dropdownvalue;
+                getSubcategory =data;
             },
-            items: spinnerItems.map<DropdownMenuItem<String>>((String value) {
+            items:subcategory.map<DropdownMenuItem<String>>((String value) {
               return DropdownMenuItem<String>(
                 value: value,
                 child: Text(value),
               );
-            }).toList(),
+            }).toList(), 
           ),
-            RoundedDateField(
+          Visibility(
+            visible : !isReusable,
+            child :RoundedDateField(
                 hintText: "Expiration Date",
                 textEditingController: txt,
                 onChanged: (value) {
@@ -143,34 +160,70 @@ class AddNewItemBody extends StatelessWidget {
                         .reversed
                         .join("-");
                   }, currentTime: DateTime.now(), locale: LocaleType.en);
-                }),
-            DropdownButton<String>(
-            value: conditiondropdownvalue,
-            icon: Icon(Icons.arrow_drop_down),
-            iconSize: 24,
-            elevation: 16,
-            style: TextStyle(color: Colors.red, fontSize: 18),
-            underline: Container(
-              height: 2,
-              color: Colors.deepPurpleAccent,
+              })
             ),
-            onChanged: (String data) {
-                conditiondropdownvalue = data;
-                getCondition =conditiondropdownvalue;
-            },
-            items: conditionList.map<DropdownMenuItem<String>>((String value) {
-              return DropdownMenuItem<String>(
-                value: value,
-                child: Text(value),
+            Visibility(
+              visible : isReusable,
+              child :DropdownButton<String>(
+                value: conditiondropdownvalue,
+                icon: Icon(Icons.arrow_drop_down),
+                iconSize: 24,
+                elevation: 16,
+                style: TextStyle(color: Colors.red, fontSize: 18),
+                underline: Container(
+                  height: 2,
+                  color: Colors.deepPurpleAccent,
+                ),
+                onChanged: (String data) {
+                  conditiondropdownvalue = data;
+                  getCondition =conditiondropdownvalue;
+                },
+                items: conditionList.map<DropdownMenuItem<String>>((String value) {
+                  return DropdownMenuItem<String>(
+                    value: value,
+                    child: Text(value),
               );
             }).toList(),
-          ),
+          )
+            ),
           RoundedButton(
               text: "SAVE",
               color: bgreen,
               textColor: Colors.white,
-              press: () {
-                print("SAVE is pressed");
+              press: () async {
+                Future<http.Response> postRequest() async {
+                  //var url = Uri.parse(dotenv.env['API_URL'] + "/user/");
+
+                final prefs = await SharedPreferences.getInstance();                
+                var token = prefs.getString('token');
+                Map<String, dynamic> payload = Jwt.parseJwt(token);
+                var userid= payload["id"];
+
+                Map data = {
+                    'userid': userid,
+                    'itemname': getItemName,
+                    'category': getCategory,
+                    'subcategory': getSubcategory,
+                    'condition': getCondition,
+                    //image will be added
+                  };
+
+                  //var body =  json.encode(data);
+
+                   //var response = await http.post(url,
+                    //  headers: {"Content-Type": "application/json"},
+                    //  body: body);
+                  //final prefs = await SharedPreferences.getInstance();
+                  //prefs.setString('token', response.body);
+                  //print("${response.request}");
+                  //print("${response.statusCode}");
+                  //print("${response.body}");
+
+                 // return response;
+                }
+                //postRequest();
+                print('item sended');
+              
               },
             ),
           ],
