@@ -20,14 +20,16 @@ export class UserService extends TypeOrmCrudService<User> {
 	}
 
 	public async login(email: string, password: string): Promise<any> {
-		let user = await this.userRepo.findOne({ where: { email: email } })
-		if (user !== undefined && user !== null) {
-			if (await bcrypt.compare(password, user.password as string)) {
-				return this.createToken(user)
+		if (email !== null && email !== undefined) {
+			let user = await this.findOneUser(email)
+			if (user !== undefined && user !== null) {
+				if (await bcrypt.compare(password, user.password as string)) {
+					return this.createToken(user)
+				}
+				throw new UnauthorizedException({ message: 'Password iss WRONG!', statusCode: 401 })
+			} else {
+				throw new NotFoundException({ message: 'There is no such USER!', statusCode: 404 })
 			}
-			throw new UnauthorizedException({ message: 'Password iss WRONG!', statusCode: 401 })
-		} else {
-			throw new NotFoundException({ message: 'There is no such USER!', statusCode: 404 })
 		}
 	}
 
@@ -35,5 +37,9 @@ export class UserService extends TypeOrmCrudService<User> {
 		const tokenPayload = { id: user.id, email: user.email, fullName: user.fullName, dateOfBirth: user.dateOfBirth, city: user.city, address: user.address }
 		const token = this.jwtService.sign(tokenPayload)
 		return token
+	}
+
+	public async findOneUser(email: string): Promise<User> {
+		return await this.userRepo.findOne({ where: { email: email } })
 	}
 }
