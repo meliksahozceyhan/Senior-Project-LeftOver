@@ -139,7 +139,7 @@ class Body extends StatelessWidget {
                       headers: {"Content-Type": "application/json"},
                       body: body);
                   final prefs = await SharedPreferences.getInstance();
-                  prefs.setString('token', 'Bearer ${response.body}');
+                  prefs.setString('token', response.body);
                   print("${response.request}");
                   print("${response.statusCode}");
                   print("${response.body}");
