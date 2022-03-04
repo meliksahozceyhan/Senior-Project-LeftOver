@@ -16,11 +16,13 @@ const kTextLightColor = Color(0xFFACACAC);
 
 const kDefaultPaddin = 20.0;
 const kDefaultPaddinT = 10.0;
-const topPadding = 70.0;
+const topPadding = 80.0;
+const categoryHeight = 40.0;
 
 const darkBackgroundColor = Color(0xff121421);
 const lightBackgroundColor = Color(0xff242740);
 const lightBlueColor = Color(0xff373a57);
+const lilacColor = Color(0xff5c6191);
 
 const greenBlockColor = Color(0xff13DEA0);
 const lightGreenBlockColor = Color(0xff06B782);
