@@ -133,7 +133,7 @@ class _NewItemBodyState extends State<AddNewItemBody> {
             }).toList(), 
           ),
           Visibility(
-            visible : (categoryindex==0?true:false),
+            visible : (categoryindex==0?false:true),
             child :RoundedDateField(
                 hintText: "Expiration Date",
                 textEditingController: txt,
@@ -160,7 +160,7 @@ class _NewItemBodyState extends State<AddNewItemBody> {
               })
             ),
             Visibility(
-              visible : (categoryindex==0?false:true),
+              visible : (categoryindex==0?true:false),
               child :DropdownButton<String>(
                 value: conditiondropdownvalue,
                 icon: Icon(Icons.arrow_drop_down),
