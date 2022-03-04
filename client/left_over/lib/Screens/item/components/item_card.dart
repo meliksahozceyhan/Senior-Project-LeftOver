@@ -15,6 +15,7 @@ class ItemCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     return GestureDetector(
       onTap: press,
       child: Column(
@@ -22,35 +23,45 @@ class ItemCard extends StatelessWidget {
         children: <Widget>[
           Expanded(
             child: Container(
-              padding: EdgeInsets.all(3.0),
-              // For  demo we use fixed height  and width
-              // Now we dont need them
-              height: 180,
-              width: 160,
-              decoration: BoxDecoration(
-                color: bgreen,
-              ),
+              //padding: EdgeInsets.all(3.0),
+              height: size.height * 0.5,
+              width: size.width,
+              //decoration: BoxDecoration(
+              //  color: bgreen,
+              //  borderRadius: BorderRadius.circular(16),
+              //),
               child: Hero(
                 tag: "${product.id}",
-                child: Image.asset("assets/images/" + product.itemImage,
-                    fit: BoxFit.cover),
+                child: ClipRRect(
+                    borderRadius: BorderRadius.circular(16),
+                    child: Image.asset(
+                      "assets/images/" + product.itemImage,
+                      fit: BoxFit.cover,
+                    )),
               ),
-            ),
-          ),
-          Padding(
-            //padding: const EdgeInsets.symmetric(vertical: kDefaultPaddin / 4),
-            padding: const EdgeInsets.symmetric(vertical: 10),
-            child: Text(
-              product.itemName,
-              style: TextStyle(
-                  color: bDarkBlue, fontWeight: FontWeight.bold, fontSize: 15),
             ),
           ),
           Padding(
             padding: const EdgeInsets.symmetric(vertical: kDefaultPaddin / 4),
-            child: Text(
-              product.category,
-              style: TextStyle(color: bDarkBlue),
+            //padding: const EdgeInsets.symmetric(vertical: 10),
+            child: Align(
+              child: Text(
+                product.itemName,
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                    color: lightBlueBlockColor,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 15),
+              ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: kDefaultPaddin / 5),
+            child: Align(
+              child: Text(
+                product.subCategory,
+                style: TextStyle(color: Colors.white.withOpacity(0.7)),
+              ),
             ),
           ),
         ],

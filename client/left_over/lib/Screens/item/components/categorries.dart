@@ -21,7 +21,7 @@ class CategoriesState extends State<Categories> {
       padding: const EdgeInsets.only(left: 10.0, top: 20),
       //padding: const EdgeInsets.symmetric(vertical: kDefaultPaddin),
       child: SizedBox(
-        height: 40,
+        height: categoryHeight,
         child: ListView.builder(
           scrollDirection: Axis.horizontal,
           itemCount: categories.length,

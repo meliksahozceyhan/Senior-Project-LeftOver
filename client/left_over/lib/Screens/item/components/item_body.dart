@@ -7,6 +7,7 @@ import 'package:left_over/models/Product.dart';
 import 'package:http/http.dart' as http;
 import 'categorries.dart';
 import 'item_card.dart';
+import 'package:left_over/components/discover_small_card.dart';
 
 class ItemBody extends StatefulWidget {
   @override
@@ -93,6 +94,4 @@ class _BodyState extends State<ItemBody> {
           ],
         ));
   }
-
-  void onSearchIconTapped() {}
 }
