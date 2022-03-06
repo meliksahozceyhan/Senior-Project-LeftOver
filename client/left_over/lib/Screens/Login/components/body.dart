@@ -7,11 +7,9 @@ import 'package:left_over/components/already_have_an_account_acheck.dart';
 import 'package:left_over/components/rounded_button.dart';
 import 'package:left_over/components/rounded_input_field.dart';
 import 'package:left_over/components/rounded_password_field.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:http/http.dart' as http;
 import 'package:left_over/constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class Body extends StatelessWidget {
   const Body({

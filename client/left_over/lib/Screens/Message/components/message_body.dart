@@ -1,11 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:left_over/constants.dart';
-import 'package:left_over/constants.dart';
-import 'package:left_over/Models/Product.dart';
-import 'package:google_fonts/google_fonts.dart';
-
-import 'categorries.dart';
-import 'item_card.dart';
 
 class MessageBody extends StatelessWidget {
   @override

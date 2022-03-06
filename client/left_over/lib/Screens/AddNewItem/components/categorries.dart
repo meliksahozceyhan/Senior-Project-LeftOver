@@ -19,3 +19,5 @@ class CategoriesState extends State<Categories> {
     );
   }
 }
+
+// We need satefull widget for our categories

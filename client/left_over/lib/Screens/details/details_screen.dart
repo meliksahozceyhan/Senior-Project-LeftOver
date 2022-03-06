@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:left_over/constants.dart';
 import 'package:left_over/models/Product.dart';
-import 'package:left_over/screens/details/components/body.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:left_over/components/discover_small_card.dart';
 
@@ -162,7 +159,7 @@ class DetailsScreen extends StatelessWidget {
                         physics: NeverScrollableScrollPhysics(),
                         children: [
                           DiscoverSmallCard(
-                            title: '${product.itemName} ',
+                            title: '${product.category} ',
                             subtitle: "- ${product.subCategory}",
                             gradientStartColor: lightBlueColor,
                             gradientEndColor: lilacColor,
@@ -255,7 +252,7 @@ class DetailsScreen extends StatelessWidget {
   AppBar buildAppBar(BuildContext context) {
     return AppBar(
       backgroundColor: darkishBlue,
-      title: Text(product.category),
+      title: Text(product.itemName),
       centerTitle: true,
       actions: [
         TextButton(

@@ -1,11 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:left_over/constants.dart';
-import 'package:left_over/constants.dart';
-import 'package:left_over/Models/Product.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import 'categorries.dart';
-import 'search_card.dart';
 
 class SearchBody extends StatelessWidget {
   @override

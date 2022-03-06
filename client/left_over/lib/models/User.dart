@@ -1,8 +1,14 @@
-import 'package:flutter/material.dart';
-
 class User {
-  String id, createdAt, updatedAt, email, fullName, password, dateOfBirth, city, address;
-         
+  String id,
+      createdAt,
+      updatedAt,
+      email,
+      fullName,
+      password,
+      dateOfBirth,
+      city,
+      address;
+
   User({
     this.id,
     this.createdAt,
@@ -28,5 +34,4 @@ class User {
       address: json['address'],
     );
   }
-
 }

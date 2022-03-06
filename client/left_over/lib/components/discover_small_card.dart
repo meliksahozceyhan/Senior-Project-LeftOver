@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class DiscoverSmallCard extends StatelessWidget {
   final String title;
@@ -76,18 +75,18 @@ class DiscoverSmallCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    new RichText(
-                      text: new TextSpan(
-                        style: new TextStyle(
+                    RichText(
+                      text:  TextSpan(
+                        style: TextStyle(
                           fontSize: 17.0,
                           color: Color(0xffffffff).withOpacity(0.7),
                         ),
                         children: <TextSpan>[
-                          new TextSpan(
+                           TextSpan(
                               text: title,
-                              style: new TextStyle(
+                              style:  TextStyle(
                                   fontWeight: FontWeight.bold, fontSize: 18.0)),
-                          new TextSpan(
+                          TextSpan(
                             text: subtitle,
                           ),
                         ],

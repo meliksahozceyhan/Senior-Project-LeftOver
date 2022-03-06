@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:left_over/constants.dart';
 import 'package:left_over/Models/Product.dart';
 
-import '../../../constants.dart';
 
 class SearchCard extends StatelessWidget {
   final Product product;
