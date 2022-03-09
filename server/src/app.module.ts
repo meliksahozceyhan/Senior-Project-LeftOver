@@ -10,10 +10,18 @@ import { ItemModule } from './model/item/item.module'
 import { ImageModule } from './image/image.module'
 import { TypegooseModule } from 'nestjs-typegoose'
 import { MongooseModule } from '@nestjs/mongoose'
+import { APP_GUARD } from '@nestjs/core'
+import { JwtAuthGuard } from './auth/guards/jwt-auth.guard'
 
 @Module({
 	imports: [ConfigModule.forRoot({ load: [databaseConfig], isGlobal: true }), DatabaseModule, UserModule, AuthModule, ItemModule, ImageModule, MongooseModule.forRoot(process.env.MONGO_URI)],
 	controllers: [AppController],
-	providers: [AppService]
+	providers: [
+		AppService,
+		{
+			provide: APP_GUARD,
+			useClass: JwtAuthGuard
+		}
+	]
 })
 export class AppModule {}
