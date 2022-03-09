@@ -55,7 +55,7 @@ class Body extends StatelessWidget {
                     getPassword);
                 var response = await http.get(url);
                 final prefs = await SharedPreferences.getInstance();
-                prefs.setString('token', 'Bearer ${response.body}');
+                prefs.setString('token', response.body);
 
                 if (response.statusCode == 401 || response.statusCode == 404) {
                   final scaffold = ScaffoldMessenger.of(context);
