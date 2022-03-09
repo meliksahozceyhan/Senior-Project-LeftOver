@@ -40,3 +40,5 @@ const lightBlueBlockColor = Color(0xff4E81EB);
 
 const selectedBlue = Color(0xff4A80F0);
 const darkishBlue = Color(0xff1C2031);
+
+const redCheck = Color(0xffa4161a);

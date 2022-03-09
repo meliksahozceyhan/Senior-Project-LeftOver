@@ -140,6 +140,60 @@ class Body extends StatelessWidget {
                   print("${response.statusCode}");
                   print("${response.body}");
 
+                  if (response.statusCode == 500) {
+                    final scaffold = ScaffoldMessenger.of(context);
+                    scaffold.showSnackBar(
+                      SnackBar(
+                        content: const Text(
+                          'Please enter required fields!',
+                        ),
+                        backgroundColor: redCheck,
+                        action: SnackBarAction(
+                            label: 'Close',
+                            onPressed: scaffold.hideCurrentSnackBar,
+                            textColor: Colors.white),
+                      ),
+                    );
+                  }
+
+                  if (getPassword != getPasswordConfirmation) {
+                    final scaffold = ScaffoldMessenger.of(context);
+                    scaffold.showSnackBar(
+                      SnackBar(
+                        content: const Text(
+                          'Passwords should be matched!',
+                        ),
+                        backgroundColor: redCheck,
+                        action: SnackBarAction(
+                            label: 'Close',
+                            onPressed: scaffold.hideCurrentSnackBar,
+                            textColor: Colors.white),
+                      ),
+                    );
+                  }
+
+                  if (!RegExp(
+                          r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z]+\.[a-zA-Z]+")
+                      .hasMatch(getEmail)) {
+                    final scaffold = ScaffoldMessenger.of(context);
+                    scaffold.showSnackBar(
+                      SnackBar(
+                        content: const Text(
+                          'Please enter valid Email format!',
+                        ),
+                        backgroundColor: redCheck,
+                        action: SnackBarAction(
+                            label: 'Close',
+                            onPressed: scaffold.hideCurrentSnackBar,
+                            textColor: Colors.white),
+                      ),
+                    );
+                  }
+
+                  //DateTime.now(year)
+
+                  //if(DateTime(now.year) - getDateofBirth)
+
                   if (response.statusCode == 201) {
                     Navigator.push(
                       context,
