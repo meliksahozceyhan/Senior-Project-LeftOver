@@ -31,7 +31,7 @@ class Body extends StatelessWidget {
                 style: TextStyle(color: kPrimaryLightColor, fontSize: 45)),
             SizedBox(height: size.height * 0.03),
             RoundedInputField(
-              hintText: "Your Email",
+              hintText: "Email",
               icon: Icons.mail,
               onChanged: (value) {
                 getEmail = value;
@@ -56,6 +56,24 @@ class Body extends StatelessWidget {
                 var response = await http.get(url);
                 final prefs = await SharedPreferences.getInstance();
                 prefs.setString('token', 'Bearer ${response.body}');
+
+                if (response.statusCode == 401 || response.statusCode == 404) {
+                  final scaffold = ScaffoldMessenger.of(context);
+                  scaffold.showSnackBar(
+                    SnackBar(
+                      content: const Text(
+                        'Please check your Email and Password!',
+                      ),
+                      backgroundColor: redCheck,
+                      action: SnackBarAction(
+                        label: 'Close',
+                        onPressed: scaffold.hideCurrentSnackBar,
+                        textColor: Colors.white
+                        
+                      ),
+                    ),
+                  );
+                }
 
                 if (response.statusCode == 200) {
                   Navigator.push(
