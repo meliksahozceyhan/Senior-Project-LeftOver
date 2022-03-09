@@ -6,9 +6,15 @@ import 'package:left_over/components/rounded_date_field.dart';
 import 'package:left_over/components/rounded_button.dart';
 import 'package:left_over/Screens/item/components/categorries.dart';
 
+import 'package:http/http.dart' as http;
 import 'package:left_over/constants.dart';
 
-class AddNewItemBody extends StatelessWidget {
+class AddNewItemBody extends StatefulWidget {
+  @override
+  _NewItemBodyState createState() => _NewItemBodyState();
+}
+
+class _NewItemBodyState extends State<AddNewItemBody> {
   var getItemName = "";
   var getCategory = "";
   var getSubcategory = "";
@@ -16,23 +22,46 @@ class AddNewItemBody extends StatelessWidget {
   var getSharerId = "";
   var getImage = "";
   var txt = TextEditingController();
+  static int selectedCategoryIndex=0;
+  static int isChanged = selectedCategoryIndex;
 
-  static List<String> spinnerItems = ['One', 'Two', 'Three', 'Four', 'Five'];
-
+  static List<List> spinnerItems = [['Bakery','Charcuterie','GreenGrocery'],['TopWear','BottomClothing','Book','Shoes','Accessories','Decoration','Tools']];
   static List<String> conditionList = [
-    'new',
-    'almost new',
-    'underused',
-    'tolerable',
-    'old'
+    'New',
+    'Almost New',
+    'Underused',
+    'Tolerable',
+    'Old'
   ];
 
-  String dropdownvalue = spinnerItems.elementAt(0);
-  String conditiondropdownvalue = conditionList.elementAt(0);
+  static List<String> subcategory = List <String>.from(spinnerItems.elementAt(0)); 
+  static String subdropdownvalue = subcategory.elementAt(0);
+  static String conditiondropdownvalue = conditionList.elementAt(0);
+  static int selectedSubIndex = 0;
+  static int selectedConditionIndex = 0;
+
+  void getStateOfCategories() {
+    setState(() {
+      if(isChanged != selectedCategoryIndex){
+        selectedSubIndex = 0;
+        isChanged = selectedCategoryIndex;
+      }
+      if(selectedCategoryIndex == 1){
+        conditiondropdownvalue = conditionList.elementAt(selectedConditionIndex);
+      }
+      selectedCategoryIndex = CategoriesState.selectedIndex;
+      subcategory = List <String>.from(spinnerItems.elementAt(selectedCategoryIndex));
+      subdropdownvalue = subcategory.elementAt(selectedSubIndex);
+    });
+  } 
 
   @override
   Widget build(BuildContext context) {
-    return Background(
+    return NotificationListener(
+      onNotification: (_) {
+        getStateOfCategories();
+        },
+      child: Background(
       child: SingleChildScrollView(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -68,7 +97,9 @@ class AddNewItemBody extends StatelessWidget {
                       getItemName = value;
                     },
                   ),
-                  RoundedDateField(
+                  Visibility(
+                    visible: selectedCategoryIndex == 0 ? true : false,
+                    child: RoundedDateField(
                       hintText: "Expiration Date",
                       textEditingController: txt,
                       onChanged: (value) {
@@ -93,35 +124,9 @@ class AddNewItemBody extends StatelessWidget {
                               .join("-");
                         }, currentTime: DateTime.now(), locale: LocaleType.en);
                       }),
+                    ),
                 ])),
-            /*
-            SizedBox(
-                width: 160,
-                height: 60,
-                child: FittedBox(
-                  fit: BoxFit.fill,
-                  child: LiteRollingSwitch(
-                    //initial value
-                    value: true,
-                    textOn: 'Reusable',
-                    textOff: 'Consumable',
-                    colorOn: lightBlueColor,
-                    colorOff: bDarkBlue,
-                    iconOn: Icons.autorenew,
-                    iconOff: Icons.restaurant,
-                    textSize: 12.0,
-                    onChanged: (bool state) {
-                      //Use it to manage the different states
-                      print('Current State of SWITCH IS: $state');
-                      if (state == true) {
-                        getCategory = 'reusable';
-                      } else {
-                        getCategory = 'consumable';
-                      }
-                    },
-                  ),
-                )),*/
-
+                
             Padding(
                 padding:
                     const EdgeInsets.symmetric(vertical: 10, horizontal: 50),
@@ -130,7 +135,8 @@ class AddNewItemBody extends StatelessWidget {
                   children: <Widget>[
                     DropdownButton<String>(
                       isExpanded: true,
-                      value: dropdownvalue,
+                      //hint: Text('Choose subcategory'),
+                      value: subdropdownvalue,
                       icon: Icon(Icons.arrow_drop_down),
                       iconSize: 24,
                       elevation: 16,
@@ -141,10 +147,13 @@ class AddNewItemBody extends StatelessWidget {
                         color: lightPinkBlockColor,
                       ),
                       onChanged: (String data) {
-                        dropdownvalue = data;
-                        getSubcategory = dropdownvalue;
-                      },
-                      items: spinnerItems
+                        selectedSubIndex = subcategory.indexOf(data) ;
+                        getSubcategory = data;
+                        getStateOfCategories();
+                        print(getSubcategory);
+                        print(selectedSubIndex);                                          
+                      },                      
+                      items: subcategory
                           .map<DropdownMenuItem<String>>((String value) {
                         return DropdownMenuItem<String>(
                           value: value,
@@ -152,28 +161,34 @@ class AddNewItemBody extends StatelessWidget {
                         );
                       }).toList(),
                     ),
-                    DropdownButton<String>(
-                      value: conditiondropdownvalue,
-                      isExpanded: true,
-                      icon: Icon(Icons.arrow_drop_down),
-                      iconSize: 24,
-                      elevation: 16,
-                      style: TextStyle(color: pinkBlockColor, fontSize: 18),
-                      underline: Container(
-                        height: 2,
-                        color: pinkBlockColor,
-                      ),
-                      onChanged: (String data) {
-                        conditiondropdownvalue = data;
-                        getCondition = conditiondropdownvalue;
-                      },
-                      items: conditionList
-                          .map<DropdownMenuItem<String>>((String value) {
-                        return DropdownMenuItem<String>(
-                          value: value,
-                          child: Text(value),
-                        );
-                      }).toList(),
+                    Visibility(
+                      visible:  selectedCategoryIndex == 1 ? true : false,
+                      child: DropdownButton<String>(
+                       // hint: Text('Select condition of the item'),
+                        value: conditiondropdownvalue,
+                        isExpanded: true,
+                        icon: Icon(Icons.arrow_drop_down),
+                        iconSize: 24,
+                        elevation: 16,
+                        style: TextStyle(color: pinkBlockColor, fontSize: 18),
+                        underline: Container(
+                          height: 2,
+                          color: pinkBlockColor,
+                        ),
+                        onChanged: (String data) {
+                          selectedConditionIndex= conditionList.indexOf(data);
+                          getStateOfCategories();
+                          conditiondropdownvalue = data;
+                          getCondition = data;
+                        },
+                        items: conditionList
+                            .map<DropdownMenuItem<String>>((String value) {
+                          return DropdownMenuItem<String>(
+                            value: value,
+                            child: Text(value),
+                          );
+                        }).toList(),
+                      )
                     ),
                   ],
                 )),
@@ -191,11 +206,48 @@ class AddNewItemBody extends StatelessWidget {
               textColor: Colors.white,
               press: () {
                 print("SAVE is pressed");
+                /* 
+                () async {
+                Future<http.Response> postRequest() async {
+                  //var url = Uri.parse(dotenv.env['API_URL'] + "/user/");
+
+                final prefs = await SharedPreferences.getInstance();
+                var token = prefs.getString('token');
+                Map<String, dynamic> payload = Jwt.parseJwt(token);
+                var userid= payload["id"];
+                getCategory = categories.elementAt(categoryindex);
+
+                Map data = {
+                    'userid': userid,
+                    'itemname': getItemName,
+                    'category': getCategory,
+                    'subcategory': getSubcategory,
+                    'condition': getCondition,
+                    //image will be added
+                  };
+
+                  //var body =  json.encode(data);
+
+                   //var response = await http.post(url,
+                    //  headers: {"Content-Type": "application/json"},
+                    //  body: body);
+                  //final prefs = await SharedPreferences.getInstance();
+                  //prefs.setString('token', response.body);
+                  //print("${response.request}");
+                  //print("${response.statusCode}");
+                  //print("${response.body}");
+
+                 // return response;
+                }
+                //postRequest();
+                print('item sent');
+                */
               },
             ),
           ],
         ),
       ),
-    );
+    )
+   ); 
   }
 }
