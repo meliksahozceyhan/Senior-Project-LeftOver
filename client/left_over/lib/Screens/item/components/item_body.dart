@@ -5,6 +5,7 @@ import 'package:left_over/Screens/details/details_screen.dart';
 import 'package:left_over/constants.dart';
 import 'package:left_over/models/Product.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 import 'categorries.dart';
 import 'item_card.dart';
 
@@ -21,7 +22,12 @@ class _BodyState extends State<ItemBody> {
   void fetchProduct() async {
     //return http.get(Uri.parse(dotenv.env['API_URL'] + "/item"));
 
-    final response = await http.get(Uri.parse(dotenv.env['API_URL'] + "/item"));
+    Map<String, String> headers = new Map<String, String>();
+    final prefs = await SharedPreferences.getInstance();
+    var token = prefs.getString('token');
+    headers["Authorization"] = "Bearer " + token;
+
+    final response = await http.get(Uri.parse(dotenv.env['API_URL'] + "/item"),headers: headers);
 
     var jsonData = jsonDecode(response.body) as List;
 
