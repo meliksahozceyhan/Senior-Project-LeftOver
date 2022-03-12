@@ -23,7 +23,7 @@ class _NewItemBodyState extends State<AddNewItemBody> {
   var getImage = "";
   var txt = TextEditingController();
   static int selectedCategoryIndex=0;
-  static int isChanged = selectedCategoryIndex;
+  static int defaultCategory = selectedCategoryIndex;// both 0 at the beginning
 
   static List<List> spinnerItems = [['Bakery','Charcuterie','GreenGrocery'],['TopWear','BottomClothing','Book','Shoes','Accessories','Decoration','Tools']];
   static List<String> conditionList = [
@@ -42,15 +42,16 @@ class _NewItemBodyState extends State<AddNewItemBody> {
 
   void getStateOfCategories() {
     setState(() {
-      if(isChanged != selectedCategoryIndex){
-        selectedSubIndex = 0;
-        isChanged = selectedCategoryIndex;
+      selectedCategoryIndex = CategoriesState.selectedIndex;
+      subcategory = List <String>.from(spinnerItems.elementAt(selectedCategoryIndex));
+      if(defaultCategory != selectedCategoryIndex){//if selected category is changed then it detects the change
+        selectedSubIndex = 0; // so it cancels sub category selection
+        defaultCategory = selectedCategoryIndex; //sets default as selected to be able to control later changes
       }
       if(selectedCategoryIndex == 1){
         conditiondropdownvalue = conditionList.elementAt(selectedConditionIndex);
       }
-      selectedCategoryIndex = CategoriesState.selectedIndex;
-      subcategory = List <String>.from(spinnerItems.elementAt(selectedCategoryIndex));
+      
       subdropdownvalue = subcategory.elementAt(selectedSubIndex);
     });
   } 
