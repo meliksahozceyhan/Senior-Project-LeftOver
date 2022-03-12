@@ -26,13 +26,16 @@ export class User {
 	@Column({ nullable: false })
 	password: String
 
-	@Column({ nullable: true })
+	@IsNotEmpty()
+	@Column({ nullable: false })
 	dateOfBirth: Date
 
-	@Column({ nullable: true })
+	@IsNotEmpty()
+	@Column({ nullable: false })
 	city: String
 
-	@Column({ nullable: true })
+	@IsNotEmpty()
+	@Column({ nullable: false })
 	address: String
 
 	@OneToMany(() => Item, (item) => item.user)
