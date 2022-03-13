@@ -8,6 +8,28 @@ import 'package:left_over/Screens/item/components/categorries.dart';
 
 import 'package:http/http.dart' as http;
 import 'package:left_over/constants.dart';
+/*
+class UploadingImageToFirebaseStorage extends StatefulWidget {
+  @override
+  _UploadingImageToFirebaseStorageState createState() => _UploadingImageToFirebaseStorageState();  
+}
+
+class _UploadingImageToFirebaseStorageState extends State<UploadingImageToFirebaseStorage> {
+  File _imageFile;
+
+  ///NOTE: Only supported on Android & iOS
+  ///Needs image_picker plugin {https://pub.dev/packages/image_picker}
+  final picker = ImagePicker();
+
+  Future pickImage() async {
+    final pickedFile = await picker.getImage(source: ImageSource.camera);
+
+    setState(() {
+      _imageFile = File(pickedFile.path);
+    });
+  }
+  
+}*/
 
 class AddNewItemBody extends StatefulWidget {
   @override
@@ -22,8 +44,10 @@ class _NewItemBodyState extends State<AddNewItemBody> {
   var getSharerId = "";
   var getImage = "";
   var txt = TextEditingController();
-  static int selectedCategoryIndex = 0;
-  static int defaultCategory = selectedCategoryIndex; // both 0 at the beginning
+  
+  static int selectedCategoryIndex=0;
+  static int defaultCategory = selectedCategoryIndex;// both 0 at the beginning
+  static int imageMethod; //0 for gallery , 1 for camera
 
   static List<List> spinnerItems = [
     ['Bakery', 'Charcuterie', 'GreenGrocery'],
@@ -60,8 +84,9 @@ class _NewItemBodyState extends State<AddNewItemBody> {
       if (defaultCategory != selectedCategoryIndex) {
         //if selected category is changed then it detects the change
         selectedSubIndex = 0; // so it cancels sub category selection
-        defaultCategory =
-            selectedCategoryIndex; //sets default as selected to be able to control later changes
+        defaultCategory = selectedCategoryIndex; //sets default as selected to be able to control later changes
+        selectedConditionIndex = 0;
+
       }
       if (selectedCategoryIndex == 1) {
         conditiondropdownvalue =
@@ -70,6 +95,22 @@ class _NewItemBodyState extends State<AddNewItemBody> {
 
       subdropdownvalue = subcategory.elementAt(selectedSubIndex);
     });
+  }
+
+  void _showDialog(){
+    showDialog(
+      context: context,
+      builder: (BuildContext context){
+        return AlertDialog(
+          title: Text('How do you want to upload image?'),
+          actions: <Widget> [
+            RoundedButton(text: 'Upload From Gallery', press: (){imageMethod = 0;Navigator.of(context).pop();print('upload from gallery is selected');}),
+            RoundedButton(text: 'Take a Photo',  press: (){imageMethod = 1;Navigator.of(context).pop();print('upload from gallery is selected');}),
+            new FlatButton(onPressed: (){Navigator.of(context).pop();}, child: Text('Close')),
+          ],
+        );
+      },
+    );
   }
 
   @override
@@ -182,54 +223,40 @@ class _NewItemBodyState extends State<AddNewItemBody> {
                             );
                           }).toList(),
                         ),
-                        Visibility(
-                            visible: selectedCategoryIndex == 1 ? true : false,
-                            child: DropdownButton<String>(
-                              // hint: Text('Select condition of the item'),
-                              value: conditiondropdownvalue,
-                              isExpanded: true,
-                              icon: Icon(Icons.arrow_drop_down),
-                              iconSize: 24,
-                              elevation: 16,
-                              style: TextStyle(
-                                  color: pinkBlockColor, fontSize: 18),
-                              underline: Container(
-                                height: 2,
-                                color: pinkBlockColor,
-                              ),
-                              onChanged: (String data) {
-                                selectedConditionIndex =
-                                    conditionList.indexOf(data);
-                                getStateOfCategories();
-                                conditiondropdownvalue = data;
-                                getCondition = data;
-                              },
-                              items: conditionList
-                                  .map<DropdownMenuItem<String>>(
-                                      (String value) {
-                                return DropdownMenuItem<String>(
-                                  value: value,
-                                  child: Text(value),
-                                );
-                              }).toList(),
-                            )),
-                      ],
-                    )),
-                RoundedButton(
-                  text: "UPLOAD PHOTO",
-                  color: lightBackgroundColor,
-                  textColor: lightBlueBlockColor,
-                  press: () {
-                    print("add image is pressed");
-                  },
-                ),
-                RoundedButton(
-                  text: "SAVE",
-                  color: lightBlueBlockColor,
-                  textColor: Colors.white,
-                  press: () {
-                    print("SAVE is pressed");
-                    /* 
+                        onChanged: (String data) {
+                          selectedConditionIndex= conditionList.indexOf(data);
+                          getStateOfCategories();
+                          conditiondropdownvalue = data;
+                          getCondition = data;
+                        },
+                        items: conditionList
+                            .map<DropdownMenuItem<String>>((String value) {
+                          return DropdownMenuItem<String>(
+                            value: value,
+                            child: Text(value),
+                          );
+                        }).toList(),
+                      )
+                    ),
+                  ],
+                )),
+            RoundedButton(
+              text: "UPLOAD PHOTO",
+              color: lightBackgroundColor,
+              textColor: lightBlueBlockColor,
+              press: () {
+                _showDialog();
+                print("add image is pressed");
+              },
+            ),
+            RoundedButton(
+              text: "SAVE",
+              color: lightBlueBlockColor,
+              textColor: Colors.white,
+              press: () {
+                print("SAVE is pressed");
+                /* 
+
                 () async {
                 Future<http.Response> postRequest() async {
                   //var url = Uri.parse(dotenv.env['API_URL'] + "/user/");
