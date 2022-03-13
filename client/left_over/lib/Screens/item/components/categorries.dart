@@ -51,7 +51,7 @@ class CategoriesState extends State<Categories> {
                   ? [
                       BoxShadow(
                           color: selectedBlue.withOpacity(0.3),
-                          offset: Offset(0, 4),
+                          offset: const Offset(0, 4),
                           blurRadius: 20),
                     ]
                   : [],
@@ -63,7 +63,7 @@ class CategoriesState extends State<Categories> {
                     vertical: size.height * 0.01),
                 child: Text(
                   categories[index],
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontWeight: FontWeight.normal,
                     fontSize: 15,
                     color: Colors.white,
