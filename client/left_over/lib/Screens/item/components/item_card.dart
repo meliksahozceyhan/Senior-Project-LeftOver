@@ -22,7 +22,7 @@ class ItemCard extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Expanded(
-            child: Container(
+            child: SizedBox(
               //padding: EdgeInsets.all(3.0),
               height: size.height * 0.5,
               width: size.width,

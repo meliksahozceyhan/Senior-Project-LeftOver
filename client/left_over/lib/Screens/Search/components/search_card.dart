@@ -20,7 +20,7 @@ class SearchCard extends StatelessWidget {
         children: <Widget>[
           Expanded(
             child: Container(
-              padding: EdgeInsets.all(0.0),
+              padding: const EdgeInsets.all(0.0),
               // For  demo we use fixed height  and width
               // Now we dont need them
               // height: 180,
@@ -40,7 +40,7 @@ class SearchCard extends StatelessWidget {
             child: Text(
               product.itemName,
               //textAlign: TextAlign.center,
-              style: TextStyle(color: Colors.black, fontSize: 18),
+              style: const TextStyle(color: Colors.black, fontSize: 18),
             ),
           ),
         ],

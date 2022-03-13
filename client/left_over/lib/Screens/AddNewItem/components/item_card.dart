@@ -22,7 +22,7 @@ class ItemCard extends StatelessWidget {
         children: <Widget>[
           Expanded(
             child: Container(
-              padding: EdgeInsets.all(kDefaultPaddin),
+              padding: const EdgeInsets.all(kDefaultPaddin),
               // For  demo we use fixed height  and width
               // Now we dont need them
               // height: 180,
@@ -32,7 +32,7 @@ class ItemCard extends StatelessWidget {
               ),
               child: Hero(
                 tag: "${product.id}",
-                child: Image.asset("assets/images/"+product.itemImage),
+                child: Image.asset("assets/images/" + product.itemImage),
               ),
             ),
           ),
@@ -41,10 +41,9 @@ class ItemCard extends StatelessWidget {
             child: Text(
               // products is out demo list
               product.itemName,
-              style: TextStyle(color: kTextLightColor),
+              style: const TextStyle(color: kTextLightColor),
             ),
           ),
-          
         ],
       ),
     );

@@ -29,7 +29,7 @@ class Body extends StatelessWidget {
                     right: kDefaultPaddin,
                   ),
                   //height: 500,
-                  decoration: BoxDecoration(
+                  decoration: const BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.only(
                       topLeft: Radius.circular(24),
@@ -38,7 +38,7 @@ class Body extends StatelessWidget {
                   ),
                   child: Column(
                     children: <Widget>[
-                      SizedBox(height: kDefaultPaddin ),
+                      const SizedBox(height: kDefaultPaddin),
                       Description(product: product),
                       Expanded(child: AddToCart(product: product))
                     ],

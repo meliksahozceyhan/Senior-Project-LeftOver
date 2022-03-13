@@ -27,7 +27,7 @@ class Body extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Text("LOGIN",
+            const Text("LOGIN",
                 style: TextStyle(color: kPrimaryLightColor, fontSize: 45)),
             SizedBox(height: size.height * 0.03),
             RoundedInputField(

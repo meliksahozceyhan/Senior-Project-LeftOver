@@ -22,18 +22,16 @@ class ProductTitleWithImage extends StatelessWidget {
         children: <Widget>[
           Text(
             product.itemName,
-            style: TextStyle(
+            style: const TextStyle(
                 color: Colors.white, fontSize: 40, fontWeight: FontWeight.bold),
           ),
-          SizedBox(height: kDefaultPaddinT),
+          const SizedBox(height: kDefaultPaddinT),
           Text(product.subCategory,
               style: TextStyle(
-                color: Color(0xffffffff).withOpacity(0.7),
+                color: const Color(0xffffffff).withOpacity(0.7),
                 fontWeight: FontWeight.w400,
                 fontSize: 18,
               )),
-
-          
           Row(
             children: <Widget>[
               Container(
@@ -44,9 +42,9 @@ class ProductTitleWithImage extends StatelessWidget {
                     right: kDefaultPaddin,
                   ),
                   width: size.width * 0.25),
-              SizedBox(width: kDefaultPaddin),
+              const SizedBox(width: kDefaultPaddin),
               Expanded(
-                  child: Container(
+                  child: SizedBox(
                 height: size.height / 2.5,
                 width: size.width / 2,
                 child: Hero(
@@ -54,7 +52,7 @@ class ProductTitleWithImage extends StatelessWidget {
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(20),
                       child: SizedBox.fromSize(
-                        size: Size.fromRadius(45), // Image radius
+                        size: const Size.fromRadius(45), // Image radius
                         child: Image.asset(
                           "assets/images/" + product.itemImage,
                           fit: BoxFit.cover,
