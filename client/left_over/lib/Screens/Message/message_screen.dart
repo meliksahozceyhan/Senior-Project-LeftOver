@@ -25,7 +25,6 @@ class _MessageScreenState extends State<MessageScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: buildAppBar(),
       body: MessageBody(),
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
@@ -45,17 +44,6 @@ class _MessageScreenState extends State<MessageScreen> {
         }),
       ),
       //body: _widgetOptions.elementAt(selectedIndex),
-    );
-  }
-
-  buildAppBar() {
-    return AppBar(
-      backgroundColor: Colors.white,
-      elevation: 0,
-      leading: IconButton(
-        icon: SvgPicture.asset("assets/images/search.svg"),
-        onPressed: () {},
-      ),
     );
   }
 }
