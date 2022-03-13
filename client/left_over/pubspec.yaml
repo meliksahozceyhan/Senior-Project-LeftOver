@@ -44,7 +44,7 @@ dependencies:
     jwt_decode: ^0.3.1
     material_floating_search_bar: ^0.2.6
     flappy_search_bar: ^1.7.2
-    
+    image_picker: ^0.6.1
 
 dev_dependencies:
     flutter_test:

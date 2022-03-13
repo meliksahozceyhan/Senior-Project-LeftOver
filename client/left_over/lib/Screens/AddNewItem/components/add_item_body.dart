@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:left_over/Screens/Login/components/background.dart';
 import 'package:left_over/components/rounded_input_field.dart';
 import 'package:left_over/components/rounded_date_field.dart';
@@ -8,6 +9,10 @@ import 'package:left_over/Screens/item/components/categorries.dart';
 
 import 'package:http/http.dart' as http;
 import 'package:left_over/constants.dart';
+import 'dart:io';
+import 'dart:convert';
+import 'package:image_picker/image_picker.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 /*
 class UploadingImageToFirebaseStorage extends StatefulWidget {
   @override
@@ -44,6 +49,11 @@ class _NewItemBodyState extends State<AddNewItemBody> {
   var getSharerId = "";
   var getImage = "";
   var txt = TextEditingController();
+  var uploadEndPoint = Uri.parse(dotenv.env['API_URL'] + "/image");
+  Future<File> file;
+  String base64Image;
+  File tmpFile;
+  String errMessage = 'Error Uploading Image';
 
   static int selectedCategoryIndex = 0;
   static int defaultCategory = selectedCategoryIndex; // both 0 at the beginning
@@ -110,6 +120,7 @@ class _NewItemBodyState extends State<AddNewItemBody> {
                   imageMethod = 0;
                   Navigator.of(context).pop();
                   print('upload from gallery is selected');
+                  chooseImage();
                 }),
             RoundedButton(
                 text: 'Take a Photo',
@@ -125,6 +136,79 @@ class _NewItemBodyState extends State<AddNewItemBody> {
                 child: Text('Close')),
           ],
         );
+      },
+    );
+  }
+
+  chooseImage() {
+    setState(() {
+      file = ImagePicker.pickImage(source: ImageSource.gallery);
+    });
+  }
+
+  upload() async {
+
+    print("Before save Actions");
+
+    Map<String, String> headers = new Map<String, String>();
+    final prefs = await SharedPreferences.getInstance();
+    var token = prefs.getString('token');
+    
+    String fileName = tmpFile.path.split('/').last;
+    final request = await http.post(uploadEndPoint, body: {
+      "name": fileName,
+      "file": base64Image,
+    }, headers: {
+      "Authorization": "Bearer " + token,
+    }).then((value) => print(value.statusCode));
+
+    // Map<String, String> headers = new Map<String, String>();
+    // final prefs = await SharedPreferences.getInstance();
+    // var token = prefs.getString('token');
+
+    // var stream = http.ByteStream(tmpFile.openRead());
+    // var length = await tmpFile.length();
+
+    
+    // var url = Uri.parse(dotenv.env['API_URL'] + "/image?name=" + tmpFile.path);
+
+    // var request = http.MultipartRequest("POST", url);
+    // request.headers["Authorization"] = "Bearer " + token;
+    
+    // var multipartFile = http.MultipartFile('file', stream, length,filename: tmpFile.path);
+
+    // request.files.add(multipartFile);
+    // var response = request.send();
+    // print("after Save Actions");
+    // response.then((value) => print(value.statusCode));
+  }
+
+  Widget showImage() {
+    return FutureBuilder<File>(
+      future: file,
+      builder: (BuildContext context, AsyncSnapshot<File> snapshot) {
+        if (snapshot.connectionState == ConnectionState.done &&
+            null != snapshot.data) {
+          tmpFile = snapshot.data;
+          base64Image = base64Encode(snapshot.data.readAsBytesSync());
+          return SizedBox(
+            height: 70,
+            child: Image.file(
+              snapshot.data,
+              fit: BoxFit.fill,
+            ),
+          );
+        } else if (null != snapshot.error) {
+          return const Text(
+            'Error Picking Image',
+            textAlign: TextAlign.center,
+          );
+        } else {
+          return const Text(
+            'No Image Selected',
+            textAlign: TextAlign.center,
+          );
+        }
       },
     );
   }
@@ -281,12 +365,14 @@ class _NewItemBodyState extends State<AddNewItemBody> {
                     print("add image is pressed");
                   },
                 ),
+                showImage(),
                 RoundedButton(
                   text: "SAVE",
                   color: lightBlueBlockColor,
                   textColor: Colors.white,
                   press: () {
                     print("SAVE is pressed");
+                    upload();
                     /* 
 
                 () async {
