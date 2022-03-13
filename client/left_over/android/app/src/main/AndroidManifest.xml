@@ -1,6 +1,13 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.left_over">
     <uses-permission android:name="android.permission.INTERNET"/>
+
+    <queries>
+          <intent>
+               <action android:name="android.media.action.IMAGE_CAPTURE" />
+          </intent>
+    </queries>
+
    <application
         android:label="left_over"
         android:icon="@mipmap/ic_launcher">
