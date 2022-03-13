@@ -120,14 +120,15 @@ class _NewItemBodyState extends State<AddNewItemBody> {
                   imageMethod = 0;
                   Navigator.of(context).pop();
                   print('upload from gallery is selected');
-                  chooseImage();
+                  chooseImageFromGallery();
                 }),
             RoundedButton(
                 text: 'Take a Photo',
                 press: () {
                   imageMethod = 1;
                   Navigator.of(context).pop();
-                  print('upload from gallery is selected');
+                  print('upload from camera is selected');
+                  chooseImageFromCamera();
                 }),
             TextButton(
                 onPressed: () {
@@ -140,9 +141,15 @@ class _NewItemBodyState extends State<AddNewItemBody> {
     );
   }
 
-  chooseImage() {
+  chooseImageFromGallery() {
     setState(() {
       file = ImagePicker.pickImage(source: ImageSource.gallery);
+    });
+  }
+
+  chooseImageFromCamera() {
+    setState(() {
+      file = ImagePicker.pickImage(source: ImageSource.camera);
     });
   }
 
