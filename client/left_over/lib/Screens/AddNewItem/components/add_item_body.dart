@@ -44,9 +44,9 @@ class _NewItemBodyState extends State<AddNewItemBody> {
   var getSharerId = "";
   var getImage = "";
   var txt = TextEditingController();
-  
-  static int selectedCategoryIndex=0;
-  static int defaultCategory = selectedCategoryIndex;// both 0 at the beginning
+
+  static int selectedCategoryIndex = 0;
+  static int defaultCategory = selectedCategoryIndex; // both 0 at the beginning
   static int imageMethod; //0 for gallery , 1 for camera
 
   static List<List> spinnerItems = [
@@ -84,9 +84,9 @@ class _NewItemBodyState extends State<AddNewItemBody> {
       if (defaultCategory != selectedCategoryIndex) {
         //if selected category is changed then it detects the change
         selectedSubIndex = 0; // so it cancels sub category selection
-        defaultCategory = selectedCategoryIndex; //sets default as selected to be able to control later changes
+        defaultCategory =
+            selectedCategoryIndex; //sets default as selected to be able to control later changes
         selectedConditionIndex = 0;
-
       }
       if (selectedCategoryIndex == 1) {
         conditiondropdownvalue =
@@ -97,16 +97,32 @@ class _NewItemBodyState extends State<AddNewItemBody> {
     });
   }
 
-  void _showDialog(){
+  void _showDialog() {
     showDialog(
       context: context,
-      builder: (BuildContext context){
+      builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('How do you want to upload image?'),
-          actions: <Widget> [
-            RoundedButton(text: 'Upload From Gallery', press: (){imageMethod = 0;Navigator.of(context).pop();print('upload from gallery is selected');}),
-            RoundedButton(text: 'Take a Photo',  press: (){imageMethod = 1;Navigator.of(context).pop();print('upload from gallery is selected');}),
-            new FlatButton(onPressed: (){Navigator.of(context).pop();}, child: Text('Close')),
+          title: const Text('How do you want to upload image?'),
+          actions: <Widget>[
+            RoundedButton(
+                text: 'Upload From Gallery',
+                press: () {
+                  imageMethod = 0;
+                  Navigator.of(context).pop();
+                  print('upload from gallery is selected');
+                }),
+            RoundedButton(
+                text: 'Take a Photo',
+                press: () {
+                  imageMethod = 1;
+                  Navigator.of(context).pop();
+                  print('upload from gallery is selected');
+                }),
+            TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: Text('Close')),
           ],
         );
       },
@@ -129,7 +145,7 @@ class _NewItemBodyState extends State<AddNewItemBody> {
                 //child: Row(
                 //mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 //children: [
-                Text(
+                const Text(
                   "Add Item",
                   style: TextStyle(
                     color: Colors.white,
@@ -168,8 +184,8 @@ class _NewItemBodyState extends State<AddNewItemBody> {
                               DatePicker.showDatePicker(context,
                                   showTitleActions: true,
                                   minTime: DateTime.now(),
-                                  maxTime:
-                                      DateTime.now().add(Duration(days: 7)),
+                                  maxTime: DateTime.now()
+                                      .add(const Duration(days: 7)),
                                   onChanged: (date) {
                                 //print('change $date');
                                 //return date;
@@ -199,10 +215,10 @@ class _NewItemBodyState extends State<AddNewItemBody> {
                           isExpanded: true,
                           //hint: Text('Choose subcategory'),
                           value: subdropdownvalue,
-                          icon: Icon(Icons.arrow_drop_down),
+                          icon: const Icon(Icons.arrow_drop_down),
                           iconSize: 24,
                           elevation: 16,
-                          style: TextStyle(
+                          style: const TextStyle(
                               color: lightPinkBlockColor, fontSize: 18),
                           underline: Container(
                             height: 2,
@@ -222,54 +238,56 @@ class _NewItemBodyState extends State<AddNewItemBody> {
                               child: Text(value),
                             );
                           }).toList(),
-                        ),Visibility(
+                        ),
+                        Visibility(
                             visible: selectedCategoryIndex == 1 ? true : false,
                             child: DropdownButton<String>(
                               // hint: Text('Select condition of the item'),
                               value: conditiondropdownvalue,
                               isExpanded: true,
-                              icon: Icon(Icons.arrow_drop_down),
+                              icon: const Icon(Icons.arrow_drop_down),
                               iconSize: 24,
                               elevation: 16,
-                              style: TextStyle(
+                              style: const TextStyle(
                                   color: pinkBlockColor, fontSize: 18),
                               underline: Container(
                                 height: 2,
                                 color: pinkBlockColor,
                               ),
-                        onChanged: (String data) {
-                          selectedConditionIndex= conditionList.indexOf(data);
-                          getStateOfCategories();
-                          conditiondropdownvalue = data;
-                          getCondition = data;
-                        },
-                        items: conditionList
-                            .map<DropdownMenuItem<String>>((String value) {
-                          return DropdownMenuItem<String>(
-                            value: value,
-                            child: Text(value),
-                          );
-                        }).toList(),
-                      )
-                    ),
-                  ],
-                )),
-            RoundedButton(
-              text: "UPLOAD PHOTO",
-              color: lightBackgroundColor,
-              textColor: lightBlueBlockColor,
-              press: () {
-                _showDialog();
-                print("add image is pressed");
-              },
-            ),
-            RoundedButton(
-              text: "SAVE",
-              color: lightBlueBlockColor,
-              textColor: Colors.white,
-              press: () {
-                print("SAVE is pressed");
-                /* 
+                              onChanged: (String data) {
+                                selectedConditionIndex =
+                                    conditionList.indexOf(data);
+                                getStateOfCategories();
+                                conditiondropdownvalue = data;
+                                getCondition = data;
+                              },
+                              items: conditionList
+                                  .map<DropdownMenuItem<String>>(
+                                      (String value) {
+                                return DropdownMenuItem<String>(
+                                  value: value,
+                                  child: Text(value),
+                                );
+                              }).toList(),
+                            )),
+                      ],
+                    )),
+                RoundedButton(
+                  text: "UPLOAD PHOTO",
+                  color: lightBackgroundColor,
+                  textColor: lightBlueBlockColor,
+                  press: () {
+                    _showDialog();
+                    print("add image is pressed");
+                  },
+                ),
+                RoundedButton(
+                  text: "SAVE",
+                  color: lightBlueBlockColor,
+                  textColor: Colors.white,
+                  press: () {
+                    print("SAVE is pressed");
+                    /* 
 
                 () async {
                 Future<http.Response> postRequest() async {

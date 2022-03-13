@@ -1,32 +1,49 @@
 import 'package:flutter/material.dart';
+import 'package:left_over/Screens/Account/components/account_body.dart';
+import 'package:left_over/Screens/AddNewItem/components/add_item_body.dart';
+import 'package:left_over/Screens/Message/components/message_body.dart';
+import 'package:left_over/Screens/Search/components/search_body.dart';
+import 'package:left_over/Screens/item/components/item_body.dart';
 import 'package:left_over/constants.dart';
 
-class BottomNavigationMenu extends StatelessWidget {
-  final selectedIndex;
-  ValueChanged<int> onClicked;
-  BottomNavigationMenu({this.selectedIndex, this.onClicked});
+class BottomNavigationMenu extends StatefulWidget {
+  const BottomNavigationMenu({Key key}) : super(key: key);
+
+  @override
+  _BottomNavigationMenuState createState() => _BottomNavigationMenuState();
+}
+
+class _BottomNavigationMenuState extends State<BottomNavigationMenu> {
+  List screens = <Widget>[
+    ItemBody(),
+    SearchBody(),
+    AddNewItemBody(),
+    MessageBody(),
+    AccountBody()
+  ];
+  int selectedIndex = 0;
 
   @override
   Widget build(BuildContext context) {
     return BottomNavigationBar(
       type: BottomNavigationBarType.fixed,
       currentIndex: selectedIndex,
-      items: [
+      showSelectedLabels: false,
+      showUnselectedLabels: false,
+      items: const [
         BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
-        //icon: Image.asset("assets/icons/home.svg"), label: "home"),
-        BottomNavigationBarItem(icon: Icon(Icons.search), label: "Search"),
-        //icon: Image.asset("assets/icons/search.svg"), label: "search"),
+        BottomNavigationBarItem(icon: Icon(Icons.location_on), label: "Search"),
         BottomNavigationBarItem(icon: Icon(Icons.add), label: "Add"),
-        //icon: Image.asset("assets/icons/new.svg"), label: "add"),
         BottomNavigationBarItem(icon: Icon(Icons.message), label: "Message"),
-        //icon: Image.asset("assets/icons/message.svg"), label: "message"),
         BottomNavigationBarItem(icon: Icon(Icons.person), label: "User"),
-        //icon: Image.asset("assets/icons/user.svg"), label: "user")
-      ], // the variable is undefined
-      onTap: onClicked, // the function is undefined
-      selectedItemColor: bgreen,
-      backgroundColor: Colors.white,
-      unselectedItemColor: Colors.black,
+      ],
+      selectedItemColor: blueBlockColor,
+      backgroundColor: lightBackgroundColor,
+      onTap: (i) => setState(() {
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => screens[i]));
+        selectedIndex = i;
+      }), // the variable is undefined
     );
   }
 }

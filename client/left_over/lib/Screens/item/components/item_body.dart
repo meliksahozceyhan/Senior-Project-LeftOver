@@ -12,6 +12,8 @@ import 'categorries.dart';
 import 'item_card.dart';
 
 class ItemBody extends StatefulWidget {
+  const ItemBody({Key key}) : super(key: key);
+
   @override
   _BodyState createState() => _BodyState();
 }
@@ -65,7 +67,7 @@ class _BodyState extends State<ItemBody> {
               child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(
+                    const Text(
                       "Discover",
                       style: TextStyle(
                         color: Colors.white,
@@ -73,7 +75,7 @@ class _BodyState extends State<ItemBody> {
                       ),
                     ),
                     IconButton(
-                      icon: Icon(
+                      icon: const Icon(
                         Icons.search,
                         size: 30,
                         color: Colors.white,

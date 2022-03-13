@@ -26,84 +26,84 @@ class Description extends StatelessWidget {
               SizedBox(
                 height: size.height / 15,
               ),
-              new RichText(
-                text: new TextSpan(
-                  style: new TextStyle(
+              RichText(
+                text: TextSpan(
+                  style: const TextStyle(
                     fontSize: 17.0,
                     color: bPrimaryColor,
                   ),
                   children: <TextSpan>[
-                    new TextSpan(
+                    const TextSpan(
                         text: 'Item Name: ',
-                        style: new TextStyle(
+                        style: TextStyle(
                             fontWeight: FontWeight.bold, fontSize: 18.0)),
-                    new TextSpan(text: '${product.itemName}'),
+                    TextSpan(text: '${product.itemName}'),
                   ],
                 ),
               ),
-              new RichText(
-                text: new TextSpan(
-                  style: new TextStyle(
+              RichText(
+                text: TextSpan(
+                  style: const TextStyle(
                     fontSize: 17.0,
                     color: Colors.black,
                   ),
                   children: <TextSpan>[
-                    new TextSpan(
+                    const TextSpan(
                         text: 'Owner: ',
-                        style: new TextStyle(
+                        style: TextStyle(
                             fontWeight: FontWeight.bold, fontSize: 18.0)),
-                    new TextSpan(text: '${product.user.fullName}'),
+                    TextSpan(text: '${product.user.fullName}'),
                   ],
                 ),
               ),
-              new RichText(
-                text: new TextSpan(
-                  style: new TextStyle(
+              RichText(
+                text: TextSpan(
+                  style: const TextStyle(
                     fontSize: 17.0,
                     color: Colors.black,
                   ),
                   children: <TextSpan>[
-                    new TextSpan(
+                    const TextSpan(
                         text: 'Published At: ',
-                        style: new TextStyle(
+                        style: TextStyle(
                             fontWeight: FontWeight.bold, fontSize: 18.0)),
-                    new TextSpan(
+                    TextSpan(
                         text:
                             '${product.createdAt.split("T")[0].split("-").reversed.join("-")}'),
                   ],
                 ),
               ),
               if (product.category == "Consumable")
-                new RichText(
-                  text: new TextSpan(
-                    style: new TextStyle(
+                RichText(
+                  text: TextSpan(
+                    style: TextStyle(
                       fontSize: 17.0,
                       color: Colors.black,
                     ),
                     children: <TextSpan>[
-                      new TextSpan(
+                      TextSpan(
                           text: 'Expiration Date: ',
-                          style: new TextStyle(
+                          style: TextStyle(
                               fontWeight: FontWeight.bold, fontSize: 18.0)),
-                      new TextSpan(
+                      TextSpan(
                           text:
                               '${product.expirationDate.split("T")[0].split("-").reversed.join("-")}'),
                     ],
                   ),
                 )
               else
-                new RichText(
-                  text: new TextSpan(
-                    style: new TextStyle(
+                RichText(
+                  text: TextSpan(
+                    style: TextStyle(
                       fontSize: 17.0,
                       color: Colors.black,
                     ),
                     children: <TextSpan>[
-                      new TextSpan(
+                      TextSpan(
                           text: 'Status: ',
-                          style: new TextStyle(
+                          style: TextStyle(
                               fontWeight: FontWeight.bold, fontSize: 19.0)),
-                      new TextSpan(text: '${product.itemCondition}'),
+                      TextSpan(text: '${product.itemCondition}'),
                     ],
                   ),
                 )

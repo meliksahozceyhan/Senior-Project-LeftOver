@@ -38,8 +38,8 @@ class DiscoverSmallCard extends StatelessWidget {
           borderRadius: BorderRadius.circular(20),
           gradient: LinearGradient(
             colors: [
-              gradientStartColor ?? Color(0xff441DFC),
-              gradientEndColor ?? Color(0xff4E81EB),
+              gradientStartColor ?? const Color(0xff441DFC),
+              gradientEndColor ?? const Color(0xff4E81EB),
             ],
             begin: Alignment.bottomLeft,
             end: Alignment.topRight,
@@ -47,7 +47,7 @@ class DiscoverSmallCard extends StatelessWidget {
         ),
         child: Stack(
           children: [
-            Container(
+            SizedBox(
               height: size.height * 0.05,
               width: 150,
             ),
@@ -57,12 +57,11 @@ class DiscoverSmallCard extends StatelessWidget {
                 height: 125,
                 width: 150,
                 child: Stack(
-                  children: [
+                  children: const [
                     SizedBox(
                       height: 125,
                       width: 150,
                     ),
-                    SizedBox(),
                   ],
                 ),
               ),
@@ -70,21 +69,21 @@ class DiscoverSmallCard extends StatelessWidget {
             SizedBox(
               height: 125,
               child: Padding(
-                padding: EdgeInsets.only(left: 20, top: 20, bottom: 20),
+                padding: const EdgeInsets.only(left: 20, top: 20, bottom: 20),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     RichText(
-                      text:  TextSpan(
+                      text: TextSpan(
                         style: TextStyle(
                           fontSize: 17.0,
-                          color: Color(0xffffffff).withOpacity(0.7),
+                          color: const Color(0xffffffff).withOpacity(0.7),
                         ),
                         children: <TextSpan>[
-                           TextSpan(
+                          TextSpan(
                               text: title,
-                              style:  TextStyle(
+                              style: const TextStyle(
                                   fontWeight: FontWeight.bold, fontSize: 18.0)),
                           TextSpan(
                             text: subtitle,
