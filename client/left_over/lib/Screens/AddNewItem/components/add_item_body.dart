@@ -222,7 +222,21 @@ class _NewItemBodyState extends State<AddNewItemBody> {
                               child: Text(value),
                             );
                           }).toList(),
-                        ),
+                        ),Visibility(
+                            visible: selectedCategoryIndex == 1 ? true : false,
+                            child: DropdownButton<String>(
+                              // hint: Text('Select condition of the item'),
+                              value: conditiondropdownvalue,
+                              isExpanded: true,
+                              icon: Icon(Icons.arrow_drop_down),
+                              iconSize: 24,
+                              elevation: 16,
+                              style: TextStyle(
+                                  color: pinkBlockColor, fontSize: 18),
+                              underline: Container(
+                                height: 2,
+                                color: pinkBlockColor,
+                              ),
                         onChanged: (String data) {
                           selectedConditionIndex= conditionList.indexOf(data);
                           getStateOfCategories();
