@@ -115,47 +115,13 @@ class Body extends StatelessWidget {
               text: "SIGN UP",
               color: lightBackgroundColor,
               press: () async {
-                Future<http.Response> postRequest() async {
-                  var url = Uri.parse(dotenv.env['API_URL'] + "/user/");
-
-                  //var url = Uri.parse(urlAndParams);
-
-                  Map data = {
-                    'email': getEmail,
-                    'fullName': getName,
-                    'password': getPassword,
-                    'dateOfBirth': getDateofBirth,
-                    'city': getCity,
-                    'address': getAddress
-                  };
-                  //encode Map to JSON
-                  var body = json.encode(data);
-
-                  var response = await http.post(url,
-                      headers: {"Content-Type": "application/json"},
-                      body: body);
-                  final prefs = await SharedPreferences.getInstance();
-                  prefs.setString('token', response.body);
-                  print("${response.request}");
-                  print("${response.statusCode}");
-                  print("${response.body}");
-
-                  if (response.statusCode == 500) {
-                    final scaffold = ScaffoldMessenger.of(context);
-                    scaffold.showSnackBar(
-                      SnackBar(
-                        content: const Text(
-                          'Please enter required fields!',
-                        ),
-                        backgroundColor: redCheck,
-                        action: SnackBarAction(
-                            label: 'Close',
-                            onPressed: scaffold.hideCurrentSnackBar,
-                            textColor: Colors.white),
-                      ),
-                    );
-                  }
-
+                if (getName != "" &&
+                    getEmail != "" &&
+                    getPassword != "" &&
+                    getPasswordConfirmation != "" &&
+                    getDateofBirth != "" &&
+                    getCity != "" &&
+                    getAddress != "") {
                   if (getPassword != getPasswordConfirmation) {
                     final scaffold = ScaffoldMessenger.of(context);
                     scaffold.showSnackBar(
@@ -170,9 +136,7 @@ class Body extends StatelessWidget {
                             textColor: Colors.white),
                       ),
                     );
-                  }
-
-                  if (!RegExp(
+                  } else if (!RegExp(
                           r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z]+\.[a-zA-Z]+")
                       .hasMatch(getEmail)) {
                     final scaffold = ScaffoldMessenger.of(context);
@@ -189,35 +153,97 @@ class Body extends StatelessWidget {
                       ),
                     );
                   }
+                  DateTime now = new DateTime.now();
+                  DateTime currentYear = new DateTime(now.year);
 
-                  //DateTime.now(year)
+                  Future<http.Response> postRequest() async {
+                    var url = Uri.parse(dotenv.env['API_URL'] + "/user/");
 
-                  //if(DateTime(now.year) - getDateofBirth)
+                    //var url = Uri.parse(urlAndParams);
 
-                  if (response.statusCode == 201) {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) {
-                          return ItemScreen();
-                        },
-                      ),
-                    );
+                    Map data = {
+                      'email': getEmail,
+                      'fullName': getName,
+                      'password': getPassword,
+                      'dateOfBirth': getDateofBirth,
+                      'city': getCity,
+                      'address': getAddress
+                    };
+                    //encode Map to JSON
+                    var body = json.encode(data);
+
+                    var response = await http.post(url,
+                        headers: {"Content-Type": "application/json"},
+                        body: body);
+                    final prefs = await SharedPreferences.getInstance();
+                    prefs.setString('token', response.body);
+                    print("${response.request}");
+                    print("${response.statusCode}");
+                    print("${response.body}");
+
+                    if (response.statusCode == 500) {
+                      final scaffold = ScaffoldMessenger.of(context);
+                      scaffold.showSnackBar(
+                        SnackBar(
+                          content: const Text(
+                            'You are already have an account!',
+                          ),
+                          backgroundColor: redCheck,
+                          action: SnackBarAction(
+                              label: 'Close',
+                              onPressed: scaffold.hideCurrentSnackBar,
+                              textColor: Colors.white),
+                        ),
+                      );
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) {
+                            return LoginScreen();
+                          },
+                        ),
+                      );
+                    }
+
+                    if (response.statusCode == 201) {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) {
+                            return ItemScreen();
+                          },
+                        ),
+                      );
+                    }
+
+                    return response;
                   }
 
-                  return response;
+                  print("endddd");
+
+                  postRequest();
+
+                  // GET REQUEST
+                  // print("heree");
+                  // var url = Uri.parse('http://10.0.2.2:43951/api/User/GetAllUsers');
+                  // var response = await http.get(url);
+                  // print('${response.statusCode}');
+                  // print('${response.body}');
+                } else {
+                  final scaffold = ScaffoldMessenger.of(context);
+                  scaffold.showSnackBar(
+                    SnackBar(
+                      content: const Text(
+                        'Please enter required fields!',
+                      ),
+                      backgroundColor: redCheck,
+                      action: SnackBarAction(
+                          label: 'Close',
+                          onPressed: scaffold.hideCurrentSnackBar,
+                          textColor: Colors.white),
+                    ),
+                  );
                 }
-
-                print("endddd");
-
-                postRequest();
-
-                // GET REQUEST
-                // print("heree");
-                // var url = Uri.parse('http://10.0.2.2:43951/api/User/GetAllUsers');
-                // var response = await http.get(url);
-                // print('${response.statusCode}');
-                // print('${response.body}');
               },
             ),
             SizedBox(height: size.height * 0.02),

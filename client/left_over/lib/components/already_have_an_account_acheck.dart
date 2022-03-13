@@ -10,6 +10,8 @@ class AlreadyHaveAnAccountCheck extends StatelessWidget {
     @required this.press,
   }) : super(key: key);
 
+  //use case tarihler yaz üstüne - user name i böyle girdim - yanlış girdim output doğru çıktı. use case yaz yüzdeleri ver - use case göster 
+
   @override
   Widget build(BuildContext context) {
     return Row(
