@@ -153,41 +153,35 @@ class _NewItemBodyState extends State<AddNewItemBody> {
     });
   }
 
-  upload() async {
+  uploadImage() async {
+    print("Inside Image Upload.");
 
-    print("Before save Actions");
-
-    Map<String, String> headers = new Map<String, String>();
     final prefs = await SharedPreferences.getInstance();
     var token = prefs.getString('token');
-    
-    String fileName = tmpFile.path.split('/').last;
-    final request = await http.post(uploadEndPoint, body: {
-      "name": fileName,
-      "file": base64Image,
-    }, headers: {
-      "Authorization": "Bearer " + token,
-    }).then((value) => print(value.statusCode));
 
-    // Map<String, String> headers = new Map<String, String>();
-    // final prefs = await SharedPreferences.getInstance();
-    // var token = prefs.getString('token');
+    var stream = http.ByteStream(tmpFile.openRead());
+    var length = await tmpFile.length();
 
-    // var stream = http.ByteStream(tmpFile.openRead());
-    // var length = await tmpFile.length();
+    var url = Uri.parse(dotenv.env['API_URL'] + "/image?name=" + tmpFile.path);
 
-    
-    // var url = Uri.parse(dotenv.env['API_URL'] + "/image?name=" + tmpFile.path);
+    var request = http.MultipartRequest("POST", url);
+    request.headers["Authorization"] = "Bearer " + token;
+    request.fields["name"] = tmpFile.path.split('/').last;
 
-    // var request = http.MultipartRequest("POST", url);
-    // request.headers["Authorization"] = "Bearer " + token;
-    
-    // var multipartFile = http.MultipartFile('file', stream, length,filename: tmpFile.path);
+    var multipartFile =
+        http.MultipartFile('file', stream, length, filename: tmpFile.path);
 
-    // request.files.add(multipartFile);
-    // var response = request.send();
-    // print("after Save Actions");
-    // response.then((value) => print(value.statusCode));
+    request.files.add(multipartFile);
+    var response = await http.Response.fromStream(await request.send());
+    print("after Save Actions");
+    print(response.statusCode);
+    final body = json.decode(response.body);
+    print(body["_id"]);
+    uploadItem(body["_id"]);
+  }
+
+  uploadItem(String imageId) async {
+    print("Inside Item Upload");
   }
 
   Widget showImage() {
@@ -379,7 +373,7 @@ class _NewItemBodyState extends State<AddNewItemBody> {
                   textColor: Colors.white,
                   press: () {
                     print("SAVE is pressed");
-                    upload();
+                    uploadImage();
                     /* 
 
                 () async {
