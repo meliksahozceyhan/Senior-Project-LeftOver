@@ -29,6 +29,7 @@ class Body extends StatelessWidget {
   var getAddress = "";
   var txt = TextEditingController();
   int age;
+  var isValidationOK = true;
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -135,6 +136,7 @@ class Body extends StatelessWidget {
                     getCity != "" &&
                     getAddress != "") {
                     if (getPassword != getPasswordConfirmation) {
+                      isValidationOK = false;
                       final scaffold = ScaffoldMessenger.of(context);
                       scaffold.showSnackBar(
                         SnackBar(
@@ -151,6 +153,7 @@ class Body extends StatelessWidget {
                     } else if (!RegExp(
                             r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z]+\.[a-zA-Z]+")
                         .hasMatch(getEmail)) {
+                      isValidationOK = false;
                       final scaffold = ScaffoldMessenger.of(context);
                       scaffold.showSnackBar(
                         SnackBar(
@@ -165,6 +168,7 @@ class Body extends StatelessWidget {
                         ),
                       );
                     } else if (age<18){
+                      isValidationOK = false;
                       final scaffold = ScaffoldMessenger.of(context);
                       scaffold.showSnackBar(
                         SnackBar(
@@ -179,6 +183,7 @@ class Body extends StatelessWidget {
                         ),
                       );
                     } else {
+                      isValidationOK = true;
                       Future<http.Response> postRequest() async {
                       var url = Uri.parse(dotenv.env['API_URL'] + "/user/");
 
@@ -202,6 +207,7 @@ class Body extends StatelessWidget {
                       prefs.setString('token', response.body);
 
                       if (response.statusCode == 500) {
+                        isValidationOK = false;
                         final scaffold = ScaffoldMessenger.of(context);
                         scaffold.showSnackBar(
                           SnackBar(
@@ -239,9 +245,13 @@ class Body extends StatelessWidget {
                       return response;
                     }
 
-                    postRequest();
+                    if(isValidationOK) {
+                      postRequest();
+                    }
+                    
                   }
               } else {
+                  isValidationOK = false;
                   final scaffold = ScaffoldMessenger.of(context);
                   scaffold.showSnackBar(
                     SnackBar(
