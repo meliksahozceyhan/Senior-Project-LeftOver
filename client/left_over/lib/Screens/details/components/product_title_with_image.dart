@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:left_over/models/Product.dart';
 
 import '../../../constants.dart';
@@ -53,8 +54,8 @@ class ProductTitleWithImage extends StatelessWidget {
                       borderRadius: BorderRadius.circular(20),
                       child: SizedBox.fromSize(
                         size: const Size.fromRadius(45), // Image radius
-                        child: Image.asset(
-                          "assets/images/" + product.itemImage,
+                        child:Image.network(
+                            dotenv.env['API_URL'] + "/image/" + product.itemImage,
                           fit: BoxFit.cover,
                         ),
                       ),
