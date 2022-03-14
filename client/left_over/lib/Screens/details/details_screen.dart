@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:jwt_decode/jwt_decode.dart';
 //import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:left_over/constants.dart';
 import 'package:left_over/models/Product.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:left_over/components/discover_small_card.dart';
+import 'package:left_over/models/User.dart';
+import 'package:left_over/socket_service.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class DetailsScreen extends StatelessWidget {
   final Product product;
@@ -36,8 +41,7 @@ class DetailsScreen extends StatelessWidget {
                           borderRadius: BorderRadius.circular(20),
                           image: DecorationImage(
                             fit: BoxFit.cover,
-                            image: AssetImage(
-                                "assets/images/" + product.itemImage),
+                            image: NetworkImage(dotenv.env['API_URL'] + "/image/" + product.itemImage)
                           ),
                         ),
                       ),
@@ -118,7 +122,15 @@ class DetailsScreen extends StatelessWidget {
             style: TextButton.styleFrom(
               textStyle: const TextStyle(fontSize: 16),
             ),
-            onPressed: () {},
+            onPressed: ()  async {
+                  print("Request Item Pressed");
+                  SocketService socketService = SocketService();
+                  final prefs = await SharedPreferences.getInstance();
+                  var token = prefs.getString('token');
+                  Map<String, dynamic> payload = Jwt.parseJwt(token);
+                  User user = User.fromJson(payload);
+                  socketService.requestItem(product, user);
+                },
             child: const Text('Request',
                 style: TextStyle(color: lightPinkBlockColor))),
       ],
