@@ -1,6 +1,7 @@
 import { Controller, Post, UseInterceptors, UploadedFile, Res, Req, Body, HttpStatus, Get, Param, NotFoundException, Delete } from '@nestjs/common'
 import { ImageService } from './image.service'
 import { FileInterceptor } from '@nestjs/platform-express'
+import { SkipAuth } from 'src/decorators/decorators'
 
 @Controller('image')
 export class ImageController {
@@ -31,6 +32,7 @@ export class ImageController {
 		return images
 	}
 
+	@SkipAuth()
 	@Get(':id')
 	async getImage(@Res() res, @Body() body, @Param('id') id) {
 		const image = await this.imageService.getById(id)

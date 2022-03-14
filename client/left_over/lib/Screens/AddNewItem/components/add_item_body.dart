@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:jwt_decode/jwt_decode.dart';
 import 'package:left_over/Screens/Login/components/background.dart';
 import 'package:left_over/components/rounded_input_field.dart';
 import 'package:left_over/components/rounded_date_field.dart';
@@ -162,7 +163,7 @@ class _NewItemBodyState extends State<AddNewItemBody> {
     var stream = http.ByteStream(tmpFile.openRead());
     var length = await tmpFile.length();
 
-    var url = Uri.parse(dotenv.env['API_URL'] + "/image?name=" + tmpFile.path);
+    var url = Uri.parse(dotenv.env['API_URL'] + "/image");
 
     var request = http.MultipartRequest("POST", url);
     request.headers["Authorization"] = "Bearer " + token;
@@ -175,13 +176,64 @@ class _NewItemBodyState extends State<AddNewItemBody> {
     var response = await http.Response.fromStream(await request.send());
     print("after Save Actions");
     print(response.statusCode);
-    final body = json.decode(response.body);
-    print(body["_id"]);
-    uploadItem(body["_id"]);
+    if (response.statusCode == 201) {
+      final body = json.decode(response.body);
+      print(body["_id"]);
+      await uploadItem(body["_id"]);
+    } else {
+      print("Upload Image Failed");
+    }
   }
 
   uploadItem(String imageId) async {
-    print("Inside Item Upload");
+    print("Inside Upload Item");
+    var url = Uri.parse(dotenv.env['API_URL'] + "/item/");
+
+    final prefs = await SharedPreferences.getInstance();
+    var token = prefs.getString('token');
+    Map<String, dynamic> payload = Jwt.parseJwt(token);
+    var userid = payload["id"];
+    getCategory = CategoriesState.categories[CategoriesState.selectedIndex];
+    //getSubcategory = subdropdownvalue;
+    Map data = null;
+
+    if (getCategory == "Consumable") {
+      data = {
+        'user': {'id': userid},
+        'itemName': getItemName,
+        'category': getCategory,
+        'subCategory': getSubcategory,
+        'expirationDate': getCondition,
+        'itemImage': imageId
+      };
+    } else {
+      data = {
+        'user': {'id': userid},
+        'itemName': getItemName,
+        'category': getCategory,
+        'subCategory': getSubcategory,
+        'condition': getCondition,
+        'itemImage': imageId
+      };
+    }
+    Map<String, String> headers = new Map<String, String>();
+    headers["Authorization"] = "Bearer " + token;
+    headers["Content-Type"] = "application/json";
+
+    var body = json.encode(data);
+    print(body);
+
+    var response = await http.post(url, headers: headers, body: body);
+
+    if (response.statusCode != 201) {
+      var deleteUrl = Uri.parse(dotenv.env['API_URL'] + "/item/" + imageId);
+      await http.delete(deleteUrl, headers: headers);
+    }
+    print("${response.request}");
+    print("${response.statusCode}");
+    print("${response.body}");
+
+    // return response;
   }
 
   Widget showImage() {
@@ -374,43 +426,6 @@ class _NewItemBodyState extends State<AddNewItemBody> {
                   press: () {
                     print("SAVE is pressed");
                     uploadImage();
-                    /* 
-
-                () async {
-                Future<http.Response> postRequest() async {
-                  //var url = Uri.parse(dotenv.env['API_URL'] + "/user/");
-
-                final prefs = await SharedPreferences.getInstance();
-                var token = prefs.getString('token');
-                Map<String, dynamic> payload = Jwt.parseJwt(token);
-                var userid= payload["id"];
-                getCategory = categories.elementAt(categoryindex);
-
-                Map data = {
-                    'userid': userid,
-                    'itemname': getItemName,
-                    'category': getCategory,
-                    'subcategory': getSubcategory,
-                    'condition': getCondition,
-                    //image will be added
-                  };
-
-                  //var body =  json.encode(data);
-
-                   //var response = await http.post(url,
-                    //  headers: {"Content-Type": "application/json"},
-                    //  body: body);
-                  //final prefs = await SharedPreferences.getInstance();
-                  //prefs.setString('token', response.body);
-                  //print("${response.request}");
-                  //print("${response.statusCode}");
-                  //print("${response.body}");
-
-                 // return response;
-                }
-                //postRequest();
-                print('item sent');
-                */
                   },
                 ),
               ],

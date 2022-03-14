@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:left_over/constants.dart';
 import 'package:left_over/models/Product.dart';
 
@@ -34,8 +35,8 @@ class ItemCard extends StatelessWidget {
                 tag: "${product.id}",
                 child: ClipRRect(
                     borderRadius: BorderRadius.circular(16),
-                    child: Image.asset(
-                      "assets/images/" + product.itemImage,
+                    child: Image.network(
+                      dotenv.env['API_URL'] + "/image/" + product.itemImage,
                       fit: BoxFit.cover,
                     )),
               ),
