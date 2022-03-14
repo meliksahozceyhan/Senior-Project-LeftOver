@@ -28,6 +28,7 @@ class Body extends StatelessWidget {
   var getCity = "";
   var getAddress = "";
   var txt = TextEditingController();
+  int age;
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -84,9 +85,20 @@ class Body extends StatelessWidget {
                       showTitleActions: true,
                       minTime: DateTime(1921, 1, 1),
                       maxTime: DateTime.now(), onChanged: (date) {
-                    //print('change $date');
-                    //return date;
                   }, onConfirm: (date) {
+                    DateTime currentDate = DateTime.now();
+                    age = currentDate.year - date.year;
+                    int month1 = currentDate.month;
+                    int month2 = date.month;
+                    if (month2 > month1) {
+                      age--;
+                    } else if (month1 == month2) {
+                      int day1 = currentDate.day;
+                      int day2 = date.day;
+                      if (day2 > day1) {
+                        age--;
+                      }
+                    }
                     getDateofBirth = date.toString();
                     txt.text = date
                         .toUtc()
@@ -122,71 +134,12 @@ class Body extends StatelessWidget {
                     getDateofBirth != "" &&
                     getCity != "" &&
                     getAddress != "") {
-                  if (getPassword != getPasswordConfirmation) {
-                    final scaffold = ScaffoldMessenger.of(context);
-                    scaffold.showSnackBar(
-                      SnackBar(
-                        content: const Text(
-                          'Passwords should be matched!',
-                        ),
-                        backgroundColor: redCheck,
-                        action: SnackBarAction(
-                            label: 'Close',
-                            onPressed: scaffold.hideCurrentSnackBar,
-                            textColor: Colors.white),
-                      ),
-                    );
-                  } else if (!RegExp(
-                          r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z]+\.[a-zA-Z]+")
-                      .hasMatch(getEmail)) {
-                    final scaffold = ScaffoldMessenger.of(context);
-                    scaffold.showSnackBar(
-                      SnackBar(
-                        content: const Text(
-                          'Please enter valid Email format!',
-                        ),
-                        backgroundColor: redCheck,
-                        action: SnackBarAction(
-                            label: 'Close',
-                            onPressed: scaffold.hideCurrentSnackBar,
-                            textColor: Colors.white),
-                      ),
-                    );
-                  }
-                  DateTime now = new DateTime.now();
-                  DateTime currentYear = new DateTime(now.year);
-
-                  Future<http.Response> postRequest() async {
-                    var url = Uri.parse(dotenv.env['API_URL'] + "/user/");
-
-                    //var url = Uri.parse(urlAndParams);
-
-                    Map data = {
-                      'email': getEmail,
-                      'fullName': getName,
-                      'password': getPassword,
-                      'dateOfBirth': getDateofBirth,
-                      'city': getCity,
-                      'address': getAddress
-                    };
-                    //encode Map to JSON
-                    var body = json.encode(data);
-
-                    var response = await http.post(url,
-                        headers: {"Content-Type": "application/json"},
-                        body: body);
-                    final prefs = await SharedPreferences.getInstance();
-                    prefs.setString('token', response.body);
-                    print("${response.request}");
-                    print("${response.statusCode}");
-                    print("${response.body}");
-
-                    if (response.statusCode == 500) {
+                    if (getPassword != getPasswordConfirmation) {
                       final scaffold = ScaffoldMessenger.of(context);
                       scaffold.showSnackBar(
                         SnackBar(
                           content: const Text(
-                            'You are already have an account!',
+                            'Passwords should be matched!',
                           ),
                           backgroundColor: redCheck,
                           action: SnackBarAction(
@@ -195,41 +148,100 @@ class Body extends StatelessWidget {
                               textColor: Colors.white),
                         ),
                       );
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) {
-                            return LoginScreen();
-                          },
+                    } else if (!RegExp(
+                            r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z]+\.[a-zA-Z]+")
+                        .hasMatch(getEmail)) {
+                      final scaffold = ScaffoldMessenger.of(context);
+                      scaffold.showSnackBar(
+                        SnackBar(
+                          content: const Text(
+                            'Please enter valid Email format!',
+                          ),
+                          backgroundColor: redCheck,
+                          action: SnackBarAction(
+                              label: 'Close',
+                              onPressed: scaffold.hideCurrentSnackBar,
+                              textColor: Colors.white),
                         ),
                       );
-                    }
-
-                    if (response.statusCode == 201) {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) {
-                            return ItemScreen();
-                          },
+                    } else if (age<18){
+                      final scaffold = ScaffoldMessenger.of(context);
+                      scaffold.showSnackBar(
+                        SnackBar(
+                          content: const Text(
+                            'Your age should be greater than 18!',
+                          ),
+                          backgroundColor: redCheck,
+                          action: SnackBarAction(
+                              label: 'Close',
+                              onPressed: scaffold.hideCurrentSnackBar,
+                              textColor: Colors.white),
                         ),
                       );
+                    } else {
+                      Future<http.Response> postRequest() async {
+                      var url = Uri.parse(dotenv.env['API_URL'] + "/user/");
+
+                      //var url = Uri.parse(urlAndParams);
+
+                      Map data = {
+                        'email': getEmail,
+                        'fullName': getName,
+                        'password': getPassword,
+                        'dateOfBirth': getDateofBirth,
+                        'city': getCity,
+                        'address': getAddress
+                      };
+                      //encode Map to JSON
+                      var body = json.encode(data);
+
+                      var response = await http.post(url,
+                          headers: {"Content-Type": "application/json"},
+                          body: body);
+                      final prefs = await SharedPreferences.getInstance();
+                      prefs.setString('token', response.body);
+
+                      if (response.statusCode == 500) {
+                        final scaffold = ScaffoldMessenger.of(context);
+                        scaffold.showSnackBar(
+                          SnackBar(
+                            content: const Text(
+                              'You are already have an account!',
+                            ),
+                            backgroundColor: redCheck,
+                            action: SnackBarAction(
+                                label: 'Close',
+                                onPressed: scaffold.hideCurrentSnackBar,
+                                textColor: Colors.white),
+                          ),
+                        );
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) {
+                              return LoginScreen();
+                            },
+                          ),
+                        );
+                      }
+
+                      if (response.statusCode == 201) {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) {
+                              return ItemScreen();
+                            },
+                          ),
+                        );
+                      }
+
+                      return response;
                     }
 
-                    return response;
+                    postRequest();
                   }
-
-                  print("endddd");
-
-                  postRequest();
-
-                  // GET REQUEST
-                  // print("heree");
-                  // var url = Uri.parse('http://10.0.2.2:43951/api/User/GetAllUsers');
-                  // var response = await http.get(url);
-                  // print('${response.statusCode}');
-                  // print('${response.body}');
-                } else {
+              } else {
                   final scaffold = ScaffoldMessenger.of(context);
                   scaffold.showSnackBar(
                     SnackBar(
@@ -260,24 +272,6 @@ class Body extends StatelessWidget {
                 );
               },
             ),
-            //OrDivider(),
-            // Row(
-            //   mainAxisAlignment: MainAxisAlignment.center,
-            //   children: <Widget>[
-            //     SocalIcon(
-            //       iconSrc: "assets/icons/facebook.svg",
-            //       press: () {},
-            //     ),
-            //     SocalIcon(
-            //       iconSrc: "assets/icons/twitter.svg",
-            //       press: () {},
-            //     ),
-            //     SocalIcon(
-            //       iconSrc: "assets/icons/google-plus.svg",
-            //       press: () {},
-            //     ),
-            //   ],
-            // )
           ],
         ),
       ),
