@@ -194,7 +194,7 @@ class _NewItemBodyState extends State<AddNewItemBody> {
     Map<String, dynamic> payload = Jwt.parseJwt(token);
     var userid = payload["id"];
     getCategory = CategoriesState.categories[CategoriesState.selectedIndex];
-    //getSubcategory = subdropdownvalue;
+    getSubcategory = subdropdownvalue;
     Map data = null;
 
     if (getCategory == "Consumable") {
@@ -212,7 +212,7 @@ class _NewItemBodyState extends State<AddNewItemBody> {
         'itemName': getItemName,
         'category': getCategory,
         'subCategory': getSubcategory,
-        'condition': getCondition,
+        'itemCondition': conditiondropdownvalue,
         'itemImage': imageId
       };
     }
