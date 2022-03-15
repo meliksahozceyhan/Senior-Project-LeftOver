@@ -1,11 +1,14 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:jwt_decode/jwt_decode.dart';
 import 'package:left_over/Screens/Search/search_screen.dart';
 import 'package:left_over/Screens/details/details_screen.dart';
 import 'package:left_over/constants.dart';
 import 'package:left_over/models/Product.dart';
 import 'package:http/http.dart' as http;
+import 'package:left_over/models/User.dart';
+import 'package:left_over/socket_service.dart';
 import 'package:material_floating_search_bar/material_floating_search_bar.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'categorries.dart';
@@ -22,6 +25,8 @@ class _BodyState extends State<ItemBody> {
   List<Product> products = [];
 
   var _postJson = [];
+
+  SocketService socketService = SocketService();
 
   void fetchProduct() async {
     //return http.get(Uri.parse(dotenv.env['API_URL'] + "/item"));
@@ -46,10 +51,20 @@ class _BodyState extends State<ItemBody> {
     });
   }
 
+  connectToSocketServer() async {
+    socketService.initialize();
+    final prefs = await SharedPreferences.getInstance();
+    var token = prefs.getString('token');
+    Map<String, dynamic> payload = Jwt.parseJwt(token);
+    User user = User.fromJson(payload);
+    socketService.connectToRoom(user.id);
+  }
+
   @override
   void initState() {
-    super.initState();
     fetchProduct();
+    connectToSocketServer();
+    super.initState();
   }
 
   @override
