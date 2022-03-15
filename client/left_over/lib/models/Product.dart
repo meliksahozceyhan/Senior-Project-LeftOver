@@ -1,9 +1,16 @@
-
 import 'User.dart';
 
 class Product {
-  String id, createdAt, updatedAt, itemName, category, subCategory, itemImage, requestStatus,
-        itemCondition, expirationDate;
+  String id,
+      createdAt,
+      updatedAt,
+      itemName,
+      category,
+      subCategory,
+      itemImage,
+      requestStatus,
+      itemCondition,
+      expirationDate;
 
   User user;
 
@@ -36,8 +43,20 @@ class Product {
       user: User.fromJson(json['user']),
     );
   }
-  
-}
 
-String dummyText =
-    "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since. When an unknown printer took a galley.";
+  Map<String, dynamic> toJson() {
+    return {
+      "id": id,
+      "createdAt": createdAt,
+      "updatedAt": updatedAt,
+      "itemName": itemName,
+      "category": category,
+      "subCategory": subCategory,
+      "itemImage": itemImage,
+      "requestStatus": requestStatus,
+      "expirationDate": expirationDate,
+      "itemCondition": itemCondition,
+      "user": user.toJson()
+    };
+  }
+}

@@ -34,4 +34,17 @@ class User {
       address: json['address'],
     );
   }
+
+  Map<String, dynamic> toJson() {
+    return {
+      "id": id,
+      "createdAt": createdAt,
+      "updatedAt": updatedAt,
+      "email": email,
+      "fullName": fullName,
+      "dateOfBirth": dateOfBirth,
+      "city": city,
+      "address": address
+    };
+  }
 }
