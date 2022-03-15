@@ -155,34 +155,83 @@ class _NewItemBodyState extends State<AddNewItemBody> {
   }
 
   uploadImage() async {
-    print("Inside Image Upload.");
 
-    final prefs = await SharedPreferences.getInstance();
-    var token = prefs.getString('token');
+    if(base64Image != "" && base64Image != null) {
+      print("Inside Image Upload.");
 
-    var stream = http.ByteStream(tmpFile.openRead());
-    var length = await tmpFile.length();
+      final prefs = await SharedPreferences.getInstance();
+      var token = prefs.getString('token');
 
-    var url = Uri.parse(dotenv.env['API_URL'] + "/image");
+      var stream = http.ByteStream(tmpFile.openRead());
+      var length = await tmpFile.length();
 
-    var request = http.MultipartRequest("POST", url);
-    request.headers["Authorization"] = "Bearer " + token;
-    request.fields["name"] = tmpFile.path.split('/').last;
+      var url = Uri.parse(dotenv.env['API_URL'] + "/image");
 
-    var multipartFile =
-        http.MultipartFile('file', stream, length, filename: tmpFile.path);
+      var request = http.MultipartRequest("POST", url);
+      request.headers["Authorization"] = "Bearer " + token;
+      request.fields["name"] = tmpFile.path.split('/').last;
 
-    request.files.add(multipartFile);
-    var response = await http.Response.fromStream(await request.send());
-    print("after Save Actions");
-    print(response.statusCode);
-    if (response.statusCode == 201) {
-      final body = json.decode(response.body);
-      print(body["_id"]);
-      await uploadItem(body["_id"]);
+      var multipartFile =
+          http.MultipartFile('file', stream, length, filename: tmpFile.path);
+
+      request.files.add(multipartFile);
+      var response = await http.Response.fromStream(await request.send());
+      print("after Save Actions");
+      print(response.statusCode);
+      if (response.statusCode == 201) {
+        final body = json.decode(response.body);
+        print(body["_id"]);
+
+        if(getItemName != "" && getCondition != "" && getSubcategory != "") {
+          await uploadItem(body["_id"]);
+        } else {
+            final scaffold = ScaffoldMessenger.of(context);
+            scaffold.showSnackBar(
+            SnackBar(
+              content: const Text(
+                'Please enter required fields!',
+              ),
+              backgroundColor: redCheck,
+              action: SnackBarAction(
+                label: 'Close',
+                onPressed: scaffold.hideCurrentSnackBar,
+                textColor: Colors.white),
+            ),
+          );
+        }
+        
+      } else {
+
+        final scaffold = ScaffoldMessenger.of(context);
+        scaffold.showSnackBar(
+        SnackBar(
+          content: const Text(
+            'Upload Image Failed!',
+          ),
+          backgroundColor: redCheck,
+          action: SnackBarAction(
+            label: 'Close',
+            onPressed: scaffold.hideCurrentSnackBar,
+            textColor: Colors.white),
+        ),
+      );
+      }
     } else {
-      print("Upload Image Failed");
+       final scaffold = ScaffoldMessenger.of(context);
+       scaffold.showSnackBar(
+        SnackBar(
+          content: const Text(
+            'Please upload an image!',
+          ),
+          backgroundColor: redCheck,
+          action: SnackBarAction(
+            label: 'Close',
+            onPressed: scaffold.hideCurrentSnackBar,
+            textColor: Colors.white),
+        ),
+      );           
     }
+    
   }
 
   uploadItem(String imageId) async {
