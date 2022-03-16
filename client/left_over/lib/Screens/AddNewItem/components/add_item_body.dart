@@ -113,7 +113,7 @@ class _NewItemBodyState extends State<AddNewItemBody> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          insetPadding: EdgeInsets.symmetric(horizontal: 30),
+          insetPadding: const EdgeInsets.symmetric(horizontal: 30),
           title: const Text('How do you want to upload image?',
               style: TextStyle(color: Colors.white)),
           backgroundColor: darkBackgroundColor,
@@ -142,7 +142,8 @@ class _NewItemBodyState extends State<AddNewItemBody> {
                 onPressed: () {
                   Navigator.of(context).pop();
                 },
-                child: Text('Close', style: TextStyle(color: greenBlockColor))),
+                child: const Text('Close',
+                    style: TextStyle(color: greenBlockColor))),
           ],
         );
       },
