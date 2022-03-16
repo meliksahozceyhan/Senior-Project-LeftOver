@@ -113,10 +113,15 @@ class _NewItemBodyState extends State<AddNewItemBody> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: const Text('How do you want to upload image?'),
+          insetPadding: EdgeInsets.symmetric(horizontal: 30),
+          title: const Text('How do you want to upload image?',
+              style: TextStyle(color: Colors.white)),
+          backgroundColor: darkBackgroundColor,
           actions: <Widget>[
             RoundedButton(
                 text: 'Upload From Gallery',
+                color: lightBackgroundColor,
+                textColor: pinkBlockColor,
                 press: () {
                   imageMethod = 0;
                   Navigator.of(context).pop();
@@ -125,6 +130,8 @@ class _NewItemBodyState extends State<AddNewItemBody> {
                 }),
             RoundedButton(
                 text: 'Take a Photo',
+                color: lightBackgroundColor,
+                textColor: lightPinkBlockColor,
                 press: () {
                   imageMethod = 1;
                   Navigator.of(context).pop();
@@ -135,7 +142,7 @@ class _NewItemBodyState extends State<AddNewItemBody> {
                 onPressed: () {
                   Navigator.of(context).pop();
                 },
-                child: Text('Close')),
+                child: Text('Close', style: TextStyle(color: greenBlockColor))),
           ],
         );
       },
@@ -155,8 +162,7 @@ class _NewItemBodyState extends State<AddNewItemBody> {
   }
 
   uploadImage() async {
-
-    if(base64Image != "" && base64Image != null) {
+    if (base64Image != "" && base64Image != null) {
       print("Inside Image Upload.");
 
       final prefs = await SharedPreferences.getInstance();
@@ -182,56 +188,53 @@ class _NewItemBodyState extends State<AddNewItemBody> {
         final body = json.decode(response.body);
         print(body["_id"]);
 
-        if(getItemName != "" && getCondition != "" && getSubcategory != "") {
+        if (getItemName != "" && getCondition != "" && getSubcategory != "") {
           await uploadItem(body["_id"]);
         } else {
-            final scaffold = ScaffoldMessenger.of(context);
-            scaffold.showSnackBar(
+          final scaffold = ScaffoldMessenger.of(context);
+          scaffold.showSnackBar(
             SnackBar(
               content: const Text(
                 'Please enter required fields!',
               ),
               backgroundColor: redCheck,
               action: SnackBarAction(
-                label: 'Close',
-                onPressed: scaffold.hideCurrentSnackBar,
-                textColor: Colors.white),
+                  label: 'Close',
+                  onPressed: scaffold.hideCurrentSnackBar,
+                  textColor: Colors.white),
             ),
           );
         }
-        
       } else {
-
         final scaffold = ScaffoldMessenger.of(context);
         scaffold.showSnackBar(
-        SnackBar(
-          content: const Text(
-            'Upload Image Failed!',
+          SnackBar(
+            content: const Text(
+              'Upload Image Failed!',
+            ),
+            backgroundColor: redCheck,
+            action: SnackBarAction(
+                label: 'Close',
+                onPressed: scaffold.hideCurrentSnackBar,
+                textColor: Colors.white),
           ),
-          backgroundColor: redCheck,
-          action: SnackBarAction(
-            label: 'Close',
-            onPressed: scaffold.hideCurrentSnackBar,
-            textColor: Colors.white),
-        ),
-      );
+        );
       }
     } else {
-       final scaffold = ScaffoldMessenger.of(context);
-       scaffold.showSnackBar(
+      final scaffold = ScaffoldMessenger.of(context);
+      scaffold.showSnackBar(
         SnackBar(
           content: const Text(
             'Please upload an image!',
           ),
           backgroundColor: redCheck,
           action: SnackBarAction(
-            label: 'Close',
-            onPressed: scaffold.hideCurrentSnackBar,
-            textColor: Colors.white),
+              label: 'Close',
+              onPressed: scaffold.hideCurrentSnackBar,
+              textColor: Colors.white),
         ),
-      );           
+      );
     }
-    
   }
 
   uploadItem(String imageId) async {
@@ -303,11 +306,13 @@ class _NewItemBodyState extends State<AddNewItemBody> {
         } else if (null != snapshot.error) {
           return const Text(
             'Error Picking Image',
+            style: TextStyle(color: Colors.red),
             textAlign: TextAlign.center,
           );
         } else {
           return const Text(
             'No Image Selected',
+            style: TextStyle(color: Colors.white),
             textAlign: TextAlign.center,
           );
         }
@@ -326,30 +331,28 @@ class _NewItemBodyState extends State<AddNewItemBody> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                //Padding(
-                //padding: const EdgeInsets.only(top: 5, left: 20.0),
-                //child: Row(
-                //mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                //children: [
-                const Text(
-                  "Add Item",
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 45,
+                Padding(
+                  padding: const EdgeInsets.only(top: 5),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      const Text(
+                        "Add Item",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 45,
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 60, vertical: 10),
+                        child: Categories(),
+                      ),
+                    ],
                   ),
                 ),
                 Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 60, vertical: 10),
-                  child: Categories(),
-                ),
-
-                // ],
-                //),
-                // ),
-
-                Padding(
-                    padding: const EdgeInsets.only(top: 20, left: 10),
+                    padding: const EdgeInsets.only(top: 5),
                     child: Column(children: [
                       RoundedInputField(
                         hintText: "Item Name",
@@ -390,7 +393,6 @@ class _NewItemBodyState extends State<AddNewItemBody> {
                             }),
                       ),
                     ])),
-
                 Padding(
                     padding: const EdgeInsets.symmetric(
                         vertical: 10, horizontal: 50),
@@ -400,6 +402,7 @@ class _NewItemBodyState extends State<AddNewItemBody> {
                         DropdownButton<String>(
                           isExpanded: true,
                           //hint: Text('Choose subcategory'),
+                          itemHeight: 60,
                           value: subdropdownvalue,
                           icon: const Icon(Icons.arrow_drop_down),
                           iconSize: 24,
@@ -429,6 +432,7 @@ class _NewItemBodyState extends State<AddNewItemBody> {
                             visible: selectedCategoryIndex == 1 ? true : false,
                             child: DropdownButton<String>(
                               // hint: Text('Select condition of the item'),
+                              itemHeight: 60,
                               value: conditiondropdownvalue,
                               isExpanded: true,
                               icon: const Icon(Icons.arrow_drop_down),
