@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:jwt_decode/jwt_decode.dart';
-import 'package:left_over/Screens/Search/search_screen.dart';
 import 'package:left_over/Screens/details/details_screen.dart';
 import 'package:left_over/constants.dart';
 import 'package:left_over/models/Product.dart';
@@ -123,19 +122,6 @@ class _BodyState extends State<ItemBody> {
                         color: Colors.white,
                         fontSize: 45,
                       ),
-                    ),
-                    IconButton(
-                      icon: const Icon(
-                        Icons.search,
-                        size: 30,
-                        color: Colors.white,
-                      ),
-                      onPressed: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => SearchScreen()));
-                      },
                     ),
                   ]),
             ),
