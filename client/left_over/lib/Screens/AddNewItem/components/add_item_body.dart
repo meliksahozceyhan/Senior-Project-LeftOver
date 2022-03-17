@@ -7,6 +7,7 @@ import 'package:left_over/components/rounded_input_field.dart';
 import 'package:left_over/components/rounded_date_field.dart';
 import 'package:left_over/components/rounded_button.dart';
 import 'package:left_over/Screens/item/components/categorries.dart';
+import 'package:left_over/Screens/item/item_screen.dart';
 
 import 'package:http/http.dart' as http;
 import 'package:left_over/constants.dart';
@@ -206,6 +207,12 @@ class _NewItemBodyState extends State<AddNewItemBody> {
             ),
           );
         }
+        //navigator to item datail page
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => ItemScreen()),
+        );
       } else {
         final scaffold = ScaffoldMessenger.of(context);
         scaffold.showSnackBar(
