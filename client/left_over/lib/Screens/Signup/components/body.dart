@@ -16,6 +16,7 @@ import 'package:left_over/components/rounded_password_field.dart';
 import 'package:http/http.dart' as http;
 import 'package:left_over/constants.dart';
 import 'dart:async';
+import 'package:intl/intl.dart';
 
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -101,13 +102,7 @@ class Body extends StatelessWidget {
                       }
                     }
                     getDateofBirth = date.toString();
-                    txt.text = date
-                        .toUtc()
-                        .toString()
-                        .split(" ")[0]
-                        .split("-")
-                        .reversed
-                        .join("-");
+                    txt.text = DateFormat('dd-MM-yyyy').format(date);
                   }, currentTime: DateTime.now(), locale: LocaleType.en);
                 }),
             RoundedInputField(
