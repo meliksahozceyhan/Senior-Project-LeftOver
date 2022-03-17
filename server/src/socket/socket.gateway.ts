@@ -9,18 +9,12 @@ export class SocketGateway {
 
 	@SubscribeMessage('notification')
 	public handleEvent(@MessageBody() data: NotificationBody, @ConnectedSocket() client: Socket) {
-		console.log(data)
 		client.to(data.to.id).emit('notification', data)
 	}
 
 	@SubscribeMessage('join')
 	public handleCreateOfRoom(@MessageBody() data: string, @ConnectedSocket() client: Socket) {
-		console.log(`Joined to the room ${data}`)
+		console.log(`The Socket ${client.id} Joined to the room ${data}`)
 		client.join(data)
-	}
-
-	@SubscribeMessage('notification1')
-	public handleNotification1(@MessageBody() data: string) {
-		console.log(data)
 	}
 }

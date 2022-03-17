@@ -5,10 +5,12 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:left_over/models/Product.dart';
 import 'package:left_over/models/ServerNotificationModel.dart';
 import 'package:left_over/models/User.dart';
+import 'package:left_over/notification_service.dart';
 import "package:socket_io_client/socket_io_client.dart" as IO;
 
 class SocketService {
   IO.Socket socket;
+  NotificationService notificationService = NotificationService();
 
   SocketService._internal();
 
@@ -19,18 +21,19 @@ class SocketService {
   static final SocketService _socketService = SocketService._internal();
 
   initialize() {
-    socket = IO.io(dotenv.env['SOCKET_URI'] + "/socket",IO.OptionBuilder()
-      .setTransports(['websocket']) // for Flutter or Dart VM
-      .enableAutoConnect()
-      .build());
+    socket = IO.io(
+        dotenv.env['SOCKET_URI'] + "/socket",
+        IO.OptionBuilder()
+            .setTransports(['websocket']) // for Flutter or Dart VM
+            .enableAutoConnect()
+            .build());
 
     socket.on("notification", (data) {
       handleNotification(data);
     });
 
     socket.onConnect((_) {
-    print('connect');
-    socket.emit('notification1', 'test');
+      print("Connected to the Web Socket Server");
     });
   }
 
@@ -39,16 +42,13 @@ class SocketService {
   }
 
   handleNotification(dynamic data) {
-    data = json.decode(data);
     ServerNotificationModel serverNotificationModel =
         ServerNotificationModel.fromJson(data);
-    //TODO: Implement NotificationService and use method from there.
-    print(data);
+    notificationService.showNotifications(serverNotificationModel);
   }
 
   requestItem(Product product, User requestedBy) {
     socket.connect();
-    print("Inside Request Item Socket Service");
     ServerNotificationModel serverNotificationModel = ServerNotificationModel(
         from: requestedBy, to: product.user, requestedItem: product);
 

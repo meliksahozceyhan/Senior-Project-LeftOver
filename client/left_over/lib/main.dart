@@ -3,9 +3,13 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:left_over/Screens/Welcome/welcome_screen.dart';
 import 'package:left_over/constants.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:left_over/notification_service.dart';
 
 Future<void> main() async {
   await dotenv.load();
+  WidgetsFlutterBinding.ensureInitialized();
+  await NotificationService().init(); //
+  await NotificationService().requestIOSPermissions();
   runApp(const MyApp());
 }
 
