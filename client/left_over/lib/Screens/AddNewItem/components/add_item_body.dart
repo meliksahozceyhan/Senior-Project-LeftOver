@@ -195,22 +195,7 @@ class _NewItemBodyState extends State<AddNewItemBody> {
 
         if (getItemName != "" && getCondition != "" && getSubcategory != "") {
           await uploadItem(body["_id"]);
-        } else {
-          final scaffold = ScaffoldMessenger.of(context);
-          scaffold.showSnackBar(
-            SnackBar(
-              content: const Text(
-                'Please enter required fields!',
-              ),
-              backgroundColor: redCheck,
-              action: SnackBarAction(
-                  label: 'Close',
-                  onPressed: scaffold.hideCurrentSnackBar,
-                  textColor: Colors.white),
-            ),
-          );
-        }
-        //navigator to item datail page
+          //navigator to item datail page
         Navigator.push(
           context,
           MaterialPageRoute(
@@ -229,6 +214,21 @@ class _NewItemBodyState extends State<AddNewItemBody> {
               textColor: darkBackgroundColor),
             ),
         );
+        } else {
+          final scaffold = ScaffoldMessenger.of(context);
+          scaffold.showSnackBar(
+            SnackBar(
+              content: const Text(
+                'Please enter required fields!',
+              ),
+              backgroundColor: redCheck,
+              action: SnackBarAction(
+                  label: 'Close',
+                  onPressed: scaffold.hideCurrentSnackBar,
+                  textColor: Colors.white),
+            ),
+          );
+        }
         
       } else {
         final scaffold = ScaffoldMessenger.of(context);
