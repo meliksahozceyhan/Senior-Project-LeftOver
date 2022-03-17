@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:jwt_decode/jwt_decode.dart';
 import 'package:left_over/Screens/details/details_screen.dart';
 import 'package:left_over/components/rounded_button.dart';
@@ -44,6 +45,15 @@ class _BodyState extends State<SearchItemBody> {
           List<Product>.from(jsonData.map((model) => Product.fromJson(model))).toList();
       });
     }
+
+    if(_postJson.isEmpty) {
+      Fluttertoast.showToast(
+        msg: "Could not find any product!",          
+        fontSize: 20,
+        backgroundColor: Colors.red,
+        gravity: ToastGravity.CENTER
+      );
+    }
     
   }
 
@@ -75,7 +85,7 @@ class _BodyState extends State<SearchItemBody> {
                   ]),
             ),
             Padding(
-              padding: const EdgeInsets.only(top: 5, left: 15.0),
+              padding: const EdgeInsets.only(top: 10, left: 15.0),
               child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
