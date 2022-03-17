@@ -3,7 +3,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:left_over/Screens/Account/components/account_body.dart';
 import 'package:left_over/Screens/AddNewItem/components/add_item_body.dart';
 import 'package:left_over/Screens/Message/components/message_body.dart';
-import 'package:left_over/Screens/Search/components/search_body.dart';
+import 'package:left_over/Screens/SearchItem/components/search_item_body.dart';
 import 'package:left_over/Screens/item/components/item_body.dart';
 import 'package:left_over/constants.dart';
 
@@ -15,7 +15,7 @@ class AddNewItemScreen extends StatefulWidget {
 class _AddNewItemScreenState extends State<AddNewItemScreen> {
   List screens = [
     ItemBody(),
-    SearchBody(),
+    SearchItemBody(),
     AddNewItemBody(),
     MessageBody(),
     AccountBody()
@@ -34,7 +34,7 @@ class _AddNewItemScreenState extends State<AddNewItemScreen> {
         showUnselectedLabels: false,
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
-          BottomNavigationBarItem(icon: Icon(Icons.location_on), label: "Search"),
+          BottomNavigationBarItem(icon: Icon(Icons.search), label: "Search"),
           BottomNavigationBarItem(icon: Icon(Icons.add), label: "Add"),
           BottomNavigationBarItem(icon: Icon(Icons.message), label: "Message"),
           BottomNavigationBarItem(icon: Icon(Icons.person), label: "User"),
