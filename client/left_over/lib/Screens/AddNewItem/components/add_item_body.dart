@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:intl/intl.dart';
 import 'package:jwt_decode/jwt_decode.dart';
 import 'package:left_over/Screens/Login/components/background.dart';
 import 'package:left_over/components/rounded_input_field.dart';
@@ -381,13 +382,7 @@ class _NewItemBodyState extends State<AddNewItemBody> {
                                 //return date;
                               }, onConfirm: (date) {
                                 getCondition = date.toString();
-                                txt.text = date
-                                    .toUtc()
-                                    .toString()
-                                    .split(" ")[0]
-                                    .split("-")
-                                    .reversed
-                                    .join("-");
+                                txt.text = DateFormat('dd-MM-yyyy').format(date);
                               },
                                   currentTime: DateTime.now(),
                                   locale: LocaleType.en);
