@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
 import 'package:jwt_decode/jwt_decode.dart';
 import 'package:left_over/Screens/Login/components/background.dart';
@@ -8,6 +9,7 @@ import 'package:left_over/components/rounded_input_field.dart';
 import 'package:left_over/components/rounded_date_field.dart';
 import 'package:left_over/components/rounded_button.dart';
 import 'package:left_over/Screens/item/components/categorries.dart';
+import 'package:left_over/Screens/item/item_screen.dart';
 
 import 'package:http/http.dart' as http;
 import 'package:left_over/constants.dart';
@@ -15,6 +17,7 @@ import 'dart:io';
 import 'dart:convert';
 import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
 /*
 class UploadingImageToFirebaseStorage extends StatefulWidget {
   @override
@@ -207,6 +210,26 @@ class _NewItemBodyState extends State<AddNewItemBody> {
             ),
           );
         }
+        //navigator to item datail page
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => ItemScreen()),
+        );
+        final scaffold = ScaffoldMessenger.of(context);
+          scaffold.showSnackBar(
+            SnackBar(
+              content: const Text(
+                'Item Successfully Added',
+              ),
+              backgroundColor: lightGreenBlockColor,
+              action: SnackBarAction(
+              label: 'Close',
+              onPressed: scaffold.hideCurrentSnackBar,
+              textColor: darkBackgroundColor),
+            ),
+        );
+        
       } else {
         final scaffold = ScaffoldMessenger.of(context);
         scaffold.showSnackBar(
