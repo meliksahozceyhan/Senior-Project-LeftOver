@@ -25,6 +25,12 @@ class _BodyState extends State<ItemBody> {
   List<Product> products = [];
 
   var _postJson = [];
+  static var _sortedList = [];
+  static int selectedCategoryIndex = 0;
+  static int defaultCategory = selectedCategoryIndex; // both 0 at the beginning which is consumable
+  var ascending = false;
+  var descending = false;
+  static int sortCount= 0;
 
   SocketService socketService = SocketService();
 
@@ -42,12 +48,41 @@ class _BodyState extends State<ItemBody> {
     var jsonData = jsonDecode(response.body) as List;
 
     setState(() {
-      _postJson =
+      selectedCategoryIndex = CategoriesState.selectedIndex;
+      _postJson =                                             //unsorted original list from json
           List<Product>.from(jsonData.map((model) => Product.fromJson(model)))
               .where((item) =>
                   item.category ==
                   CategoriesState.categories[CategoriesState.selectedIndex])
               .toList();
+      _sortedList = _postJson;
+            
+      if (defaultCategory != selectedCategoryIndex) {
+        //if selected category is changed then it detects the change
+        sortCount = 0; // so it cancels sorting selection
+        _postJson =                                             //unsorted original list from json
+          List<Product>.from(jsonData.map((model) => Product.fromJson(model)))
+              .where((item) =>
+                  item.category ==
+                  CategoriesState.categories[CategoriesState.selectedIndex])
+              .toList();
+        _sortedList = _postJson;//to init list for sorting or not
+        ascending = false;
+        descending = false;
+        defaultCategory =
+            selectedCategoryIndex; //sets default as selected to be able to control later changes        
+      }
+
+      if(ascending == true && descending == false){
+        _sortedList.sort();
+      }
+      else if(descending == true && ascending== false){
+        _sortedList.sort();
+        _sortedList = _sortedList.reversed.toList();
+      }else{
+        _sortedList = _postJson;//to turn back original list in case both orderin is false
+      }
+      
     });
   }
 
@@ -105,11 +140,35 @@ class _BodyState extends State<ItemBody> {
                   ]),
             ),
             Categories(),
+            Padding(
+              padding: const EdgeInsets.only(top: 0, left: 15.0),
+              child: IconButton(
+                icon: const Icon(
+                  Icons.sort_by_alpha,
+                  size: 30,
+                  color: Colors.white,
+                ),
+                onPressed: (){
+                  sortCount += 1;
+                  if(sortCount %2 == 1){
+                    ascending = true;
+                    descending = false;
+                    print(sortCount);
+                  }else if(sortCount!=0 && sortCount %2 == 0){
+                    descending=true;
+                    ascending = false;
+                    print(sortCount);
+                  }         
+                  print('sort is pressed');
+                  fetchProduct();
+                },
+              ),
+            ),
             Expanded(
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: kDefaultPaddin),
                 child: GridView.builder(
-                    itemCount: _postJson.length,
+                    itemCount: _sortedList.length,
                     gridDelegate:
                         const SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 2,
@@ -118,12 +177,12 @@ class _BodyState extends State<ItemBody> {
                       childAspectRatio: 0.75,
                     ),
                     itemBuilder: (context, index) => ItemCard(
-                          product: _postJson[index],
+                          product: _sortedList[index],
                           press: () => Navigator.push(
                               context,
                               MaterialPageRoute(
                                 builder: (context) => DetailsScreen(
-                                  product: _postJson[index],
+                                  product: _sortedList[index],
                                 ),
                               )),
                         )),

@@ -1,6 +1,6 @@
 import 'User.dart';
 
-class Product {
+class Product implements Comparable<Product>{
   String id,
       createdAt,
       updatedAt,
@@ -58,5 +58,20 @@ class Product {
       "itemCondition": itemCondition,
       "user": user.toJson()
     };
+  }
+
+  @override
+  int compareTo(Product other) {
+    // TODO: implement compareTo
+    
+    if (itemName == null && other.itemName != null) {
+      return -1;
+    } else if (itemName != null && other.itemName == null) {
+      return 1;
+    }
+
+    return itemName.compareTo(other.itemName);
+
+    throw UnimplementedError();
   }
 }
