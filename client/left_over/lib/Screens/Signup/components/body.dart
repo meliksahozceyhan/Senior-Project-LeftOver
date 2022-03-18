@@ -97,8 +97,8 @@ class Body extends StatelessWidget {
                   DatePicker.showDatePicker(context,
                       showTitleActions: true,
                       minTime: DateTime(1921, 1, 1),
-                      maxTime: DateTime.now(), onChanged: (date) {
-                  }, onConfirm: (date) {
+                      maxTime: DateTime.now(),
+                      onChanged: (date) {}, onConfirm: (date) {
                     DateTime currentDate = DateTime.now();
                     age = currentDate.year - date.year;
                     int month1 = currentDate.month;
@@ -143,77 +143,69 @@ class Body extends StatelessWidget {
                     getDateofBirth != "" &&
                     getCity != "" &&
                     getAddress != "") {
-                    if (getPassword != getPasswordConfirmation) {
-                      isValidationOK = false;
-                      final scaffold = ScaffoldMessenger.of(context);
-                      scaffold.showSnackBar(
-                        SnackBar(
-                          content: const Text(
-                            'Passwords should be matched!',
-                          ),
-                          backgroundColor: redCheck,
-                          action: SnackBarAction(
-                              label: 'Close',
-                              onPressed: scaffold.hideCurrentSnackBar,
-                              textColor: Colors.white),
+                  if (getPassword != getPasswordConfirmation) {
+                    isValidationOK = false;
+                    final scaffold = ScaffoldMessenger.of(context);
+                    scaffold.showSnackBar(SnackBar(
+                      content: const Text(
+                        'Passwords should be matched!',
+                      ),
+                    ));
+                    passwordController.clear();
+                    passwordConfirmController.clear();
+                  } else if (!RegExp(
+                          r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z]+\.[a-zA-Z]+")
+                      .hasMatch(getEmail)) {
+                    isValidationOK = false;
+                    final scaffold = ScaffoldMessenger.of(context);
+                    scaffold.showSnackBar(
+                      SnackBar(
+                        content: const Text(
+                          'Please enter valid Email format!',
                         ),
-                      );
-                      passwordController.clear();
-                      passwordConfirmController.clear();
-                    } else if (!RegExp(
-                            r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z]+\.[a-zA-Z]+")
-                        .hasMatch(getEmail)) {
-                      isValidationOK = false;
-                      final scaffold = ScaffoldMessenger.of(context);
-                      scaffold.showSnackBar(
-                        SnackBar(
-                          content: const Text(
-                            'Please enter valid Email format!',
-                          ),
-                          backgroundColor: redCheck,
-                          action: SnackBarAction(
-                              label: 'Close',
-                              onPressed: scaffold.hideCurrentSnackBar,
-                              textColor: Colors.white),
+                        backgroundColor: redCheck,
+                        action: SnackBarAction(
+                            label: 'Close',
+                            onPressed: scaffold.hideCurrentSnackBar,
+                            textColor: Colors.white),
+                      ),
+                    );
+                    mailController.clear();
+                  } else if (age < 18) {
+                    isValidationOK = false;
+                    final scaffold = ScaffoldMessenger.of(context);
+                    scaffold.showSnackBar(
+                      SnackBar(
+                        content: const Text(
+                          'Your age should be greater than 18!',
                         ),
-                      );
-                      mailController.clear();
-                    } else if (age<18){
-                      isValidationOK = false;
-                      final scaffold = ScaffoldMessenger.of(context);
-                      scaffold.showSnackBar(
-                        SnackBar(
-                          content: const Text(
-                            'Your age should be greater than 18!',
-                          ),
-                          backgroundColor: redCheck,
-                          action: SnackBarAction(
-                              label: 'Close',
-                              onPressed: scaffold.hideCurrentSnackBar,
-                              textColor: Colors.white),
-                        ),
-                      );
-                      nameController.clear();
-                      mailController.clear();
-                      passwordController.clear();
-                      passwordConfirmController.clear();
-                      txt.clear();
-                      cityController.clear();
-                      addressController.clear();
-                      getName = "";
-                      getEmail = "";
-                      getPasswordConfirmation = "";
-                      getDateofBirth = "";
-                      getCity = "";
-                      getAddress = "";
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => WelcomeScreen()),
-                      );
-                    } else {
-                      isValidationOK = true;
-                      Future<http.Response> postRequest() async {
+                        backgroundColor: redCheck,
+                        action: SnackBarAction(
+                            label: 'Close',
+                            onPressed: scaffold.hideCurrentSnackBar,
+                            textColor: Colors.white),
+                      ),
+                    );
+                    nameController.clear();
+                    mailController.clear();
+                    passwordController.clear();
+                    passwordConfirmController.clear();
+                    txt.clear();
+                    cityController.clear();
+                    addressController.clear();
+                    getName = "";
+                    getEmail = "";
+                    getPasswordConfirmation = "";
+                    getDateofBirth = "";
+                    getCity = "";
+                    getAddress = "";
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => WelcomeScreen()),
+                    );
+                  } else {
+                    isValidationOK = true;
+                    Future<http.Response> postRequest() async {
                       var url = Uri.parse(dotenv.env['API_URL'] + "/user/");
 
                       //var url = Uri.parse(urlAndParams);
@@ -248,6 +240,7 @@ class Body extends StatelessWidget {
                                 label: 'Close',
                                 onPressed: scaffold.hideCurrentSnackBar,
                                 textColor: Colors.white),
+                            behavior: SnackBarBehavior.floating,
                           ),
                         );
                         Navigator.push(
@@ -274,12 +267,11 @@ class Body extends StatelessWidget {
                       return response;
                     }
 
-                    if(isValidationOK) {
+                    if (isValidationOK) {
                       postRequest();
                     }
-                    
                   }
-              } else {
+                } else {
                   isValidationOK = false;
                   final scaffold = ScaffoldMessenger.of(context);
                   scaffold.showSnackBar(
