@@ -30,10 +30,10 @@ class ItemCard extends StatelessWidget {
                 tag: "${product.id}",
                 child: ClipRRect(
                     borderRadius: BorderRadius.circular(16),
-                    child: Image.network(
+                    child: product.itemImage != null ? Image.network(
                       dotenv.env['API_URL'] + "/image/" + product.itemImage,
                       fit: BoxFit.cover,
-                    )),
+                    ) : Image.asset('assets/images/no_image.jpg',fit: BoxFit.cover)),
               ),
             ),
           ),
