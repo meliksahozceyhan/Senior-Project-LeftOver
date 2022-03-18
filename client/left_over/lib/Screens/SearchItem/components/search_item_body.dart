@@ -87,9 +87,8 @@ class _BodyState extends State<SearchItemBody> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         Padding(
-          padding: const EdgeInsets.only(top: topPadding, left: 15.0),
-          child:
-              Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+          padding: const EdgeInsets.only(top: topPadding),
+          child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
             const Text(
               "Search",
               style: TextStyle(
@@ -100,9 +99,8 @@ class _BodyState extends State<SearchItemBody> {
           ]),
         ),
         Padding(
-          padding: const EdgeInsets.only(top: 10, left: 15.0),
-          child:
-              Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+          padding: const EdgeInsets.only(top: 10),
+          child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
             RoundedInputField(
               hintText: "Item Name..",
               icon: Icons.search,
