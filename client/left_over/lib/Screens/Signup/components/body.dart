@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:left_over/Screens/Login/login_screen.dart';
+import 'package:left_over/Screens/Welcome/welcome_screen.dart';
 import 'package:left_over/Screens/item/item_screen.dart';
 import 'package:left_over/Screens/Signup/components/background.dart';
 import 'package:left_over/components/already_have_an_account_acheck.dart';
@@ -29,6 +30,12 @@ class Body extends StatelessWidget {
   var getCity = "";
   var getAddress = "";
   var txt = TextEditingController();
+  var nameController = TextEditingController();
+  var mailController = TextEditingController();
+  var passwordController = TextEditingController();
+  var passwordConfirmController = TextEditingController();
+  var cityController = TextEditingController();
+  var addressController = TextEditingController();
   int age;
   var isValidationOK = true;
   @override
@@ -56,6 +63,7 @@ class Body extends StatelessWidget {
               onChanged: (value) {
                 getName = value;
               },
+              controller: nameController,
             ),
             RoundedInputField(
               hintText: "E-mail",
@@ -63,18 +71,21 @@ class Body extends StatelessWidget {
               onChanged: (value) {
                 getEmail = value;
               },
+              controller: mailController,
             ),
             RoundedPasswordField(
               hintText: "Password",
               onChanged: (value) {
                 getPassword = value;
               },
+              controller: passwordController,
             ),
             RoundedPasswordField(
               hintText: "Password Confirmation",
               onChanged: (value) {
                 getPasswordConfirmation = value;
               },
+              controller: passwordConfirmController,
             ),
             RoundedDateField(
                 hintText: "Date of Birth",
@@ -111,6 +122,7 @@ class Body extends StatelessWidget {
               onChanged: (value) {
                 getCity = value;
               },
+              controller: cityController,
             ),
             RoundedInputField(
               hintText: "Address",
@@ -118,6 +130,7 @@ class Body extends StatelessWidget {
               onChanged: (value) {
                 getAddress = value;
               },
+              controller: addressController,
             ),
             RoundedButton(
               text: "SIGN UP",
@@ -145,6 +158,8 @@ class Body extends StatelessWidget {
                               textColor: Colors.white),
                         ),
                       );
+                      passwordController.clear();
+                      passwordConfirmController.clear();
                     } else if (!RegExp(
                             r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z]+\.[a-zA-Z]+")
                         .hasMatch(getEmail)) {
@@ -162,6 +177,7 @@ class Body extends StatelessWidget {
                               textColor: Colors.white),
                         ),
                       );
+                      mailController.clear();
                     } else if (age<18){
                       isValidationOK = false;
                       final scaffold = ScaffoldMessenger.of(context);
@@ -176,6 +192,24 @@ class Body extends StatelessWidget {
                               onPressed: scaffold.hideCurrentSnackBar,
                               textColor: Colors.white),
                         ),
+                      );
+                      nameController.clear();
+                      mailController.clear();
+                      passwordController.clear();
+                      passwordConfirmController.clear();
+                      txt.clear();
+                      cityController.clear();
+                      addressController.clear();
+                      getName = "";
+                      getEmail = "";
+                      getPasswordConfirmation = "";
+                      getDateofBirth = "";
+                      getCity = "";
+                      getAddress = "";
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => WelcomeScreen()),
                       );
                     } else {
                       isValidationOK = true;
@@ -260,6 +294,19 @@ class Body extends StatelessWidget {
                           textColor: Colors.white),
                     ),
                   );
+                  nameController.clear();
+                  mailController.clear();
+                  passwordController.clear();
+                  passwordConfirmController.clear();
+                  txt.clear();
+                  cityController.clear();
+                  addressController.clear();
+                  getName = "";
+                  getEmail = "";
+                  getPasswordConfirmation = "";
+                  getDateofBirth = "";
+                  getCity = "";
+                  getAddress = "";
                 }
               },
             ),

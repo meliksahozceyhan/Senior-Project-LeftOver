@@ -31,7 +31,7 @@ class _NewItemBodyState extends State<AddNewItemBody> {
   var getSharerId = "";
   var getImage = "";
   var txt = TextEditingController();
-  //var nameController = TextEditingController();
+  var nameController = TextEditingController();
   var uploadEndPoint = Uri.parse(dotenv.env['API_URL'] + "/image");
   Future<File> file;
   String base64Image;
@@ -40,7 +40,7 @@ class _NewItemBodyState extends State<AddNewItemBody> {
 
   static int selectedCategoryIndex = 0;
   static int defaultCategory = selectedCategoryIndex; // both 0 at the beginning
-  static int imageMethod; //0 for gallery , 1 for camera
+  //static int imageMethod; //0 for gallery , 1 for camera
 
   static List<List> spinnerItems = [
     ['Bakery', 'Charcuterie', 'GreenGrocery'],
@@ -83,6 +83,10 @@ class _NewItemBodyState extends State<AddNewItemBody> {
         file = null;
         base64Image=null;
         tmpFile = null;
+        nameController.clear();
+        getItemName = "";
+        getSubcategory = "";
+        getCondition = "";
       }
       if (selectedCategoryIndex == 1) {
         conditiondropdownvalue =
@@ -216,6 +220,11 @@ class _NewItemBodyState extends State<AddNewItemBody> {
                   textColor: Colors.white),
             ),
           );
+          nameController.clear();
+          txt.clear();
+          getItemName = "";
+          getSubcategory = "";
+          getCondition = "";
         }
         
       } else {
@@ -309,13 +318,23 @@ class _NewItemBodyState extends State<AddNewItemBody> {
             null != snapshot.data) {
           tmpFile = snapshot.data;
           base64Image = base64Encode(snapshot.data.readAsBytesSync());
-          return SizedBox(
-            height: 70,
-            child: Image.file(
-              snapshot.data,
-              fit: BoxFit.fill,
+          return Row(children: [
+            SizedBox(
+              height: 70,
+              child: Image.file(
+                snapshot.data,
+                fit: BoxFit.fill,
+              ),
             ),
-          );
+            IconButton(
+              icon: Icon(Icons.delete_rounded),
+              onPressed:(){
+                file = null;
+                base64Image=null;
+                tmpFile = null; 
+                getStateOfCategories();},
+            )          
+          ]);          
         } else if (null != snapshot.error) {
           return const Text(
             'Error Picking Image',
@@ -373,6 +392,7 @@ class _NewItemBodyState extends State<AddNewItemBody> {
                         onChanged: (value) {
                           getItemName = value;
                         },
+                        controller: nameController,
                       ),
                       Visibility(
                         visible: selectedCategoryIndex == 0 ? true : false,
