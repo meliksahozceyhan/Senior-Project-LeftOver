@@ -150,6 +150,12 @@ class Body extends StatelessWidget {
                       content: const Text(
                         'Passwords should be matched!',
                       ),
+                      backgroundColor: redCheck,
+                      action: SnackBarAction(
+                          label: 'Close',
+                          onPressed: scaffold.hideCurrentSnackBar,
+                          textColor: Colors.white),
+                      behavior: SnackBarBehavior.floating,
                     ));
                     passwordController.clear();
                     passwordConfirmController.clear();
@@ -168,6 +174,7 @@ class Body extends StatelessWidget {
                             label: 'Close',
                             onPressed: scaffold.hideCurrentSnackBar,
                             textColor: Colors.white),
+                        behavior: SnackBarBehavior.floating,
                       ),
                     );
                     mailController.clear();
@@ -184,6 +191,7 @@ class Body extends StatelessWidget {
                             label: 'Close',
                             onPressed: scaffold.hideCurrentSnackBar,
                             textColor: Colors.white),
+                        behavior: SnackBarBehavior.floating,
                       ),
                     );
                     nameController.clear();
@@ -284,6 +292,7 @@ class Body extends StatelessWidget {
                           label: 'Close',
                           onPressed: scaffold.hideCurrentSnackBar,
                           textColor: Colors.white),
+                      behavior: SnackBarBehavior.floating,
                     ),
                   );
                   nameController.clear();

@@ -81,7 +81,7 @@ class _NewItemBodyState extends State<AddNewItemBody> {
             selectedCategoryIndex; //sets default as selected to be able to control later changes
         selectedConditionIndex = 0;
         file = null;
-        base64Image=null;
+        base64Image = null;
         tmpFile = null;
         nameController.clear();
         getItemName = "";
@@ -117,7 +117,7 @@ class _NewItemBodyState extends State<AddNewItemBody> {
                 color: lightBackgroundColor,
                 textColor: pinkBlockColor,
                 press: () {
-                  //imageMethod = 0;                  
+                  //imageMethod = 0;
                   Navigator.of(context).pop();
                   print('upload from gallery is selected');
                   //getStateOfCategories();
@@ -190,8 +190,7 @@ class _NewItemBodyState extends State<AddNewItemBody> {
           //navigator to item datail page
           Navigator.push(
             context,
-            MaterialPageRoute(
-              builder: (context) => ItemScreen()),
+            MaterialPageRoute(builder: (context) => ItemScreen()),
           );
           final scaffold = ScaffoldMessenger.of(context);
           scaffold.showSnackBar(
@@ -201,9 +200,10 @@ class _NewItemBodyState extends State<AddNewItemBody> {
               ),
               backgroundColor: lightGreenBlockColor,
               action: SnackBarAction(
-              label: 'Close',
-              onPressed: scaffold.hideCurrentSnackBar,
-              textColor: darkBackgroundColor),
+                  label: 'Close',
+                  onPressed: scaffold.hideCurrentSnackBar,
+                  textColor: darkBackgroundColor),
+              behavior: SnackBarBehavior.floating,
             ),
           );
         } else {
@@ -218,6 +218,7 @@ class _NewItemBodyState extends State<AddNewItemBody> {
                   label: 'Close',
                   onPressed: scaffold.hideCurrentSnackBar,
                   textColor: Colors.white),
+              behavior: SnackBarBehavior.floating,
             ),
           );
           nameController.clear();
@@ -226,7 +227,6 @@ class _NewItemBodyState extends State<AddNewItemBody> {
           getSubcategory = "";
           getCondition = "";
         }
-        
       } else {
         final scaffold = ScaffoldMessenger.of(context);
         scaffold.showSnackBar(
@@ -239,6 +239,7 @@ class _NewItemBodyState extends State<AddNewItemBody> {
                 label: 'Close',
                 onPressed: scaffold.hideCurrentSnackBar,
                 textColor: Colors.white),
+            behavior: SnackBarBehavior.floating,
           ),
         );
       }
@@ -254,6 +255,7 @@ class _NewItemBodyState extends State<AddNewItemBody> {
               label: 'Close',
               onPressed: scaffold.hideCurrentSnackBar,
               textColor: Colors.white),
+          behavior: SnackBarBehavior.floating,
         ),
       );
     }
@@ -318,7 +320,7 @@ class _NewItemBodyState extends State<AddNewItemBody> {
             null != snapshot.data) {
           tmpFile = snapshot.data;
           base64Image = base64Encode(snapshot.data.readAsBytesSync());
-          return Row(children: [
+          return Row(mainAxisAlignment: MainAxisAlignment.center, children: [
             SizedBox(
               height: 70,
               child: Image.file(
@@ -328,13 +330,15 @@ class _NewItemBodyState extends State<AddNewItemBody> {
             ),
             IconButton(
               icon: Icon(Icons.delete_rounded),
-              onPressed:(){
+              color: Colors.white,
+              onPressed: () {
                 file = null;
-                base64Image=null;
-                tmpFile = null; 
-                getStateOfCategories();},
-            )          
-          ]);          
+                base64Image = null;
+                tmpFile = null;
+                getStateOfCategories();
+              },
+            )
+          ]);
         } else if (null != snapshot.error) {
           return const Text(
             'Error Picking Image',
@@ -413,7 +417,8 @@ class _NewItemBodyState extends State<AddNewItemBody> {
                                 //return date;
                               }, onConfirm: (date) {
                                 getCondition = date.toString();
-                                txt.text = DateFormat('dd-MM-yyyy').format(date);
+                                txt.text =
+                                    DateFormat('dd-MM-yyyy').format(date);
                               },
                                   currentTime: DateTime.now(),
                                   locale: LocaleType.en);
@@ -493,9 +498,9 @@ class _NewItemBodyState extends State<AddNewItemBody> {
                   text: "UPLOAD PHOTO",
                   color: lightBackgroundColor,
                   textColor: lightBlueBlockColor,
-                  press: () {                   
+                  press: () {
                     file = null;
-                    base64Image=null;
+                    base64Image = null;
                     tmpFile = null;
                     _showDialog();
                     print("add image is pressed");
