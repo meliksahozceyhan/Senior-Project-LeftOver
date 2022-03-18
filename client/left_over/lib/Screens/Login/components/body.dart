@@ -71,11 +71,10 @@ class Body extends StatelessWidget {
                       ),
                       backgroundColor: redCheck,
                       action: SnackBarAction(
-                        label: 'Close',
-                        onPressed: scaffold.hideCurrentSnackBar,
-                        textColor: Colors.white
-                        
-                      ),
+                          label: 'Close',
+                          onPressed: scaffold.hideCurrentSnackBar,
+                          textColor: Colors.white),
+                      behavior: SnackBarBehavior.floating,
                     ),
                   );
                   mailController.clear();

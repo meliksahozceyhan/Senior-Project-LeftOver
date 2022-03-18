@@ -28,33 +28,49 @@ class _BodyState extends State<SearchItemBody> {
   var _postJson = [];
 
   void fetchProduct() async {
-
     Map<String, String> headers = new Map<String, String>();
     final prefs = await SharedPreferences.getInstance();
     var token = prefs.getString('token');
     headers["Authorization"] = "Bearer " + token;
 
-    final response = await http.get(Uri.parse(dotenv.env['API_URL'] + "/item/searchItems?searchValue=" + getItemName),
+    final response = await http.get(
+        Uri.parse(dotenv.env['API_URL'] +
+            "/item/searchItems?searchValue=" +
+            getItemName),
         headers: headers);
 
     var jsonData = jsonDecode(response.body) as List;
 
-    if(this.mounted) {
+    if (this.mounted) {
       setState(() {
-      _postJson =
-          List<Product>.from(jsonData.map((model) => Product.fromJson(model))).toList();
+        _postJson =
+            List<Product>.from(jsonData.map((model) => Product.fromJson(model)))
+                .toList();
       });
     }
 
-    if(_postJson.isEmpty) {
+    if (_postJson.isEmpty) {
+      /*
       Fluttertoast.showToast(
         msg: "Could not find any product!",          
         fontSize: 20,
         backgroundColor: Colors.red,
         gravity: ToastGravity.CENTER
-      );
+      );*/
+
+      final scaffold = ScaffoldMessenger.of(context);
+      scaffold.showSnackBar(SnackBar(
+        content: const Text(
+          'Could not find any product!',
+        ),
+        backgroundColor: redCheck,
+        action: SnackBarAction(
+            label: 'Close',
+            onPressed: scaffold.hideCurrentSnackBar,
+            textColor: Colors.white),
+        behavior: SnackBarBehavior.floating,
+      ));
     }
-    
   }
 
   @override
@@ -68,62 +84,59 @@ class _BodyState extends State<SearchItemBody> {
     Size size = MediaQuery.of(context).size;
     return NotificationListener(
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.only(top: topPadding, left: 15.0),
-              child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    const Text(
-                      "Search",
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 45,
-                      ),
-                    ),
-                  ]),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(top: 10, left: 15.0),
-              child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    RoundedInputField(
-                        hintText: "Item Name..",
-                        icon: Icons.search,
-                        onChanged: (value) {
-                          getItemName = value;
-                          fetchProduct();
-                        },
-                    ),
-                  ]),
-            ),
-            Expanded(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: kDefaultPaddin),
-                child: GridView.builder(
-                    itemCount: _postJson.length,
-                    gridDelegate:
-                        const SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2,
-                      mainAxisSpacing: kDefaultPaddin,
-                      crossAxisSpacing: kDefaultPaddin,
-                      childAspectRatio: 0.75,
-                    ),
-                    itemBuilder: (context, index) => ItemCard(
-                          product: _postJson[index],
-                          press: () => Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => DetailsScreen(
-                                  product: _postJson[index],
-                                ),
-                              )),
-                        )),
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        Padding(
+          padding: const EdgeInsets.only(top: topPadding, left: 15.0),
+          child:
+              Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+            const Text(
+              "Search",
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 45,
               ),
             ),
-          ],
-        ));
+          ]),
+        ),
+        Padding(
+          padding: const EdgeInsets.only(top: 10, left: 15.0),
+          child:
+              Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+            RoundedInputField(
+              hintText: "Item Name..",
+              icon: Icons.search,
+              onChanged: (value) {
+                getItemName = value;
+                fetchProduct();
+              },
+            ),
+          ]),
+        ),
+        Expanded(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: kDefaultPaddin),
+            child: GridView.builder(
+                itemCount: _postJson.length,
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
+                  mainAxisSpacing: kDefaultPaddin,
+                  crossAxisSpacing: kDefaultPaddin,
+                  childAspectRatio: 0.75,
+                ),
+                itemBuilder: (context, index) => ItemCard(
+                      product: _postJson[index],
+                      press: () => Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => DetailsScreen(
+                              product: _postJson[index],
+                            ),
+                          )),
+                    )),
+          ),
+        ),
+      ],
+    ));
   }
 }
