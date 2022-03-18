@@ -18,29 +18,6 @@ import 'dart:convert';
 import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-/*
-class UploadingImageToFirebaseStorage extends StatefulWidget {
-  @override
-  _UploadingImageToFirebaseStorageState createState() => _UploadingImageToFirebaseStorageState();  
-}
-
-class _UploadingImageToFirebaseStorageState extends State<UploadingImageToFirebaseStorage> {
-  File _imageFile;
-
-  ///NOTE: Only supported on Android & iOS
-  ///Needs image_picker plugin {https://pub.dev/packages/image_picker}
-  final picker = ImagePicker();
-
-  Future pickImage() async {
-    final pickedFile = await picker.getImage(source: ImageSource.camera);
-
-    setState(() {
-      _imageFile = File(pickedFile.path);
-    });
-  }
-  
-}*/
-
 class AddNewItemBody extends StatefulWidget {
   @override
   _NewItemBodyState createState() => _NewItemBodyState();
@@ -54,6 +31,7 @@ class _NewItemBodyState extends State<AddNewItemBody> {
   var getSharerId = "";
   var getImage = "";
   var txt = TextEditingController();
+  //var nameController = TextEditingController();
   var uploadEndPoint = Uri.parse(dotenv.env['API_URL'] + "/image");
   Future<File> file;
   String base64Image;
@@ -102,13 +80,21 @@ class _NewItemBodyState extends State<AddNewItemBody> {
         defaultCategory =
             selectedCategoryIndex; //sets default as selected to be able to control later changes
         selectedConditionIndex = 0;
+        file = null;
+        base64Image=null;
+        tmpFile = null;
       }
       if (selectedCategoryIndex == 1) {
         conditiondropdownvalue =
             conditionList.elementAt(selectedConditionIndex);
       }
-
       subdropdownvalue = subcategory.elementAt(selectedSubIndex);
+
+      /*if(imageMethod == 0){
+        file = ImagePicker.pickImage(source: ImageSource.gallery);
+      }else if(imageMethod == 1){
+        file = ImagePicker.pickImage(source: ImageSource.camera);
+      }*/
     });
   }
 
@@ -127,9 +113,10 @@ class _NewItemBodyState extends State<AddNewItemBody> {
                 color: lightBackgroundColor,
                 textColor: pinkBlockColor,
                 press: () {
-                  imageMethod = 0;
+                  //imageMethod = 0;                  
                   Navigator.of(context).pop();
                   print('upload from gallery is selected');
+                  //getStateOfCategories();
                   chooseImageFromGallery();
                 }),
             RoundedButton(
@@ -137,9 +124,10 @@ class _NewItemBodyState extends State<AddNewItemBody> {
                 color: lightBackgroundColor,
                 textColor: lightPinkBlockColor,
                 press: () {
-                  imageMethod = 1;
+                  //imageMethod = 1;
                   Navigator.of(context).pop();
                   print('upload from camera is selected');
+                  //getStateOfCategories();
                   chooseImageFromCamera();
                 }),
             TextButton(
@@ -196,12 +184,12 @@ class _NewItemBodyState extends State<AddNewItemBody> {
         if (getItemName != "" && getCondition != "" && getSubcategory != "") {
           await uploadItem(body["_id"]);
           //navigator to item datail page
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => ItemScreen()),
-        );
-        final scaffold = ScaffoldMessenger.of(context);
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => ItemScreen()),
+          );
+          final scaffold = ScaffoldMessenger.of(context);
           scaffold.showSnackBar(
             SnackBar(
               content: const Text(
@@ -213,7 +201,7 @@ class _NewItemBodyState extends State<AddNewItemBody> {
               onPressed: scaffold.hideCurrentSnackBar,
               textColor: darkBackgroundColor),
             ),
-        );
+          );
         } else {
           final scaffold = ScaffoldMessenger.of(context);
           scaffold.showSnackBar(
@@ -485,7 +473,10 @@ class _NewItemBodyState extends State<AddNewItemBody> {
                   text: "UPLOAD PHOTO",
                   color: lightBackgroundColor,
                   textColor: lightBlueBlockColor,
-                  press: () {
+                  press: () {                   
+                    file = null;
+                    base64Image=null;
+                    tmpFile = null;
                     _showDialog();
                     print("add image is pressed");
                   },
