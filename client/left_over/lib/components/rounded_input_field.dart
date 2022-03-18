@@ -5,12 +5,14 @@ import 'package:left_over/constants.dart';
 class RoundedInputField extends StatelessWidget {
   final String hintText;
   final IconData icon;
+  final TextEditingController controller;
   final ValueChanged<String> onChanged;
   const RoundedInputField({
     Key key,
     @required this.hintText,
     @required this.icon,
     @required this.onChanged,
+    @required this.controller,
   }) : super(key: key);
 
   @override
@@ -27,6 +29,7 @@ class RoundedInputField extends StatelessWidget {
           hintText: hintText,
           border: InputBorder.none,
         ),
+        controller: controller,
       ),
     );
   }

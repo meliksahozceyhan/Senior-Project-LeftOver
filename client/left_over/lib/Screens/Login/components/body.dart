@@ -11,6 +11,9 @@ import 'package:http/http.dart' as http;
 import 'package:left_over/constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+var mailController = TextEditingController();
+var passwordController = TextEditingController();
+
 class Body extends StatelessWidget {
   const Body({
     Key key,
@@ -36,12 +39,14 @@ class Body extends StatelessWidget {
               onChanged: (value) {
                 getEmail = value;
               },
+              controller: mailController,
             ),
             RoundedPasswordField(
               hintText: "Password",
               onChanged: (value) {
                 getPassword = value;
               },
+              controller: passwordController,
             ),
             RoundedButton(
               text: "LOGIN",
@@ -73,6 +78,8 @@ class Body extends StatelessWidget {
                       ),
                     ),
                   );
+                  mailController.clear();
+                  passwordController.clear();
                 }
 
                 if (response.statusCode == 200) {
