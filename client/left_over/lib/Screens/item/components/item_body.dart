@@ -42,7 +42,7 @@ class _BodyState extends State<ItemBody> {
     var token = prefs.getString('token');
     headers["Authorization"] = "Bearer " + token;
 
-    final response = await http.get(Uri.parse(dotenv.env['API_URL'] + "/item"),
+    final response = await http.get(Uri.parse(dotenv.env['API_URL'] + "/item/getItems"),
         headers: headers);
 
     var jsonData = jsonDecode(response.body) as List;
