@@ -48,7 +48,6 @@ class SocketService {
   }
 
   requestItem(Product product, User requestedBy) {
-    socket.connect();
     ServerNotificationModel serverNotificationModel = ServerNotificationModel(
         from: requestedBy, to: product.user, requestedItem: product);
 

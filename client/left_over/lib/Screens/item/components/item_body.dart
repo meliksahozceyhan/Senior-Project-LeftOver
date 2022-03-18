@@ -97,7 +97,9 @@ class _BodyState extends State<ItemBody> {
   @override
   void initState() {
     fetchProduct();
-    connectToSocketServer();
+    if (!socketService.socket.connected) {
+      connectToSocketServer();
+    }
     super.initState();
   }
 
