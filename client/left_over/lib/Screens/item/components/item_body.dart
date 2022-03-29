@@ -42,7 +42,8 @@ class _BodyState extends State<ItemBody> {
     var token = prefs.getString('token');
     headers["Authorization"] = "Bearer " + token;
 
-    final response = await http.get(Uri.parse(dotenv.env['API_URL'] + "/item/getItems"),
+    final response = await http.get(
+        Uri.parse(dotenv.env['API_URL'] + "/item/getItems"),
         headers: headers);
 
     var jsonData = jsonDecode(response.body) as List;
@@ -101,6 +102,16 @@ class _BodyState extends State<ItemBody> {
       connectToSocketServer();
     }
     super.initState();
+  }
+
+  @override
+  Future<void> dispose() async {
+    final prefs = await SharedPreferences.getInstance();
+    var token = prefs.getString('token');
+    Map<String, dynamic> payload = Jwt.parseJwt(token);
+    User user = User.fromJson(payload);
+    socketService.disconnectFromSocket(user.id);
+    super.dispose();
   }
 
   @override

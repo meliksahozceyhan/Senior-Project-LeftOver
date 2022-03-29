@@ -32,9 +32,15 @@ class SocketService {
       handleNotification(data);
     });
 
+    socket.on("unreadNotifications", (data) => handleUnreadNotifications(data));
+
     socket.onConnect((_) {
       print("Connected to the Web Socket Server");
     });
+  }
+
+  disconnectFromSocket(String roomId) {
+    socket.emit("leaveServer", roomId);
   }
 
   connectToRoom(String roomId) {
@@ -45,6 +51,21 @@ class SocketService {
     ServerNotificationModel serverNotificationModel =
         ServerNotificationModel.fromJson(data);
     notificationService.showNotifications(serverNotificationModel);
+  }
+
+  handleUnreadNotifications(dynamic data) {
+    print("inside handle Unread Notifications");
+    
+    var jsonList = jsonDecode(jsonEncode(data)) as List;
+    print("after json decode");
+    List<ServerNotificationModel> serverNotificationModelList =
+        List<ServerNotificationModel>.from(
+            jsonList.map((json) => ServerNotificationModel.fromJson(json)));
+    serverNotificationModelList.forEach((element) {
+      notificationService.showNotifications(element);
+    });
+    print("Done Converting list");
+    print(serverNotificationModelList);
   }
 
   requestItem(Product product, User requestedBy) {
