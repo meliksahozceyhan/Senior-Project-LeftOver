@@ -28,7 +28,7 @@ export class Item {
 	@Column({ name: 'item_image', nullable: true })
 	itemImage: string
 
-	@ManyToOne(() => User, (item) => item.students, { nullable: false, eager: true })
+	@ManyToOne(() => User, (item) => item.items, { nullable: false, eager: true })
 	@JoinColumn({ name: 'user_id' })
 	user: User
 
