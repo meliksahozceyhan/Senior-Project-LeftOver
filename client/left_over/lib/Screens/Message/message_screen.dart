@@ -32,13 +32,13 @@ class _MessageScreenState extends State<MessageScreen> {
         showUnselectedLabels: false,
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.search), label: "Search"),
+          BottomNavigationBarItem(icon: Icon(Icons.search), label: "Search"),
           BottomNavigationBarItem(icon: Icon(Icons.add), label: "Add"),
           BottomNavigationBarItem(icon: Icon(Icons.message), label: "Message"),
           BottomNavigationBarItem(icon: Icon(Icons.person), label: "User"),
         ],
-        selectedItemColor: bgreen,
+        selectedItemColor: yellowBlockColor,
+        backgroundColor: navBlueColor,
         onTap: (i) => setState(() {
           selectedIndex = i;
         }),
