@@ -11,6 +11,8 @@
    <application
         android:label="left_over"
         android:icon="@mipmap/ic_launcher">
+        <meta-data android:name="com.google.android.geo.API_KEY"
+               android:value="AIzaSyCEisUdoGQXjM83vv_T-Gq6hy_dQT64pu0"/>
         <activity
             android:usesCleartextTraffic="true"
             android:name=".MainActivity"

@@ -1,18 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:left_over/Screens/Account/components/account_body.dart';
 import 'package:left_over/Screens/AddNewItem/components/add_item_body.dart';
-import 'package:left_over/Screens/Map/components/map_body.dart';
 import 'package:left_over/Screens/Message/components/message_body.dart';
 import 'package:left_over/Screens/SearchItem/components/search_item_body.dart';
 import 'package:left_over/Screens/item/components/item_body.dart';
 import 'package:left_over/constants.dart';
 
-class MessageScreen extends StatefulWidget {
+import 'components/map_body.dart';
+
+class MapScreen extends StatefulWidget {
   @override
-  _MessageScreenState createState() => _MessageScreenState();
+  _MapScreenState createState() => _MapScreenState();
 }
 
-class _MessageScreenState extends State<MessageScreen> {
+class _MapScreenState extends State<MapScreen> {
   List screens = [
     ItemBody(),
     SearchItemBody(),
@@ -26,7 +27,7 @@ class _MessageScreenState extends State<MessageScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: MessageBody(),
+      body: MapBody(),
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
         currentIndex: selectedIndex,
