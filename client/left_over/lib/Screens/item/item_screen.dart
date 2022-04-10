@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:left_over/Screens/Account/components/account_body.dart';
 import 'package:left_over/Screens/AddNewItem/components/add_item_body.dart';
+import 'package:left_over/Screens/Map/components/map_body.dart';
 import 'package:left_over/Screens/Message/components/message_body.dart';
 import 'package:left_over/Screens/SearchItem/components/search_item_body.dart';
 import 'package:left_over/Screens/item/components/item_body.dart';
@@ -18,6 +19,7 @@ class _ItemScreenState extends State<ItemScreen> {
     ItemBody(),
     SearchItemBody(),
     AddNewItemBody(),
+    MapBody(),
     MessageBody(),
     AccountBody()
   ];
@@ -36,6 +38,7 @@ class _ItemScreenState extends State<ItemScreen> {
           BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
           BottomNavigationBarItem(icon: Icon(Icons.search), label: "Search"),
           BottomNavigationBarItem(icon: Icon(Icons.add), label: "Add"),
+          BottomNavigationBarItem(icon: Icon(Icons.location_on), label: "Map"),
           BottomNavigationBarItem(icon: Icon(Icons.message), label: "Message"),
           BottomNavigationBarItem(icon: Icon(Icons.person), label: "User"),
         ],

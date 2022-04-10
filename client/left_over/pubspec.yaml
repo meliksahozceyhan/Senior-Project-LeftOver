@@ -49,6 +49,7 @@ dependencies:
     flutter_local_notifications: ^8.2.0
     intl: ^0.17.0
     fluttertoast: ^7.1.1
+    google_maps_flutter: ^2.0.0
 
 dev_dependencies:
     flutter_test:
