@@ -2,13 +2,20 @@ import { ConnectedSocket, MessageBody, SubscribeMessage, WebSocketGateway, WebSo
 import { SocketService } from './socket.service'
 import { Socket, Server } from 'socket.io'
 import { NotificationBody } from './model/notification_body'
+import { RoomService } from 'src/model/room/room.service'
+import { Room } from 'src/model/room/entity/room.entity'
+import { Message } from 'src/model/message/entity/message.entity'
+import { MessageService } from 'src/model/message/message.service'
 
 @WebSocketGateway(3001, { namespace: 'socket', cors: '*', transports: 'websocket' })
 export class SocketGateway {
 	@WebSocketServer() server: Server
 	private connectedClients: String[] = []
 
-	constructor(private readonly socketService: SocketService) {}
+	constructor(private readonly socketService: SocketService, private readonly roomService: RoomService, private readonly messageService: MessageService) {}
+
+	/**
+	 * * PART 1 Notification Manager */
 
 	@SubscribeMessage('notification')
 	public handleEvent(@MessageBody() data: NotificationBody, @ConnectedSocket() client: Socket) {
@@ -28,9 +35,6 @@ export class SocketGateway {
 		this.socketService.deleteReadNotifications(unreadNotifications)
 	}
 
-	@SubscribeMessage('getUnreadNotifications')
-	public handleUnreadNotifications(@MessageBody() data: string, @ConnectedSocket() client: Socket) {}
-
 	@SubscribeMessage('leaveServer')
 	public handleLeaveServer(@MessageBody() data: string, @ConnectedSocket() client: Socket) {
 		client.leave(data)
@@ -40,5 +44,21 @@ export class SocketGateway {
 			1
 		)
 		console.log(this.connectedClients)
+	}
+
+	/**
+	 * * PART2 Messaging. */
+
+	@SubscribeMessage('createRoom')
+	public async handleCreateChatRoom(@MessageBody() data: Room, @ConnectedSocket() client: Socket) {
+		await this.roomService.save(data)
+		client.to(data.participant2.id).emit('roomCreated', data)
+	}
+
+	@SubscribeMessage('onNewMessage')
+	public handleNewMessage(@MessageBody() data: Message, @ConnectedSocket() client: Socket) {
+		if (this.connectedClients.includes(data.to.participant2.id)) data.isRead = true
+		this.messageService.save(data)
+		if (this.connectedClients.includes(data.to.participant2.id) || this.connectedClients.includes(data.to.participant1.id)) client.to(data.to.id).emit('newMessage', data)
 	}
 }
