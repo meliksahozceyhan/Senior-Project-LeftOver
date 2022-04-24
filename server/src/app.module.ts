@@ -14,9 +14,10 @@ import { APP_GUARD } from '@nestjs/core'
 import { JwtAuthGuard } from './auth/guards/jwt-auth.guard'
 import { SocketModule } from './socket/socket.module';
 import { NotificationModule } from './model/notification/notification.module';
+import { MapModule } from './map/map.module';
 
 @Module({
-	imports: [ConfigModule.forRoot({ load: [databaseConfig], isGlobal: true }), DatabaseModule, UserModule, AuthModule, ItemModule, ImageModule, MongooseModule.forRoot(process.env.MONGO_URI), SocketModule, NotificationModule],
+	imports: [ConfigModule.forRoot({ load: [databaseConfig], isGlobal: true }), DatabaseModule, UserModule, AuthModule, ItemModule, ImageModule, MongooseModule.forRoot(process.env.MONGO_URI), SocketModule, NotificationModule, MapModule],
 	controllers: [AppController],
 	providers: [
 		AppService,
