@@ -5,6 +5,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:left_over/models/Product.dart';
 import 'package:left_over/models/ServerNotificationModel.dart';
 import 'package:left_over/models/User.dart';
+import 'package:left_over/models/message/MessageModel.dart';
 import 'package:left_over/notification_service.dart';
 import "package:socket_io_client/socket_io_client.dart" as IO;
 
@@ -55,7 +56,7 @@ class SocketService {
 
   handleUnreadNotifications(dynamic data) {
     print("inside handle Unread Notifications");
-    
+
     var jsonList = jsonDecode(jsonEncode(data)) as List;
     print("after json decode");
     List<ServerNotificationModel> serverNotificationModelList =
@@ -73,5 +74,16 @@ class SocketService {
         from: requestedBy, to: product.user, requestedItem: product);
 
     socket.emit("notification", serverNotificationModel.toJson());
+  }
+
+  handleMessageRead(MessageModel messageModel) {
+    print("inside Message Received");
+    socket.emit("messageRead", messageModel.toJson());
+  }
+
+  handleSendMessage(MessageModel messageModel) {
+    print("inside handle send message");
+    print(messageModel.toJson());
+    socket.emit("onNewMessage", messageModel.toJson());
   }
 }

@@ -6,8 +6,8 @@ import { MessageService } from './message.service'
 export class MessageController {
 	constructor(private readonly messageService: MessageService) {}
 
-	@Get('getUnreadMessagesOfRoom')
-	public async getUnreadMessagesOfRoom(@Query('roomId') roomId: string, @Query('pageNumber') pageNumber: number, @Query('messageCountr') messageCount: number): Promise<Message[]> {
+	@Get('getMessagesOfRoom')
+	public async getUnreadMessagesOfRoom(@Query('roomId') roomId: string, @Query('pageNumber') pageNumber: number, @Query('messageCount') messageCount: number): Promise<Message[]> {
 		return await this.messageService.getMessagesOfTheRoom(roomId, pageNumber, messageCount)
 	}
 }

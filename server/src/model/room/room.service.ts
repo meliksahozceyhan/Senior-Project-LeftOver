@@ -15,6 +15,6 @@ export class RoomService extends TypeOrmCrudService<Room> {
 	}
 
 	public async getRoomsOfUsers(userId: string): Promise<Room[]> {
-		return await this.roomRepository.find({ where: [{ participant1: userId }, { participant2: userId }] })
+		return await this.roomRepository.find({ where: [{ participant1: userId }, { participant2: userId }], order: { updatedAt: 'DESC' } })
 	}
 }

@@ -18,4 +18,10 @@ export class MessageService extends TypeOrmCrudService<Message> {
 		const result = await this.messageRepository.find({ where: { to: roomId }, order: { createdAt: 'DESC' }, take: messageCount, skip: (pageNumber - 1) * messageCount })
 		return result
 	}
+
+	public async updateMessageRead(message: Message) {
+		const result = await this.messageRepository.findOne(message.id)
+		result.isRead = true
+		this.save(result)
+	}
 }

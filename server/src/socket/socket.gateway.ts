@@ -61,4 +61,9 @@ export class SocketGateway {
 		this.messageService.save(data)
 		if (this.connectedClients.includes(data.to.participant2.id) || this.connectedClients.includes(data.to.participant1.id)) client.to(data.to.id).emit('newMessage', data)
 	}
+
+	@SubscribeMessage('messageRead')
+	public handleMessageRead(@MessageBody() data: Message) {
+		this.messageService.updateMessageRead(data)
+	}
 }

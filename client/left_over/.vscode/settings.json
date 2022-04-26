@@ -15,8 +15,9 @@
 		"statusBar.foreground": "#e7e7e7"
 	},
 	"peacock.color": "#3c0180",
-	"editor.defaultFormatter": "esbenp.prettier-vscode",
+	"editor.defaultFormatter": "Dart-Code.flutter",
 	"editor.formatOnSave": true,
 	"prettier.tabWidth": 4,
-	"terminal.integrated.defaultProfile.windows": "PowerShell"
+	"terminal.integrated.defaultProfile.windows": "PowerShell",
+	"editor.minimap.enabled": false
 }
