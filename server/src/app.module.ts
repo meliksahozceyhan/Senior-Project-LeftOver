@@ -16,9 +16,10 @@ import { SocketModule } from './socket/socket.module';
 import { NotificationModule } from './model/notification/notification.module';
 import { RoomModule } from './model/room/room.module';
 import { MessageModule } from './model/message/message.module';
+import { MapModule } from './map/map.module';
 
 @Module({
-	imports: [ConfigModule.forRoot({ load: [databaseConfig], isGlobal: true }), DatabaseModule, UserModule, AuthModule, ItemModule, ImageModule, MongooseModule.forRoot(process.env.MONGO_URI), SocketModule, NotificationModule, RoomModule, MessageModule],
+	imports: [ConfigModule.forRoot({ load: [databaseConfig], isGlobal: true }), DatabaseModule, UserModule, AuthModule, ItemModule, ImageModule, MongooseModule.forRoot(process.env.MONGO_URI), SocketModule, NotificationModule, MapModule, RoomModule, MessageModule],
 	controllers: [AppController],
 	providers: [
 		AppService,
