@@ -98,21 +98,27 @@ class _BodyState extends State<ItemBody> {
   @override
   void initState() {
     fetchProduct();
-    if (socketService.socket == null) {
+    if (socketService.socket == null || !this.socketService.socket.connected) {
       connectToSocketServer();
     }
     super.initState();
   }
 
-  @override
-  Future<void> dispose() async {
-    final prefs = await SharedPreferences.getInstance();
-    var token = prefs.getString('token');
-    Map<String, dynamic> payload = Jwt.parseJwt(token);
-    User user = User.fromJson(payload);
-    socketService.disconnectFromSocket(user.id);
-    super.dispose();
-  }
+  // @override
+  // void dispose() {
+  //   User user = User();
+  //   getUser().then((value) => user = value);
+  //   socketService.disconnectFromSocket(user.id);
+  //   super.dispose();
+  // }
+
+  // Future<User> getUser() async {
+  //   final prefs = await SharedPreferences.getInstance();
+  //   var token = prefs.getString('token');
+  //   Map<String, dynamic> payload = Jwt.parseJwt(token);
+  //   User user = User.fromJson(payload);
+  //   return user;
+  // }
 
   @override
   Widget build(BuildContext context) {

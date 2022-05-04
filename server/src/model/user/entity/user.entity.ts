@@ -1,3 +1,4 @@
+import { classToPlain, Exclude, instanceToPlain } from 'class-transformer'
 import { IsNotEmpty, Length } from 'class-validator'
 import { Item } from 'src/model/item/entity/item.entity'
 import { Notification } from 'src/model/notification/entity/notification.entity'
@@ -24,6 +25,7 @@ export class User {
 	fullName: String
 
 	@IsNotEmpty()
+	@Exclude()
 	@Column({ nullable: false })
 	password: String
 
@@ -41,4 +43,8 @@ export class User {
 
 	@OneToMany(() => Item, (item) => item.user)
 	items: Item[]
+
+	toJSON() {
+		return instanceToPlain(this)
+	}
 }

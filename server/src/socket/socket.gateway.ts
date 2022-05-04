@@ -1,44 +1,77 @@
-import { ConnectedSocket, MessageBody, SubscribeMessage, WebSocketGateway, WebSocketServer } from '@nestjs/websockets'
+import { ConnectedSocket, MessageBody, OnGatewayDisconnect, SubscribeMessage, WebSocketGateway, WebSocketServer } from '@nestjs/websockets'
 import { SocketService } from './socket.service'
 import { Socket, Server } from 'socket.io'
 import { NotificationBody } from './model/notification_body'
+import { RoomService } from 'src/model/room/room.service'
+import { Room } from 'src/model/room/entity/room.entity'
+import { Message } from 'src/model/message/entity/message.entity'
+import { MessageService } from 'src/model/message/message.service'
+import { MessageDTO } from './model/message.dto'
 
 @WebSocketGateway(3001, { namespace: 'socket', cors: '*', transports: 'websocket' })
-export class SocketGateway {
+export class SocketGateway implements OnGatewayDisconnect {
 	@WebSocketServer() server: Server
-	private connectedClients: String[] = []
+	private connectedClients: { socketId: string; userId: string }[] = []
 
-	constructor(private readonly socketService: SocketService) {}
+	constructor(private readonly socketService: SocketService, private readonly roomService: RoomService, private readonly messageService: MessageService) {}
+
+	handleDisconnect(client: Socket) {
+		let index = this.connectedClients.findIndex((connectedClient) => connectedClient.socketId === client.id)
+		this.connectedClients.splice(index, 1)
+	}
+
+	/**
+	 * * PART 1 Notification Manager */
 
 	@SubscribeMessage('notification')
 	public handleEvent(@MessageBody() data: NotificationBody, @ConnectedSocket() client: Socket) {
-		console.log(this.connectedClients)
-		if (this.connectedClients.includes(data.to.id)) client.to(data.to.id).emit('notification', data)
+		if (this.connectedClients.find((connectedClient) => connectedClient.userId === data.to.id)) client.to(data.to.id).emit('notification', data)
 		else this.socketService.createNotification(data)
 	}
 
 	@SubscribeMessage('join')
 	public async handleCreateOfRoom(@MessageBody() data: string, @ConnectedSocket() client: Socket) {
-		console.log(`The Socket ${client.id} Joined to the room ${data}`)
 		client.join(data)
-		this.connectedClients.push(data)
-		console.log(`The User ${data} Is Trying to get unread Notifications`)
+		this.connectedClients.push({ socketId: client.id, userId: data })
+
 		const unreadNotifications = await this.socketService.getNotificationsOfUser(data)
 		this.server.to(data).emit('unreadNotifications', unreadNotifications)
 		this.socketService.deleteReadNotifications(unreadNotifications)
 	}
-
-	@SubscribeMessage('getUnreadNotifications')
-	public handleUnreadNotifications(@MessageBody() data: string, @ConnectedSocket() client: Socket) {}
 
 	@SubscribeMessage('leaveServer')
 	public handleLeaveServer(@MessageBody() data: string, @ConnectedSocket() client: Socket) {
 		client.leave(data)
 		client.disconnect()
 		this.connectedClients.splice(
-			this.connectedClients.findIndex((item) => item === data),
+			this.connectedClients.findIndex((item) => item.userId === data),
 			1
 		)
-		console.log(this.connectedClients)
+	}
+
+	/**
+	 * * PART2 Messaging. */
+
+	@SubscribeMessage('createRoom')
+	public async handleCreateChatRoom(@MessageBody() data: Room, @ConnectedSocket() client: Socket) {
+		await this.roomService.save(data)
+		client.to(data.participant2.id).emit('roomCreated', data)
+	}
+
+	@SubscribeMessage('onNewMessage')
+	public handleNewMessage(@MessageBody() data: MessageDTO, @ConnectedSocket() client: Socket) {
+		if (this.connectedClients.find((connectedClient) => connectedClient.userId === data.to.id)) data.isRead = true
+		this.messageService.saveFromDTO(data)
+		if (this.connectedClients.find((connectedClient) => connectedClient.userId === data.to.id) || this.connectedClients.find((connectedClient) => (connectedClient.userId = data.to.id))) client.to(data.to.id).emit('newMessage', data)
+	}
+
+	@SubscribeMessage('messageRead')
+	public handleMessageRead(@MessageBody() data: Message) {
+		this.messageService.updateMessageRead(data)
+	}
+
+	@SubscribeMessage('multipleMessageRead')
+	public handleMultipleMessageRead(@MessageBody() data: Message[]) {
+		this.messageService.updateMultipleMessageRead(data)
 	}
 }

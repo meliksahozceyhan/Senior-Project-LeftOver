@@ -1,7 +1,19 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'dart:convert';
+
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:jwt_decode/jwt_decode.dart';
+import 'package:left_over/Screens/Message/components/message_detail.dart';
+import 'package:left_over/helpers/NavigationService.dart';
 import 'package:left_over/models/ServerNotificationModel.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:http/http.dart' as http;
+import 'package:left_over/models/User.dart';
+import 'package:left_over/models/message/RoomModel.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class NotificationService {
   //NotificationService a singleton object
@@ -80,7 +92,7 @@ class NotificationService {
           android: _androidNotificationDetails,
           iOS: _iosNotificationDetails,
         ),
-        payload: serverNotificationModel.requestedItem.id);
+        payload: serverNotificationModel.from.id);
     notificationCounter++;
   }
 
@@ -93,6 +105,34 @@ class NotificationService {
   }
 }
 
-Future selectNotification(String payload) async {
-  //handle your logic here
+Future selectNotification(String fromUserId) async {
+  final prefs = await SharedPreferences.getInstance();
+  var token = prefs.getString('token');
+  Map<String, dynamic> payload = Jwt.parseJwt(token);
+  User currentUser = User.fromJson(payload);
+
+  var url =
+      Uri.parse(dotenv.env['API_URL'] + "/room/createRoomViaNotification");
+
+  var postBody = {
+    "participant1": currentUser.toJson(),
+    "participant2": {"id": fromUserId}
+  };
+
+  Map<String, String> headers = new Map<String, String>();
+  headers["Authorization"] = "Bearer " + token;
+  headers["Content-Type"] = "application/json";
+
+  var body = json.encode(postBody);
+
+  var response = await http.post(url, headers: headers, body: body);
+  if (response.statusCode == 201) {
+    var roomModel = RoomModel.fromJson(jsonDecode(response.body));
+    Navigator.push(
+        NavigationService.navigatorKey.currentContext,
+        MaterialPageRoute(
+            builder: (context) => MessageDetail(
+                  roomModel: roomModel,
+                )));
+  }
 }
