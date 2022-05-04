@@ -79,12 +79,14 @@ class _MessageDetailState extends State<MessageDetail> {
         "&pageNumber=$page&messageCount=$messagePerPage");
 
     final response = await http.get(url, headers: headers);
-
-    var responseJson = jsonDecode(response.body) as List;
-    setState(() {
-      messages = List<MessageModel>.from(
-          responseJson.map((json) => MessageModel.fromJson(json)));
-    });
+    if (response.statusCode == 200) {
+      var responseJson = jsonDecode(response.body) as List;
+      setState(() {
+        messages = List<MessageModel>.from(
+            responseJson.map((json) => MessageModel.fromJson(json)));
+      });
+      if (messages.isNotEmpty) handleMultipleMessageRead();
+    }
   }
 
   @override
@@ -181,7 +183,7 @@ class _MessageDetailState extends State<MessageDetail> {
       setState(() {
         MessageModel temp = MessageModel.localMessage(
             content: content, isRead: false, from: user, to: roomModel);
-        messages.add(temp);
+        messages.insert(0,temp);
         socketService.handleSendMessage(temp);
       });
     } else {
@@ -208,5 +210,11 @@ class _MessageDetailState extends State<MessageDetail> {
     });
 
     socketService.handleMessageRead(messageModel);
+  }
+
+  void handleMultipleMessageRead() {
+    List<MessageModel> temp = List<MessageModel>.from(messages
+        .where((message) => message.from.id != user.id && !message.isRead));
+    if (temp.isNotEmpty) socketService.handleMultipleMessageRead(temp);
   }
 }

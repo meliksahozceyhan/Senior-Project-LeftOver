@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { TypeOrmCrudService } from '@nestjsx/crud-typeorm'
+import { MessageDTO } from 'src/socket/model/message.dto'
 import { Repository } from 'typeorm'
 import { Message } from './entity/message.entity'
 
@@ -10,8 +11,16 @@ export class MessageService extends TypeOrmCrudService<Message> {
 		super(messageRepository)
 	}
 
-	public async save(message: Message): Promise<Message> {
-		return await this.messageRepository.save(message)
+	public save(message: Message) {
+		return this.messageRepository.save(message)
+	}
+
+	public saveAll(messages: Message[]) {
+		this.messageRepository.save(messages)
+	}
+
+	public saveFromDTO(messageDto: MessageDTO) {
+		return this.messageRepository.save(messageDto)
 	}
 
 	public async getMessagesOfTheRoom(roomId: string, messageCount: number, pageNumber: number): Promise<Message[]> {
@@ -23,5 +32,10 @@ export class MessageService extends TypeOrmCrudService<Message> {
 		const result = await this.messageRepository.findOne(message.id)
 		result.isRead = true
 		this.save(result)
+	}
+
+	public async updateMultipleMessageRead(messages: Message[]) {
+		messages.forEach((message) => (message.isRead = true))
+		this.saveAll(messages)
 	}
 }

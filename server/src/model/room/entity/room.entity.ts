@@ -1,8 +1,11 @@
 import { User } from 'src/model/user/entity/user.entity'
-import { CreateDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm'
+import { Check, CreateDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn, Unique, UpdateDateColumn } from 'typeorm'
 
 @Entity()
+@Check('"participant1_id" <> "participant2_id"')
+@Unique(['participant1', 'participant2'])
 export class Room {
+	[x: string]: any
 	@PrimaryGeneratedColumn('uuid')
 	id: string
 

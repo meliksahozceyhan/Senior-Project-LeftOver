@@ -17,7 +17,7 @@ export class Message {
 	@ManyToOne(() => Room, { nullable: false, eager: true })
 	to: Room
 
-	@ManyToOne(() => User, { nullable: true, eager: false })
+	@ManyToOne(() => User, { nullable: true, eager: true })
 	from: User
 
 	@IsNotEmpty()

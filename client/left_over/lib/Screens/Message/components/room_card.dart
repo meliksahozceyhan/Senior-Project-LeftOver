@@ -1,8 +1,10 @@
 // ignore_for_file: prefer_const_constructors, unnecessary_string_interpolations
 
+import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
 import 'package:left_over/constants.dart';
 import 'package:left_over/Models/Product.dart';
+import 'package:left_over/models/User.dart';
 import 'package:left_over/models/message/RoomModel.dart';
 
 import '../../../constants.dart';
@@ -10,11 +12,10 @@ import '../../../constants.dart';
 class RoomCard extends StatelessWidget {
   final RoomModel roomModel;
   final Function press;
-  const RoomCard({
-    Key key,
-    this.roomModel,
-    this.press,
-  }) : super(key: key);
+  final User user;
+
+  const RoomCard({Key key, this.roomModel, this.press, this.user})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -32,21 +33,24 @@ class RoomCard extends StatelessWidget {
           ),
           Flexible(
               child: Container(
-            child: Column(
+            child: Row(
               children: <Widget>[
-                Container(
-                  child: Text(
-                    roomModel.participant2.fullName,
-                    // ignore: prefer_const_constructors
-                    style: TextStyle(
-                        color: bTextColorLight,
-                        fontSize: 15),
-                  ),
-                  alignment: Alignment.centerLeft,
-                  margin: EdgeInsets.fromLTRB(5, 5, 5, 5),
-                )
+                Text(
+                  user.id == roomModel.participant1.id
+                      ? roomModel.participant2.fullName
+                      : roomModel.participant1.fullName,
+                  // ignore: prefer_const_constructors
+                  style: TextStyle(color: bTextColorLight, fontSize: 15),
+                ),
+                Spacer(),
+                roomModel.messageCount != "0"
+                    ? Badge(
+                        badgeContent: Text(roomModel.messageCount),
+                      )
+                    : Text("")
               ],
             ),
+            padding: EdgeInsets.fromLTRB(15, 0, 0, 0),
           ))
         ],
       ),

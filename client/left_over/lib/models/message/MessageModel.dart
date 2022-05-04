@@ -47,4 +47,13 @@ class MessageModel {
       "to": to.toJson()
     };
   }
+
+  Map<String, dynamic> toSimpleJson() {
+    return {
+      "content": content,
+      "isRead": isRead,
+      "from": from.toJson(),
+      "to": to.toJson()
+    };
+  }
 }
