@@ -40,6 +40,8 @@ class _MessageDetailState extends State<MessageDetail> {
     getUserDetailsFromSharedPrefs();
     if (socketService.socket == null) {
       socketService.initialize();
+      socketService.socket.on("onNewMessage",
+          (data) => onNewMessageReceived(MessageModel.fromJson(data)));
     } else {
       socketService.socket.on("onNewMessage",
           (data) => onNewMessageReceived(MessageModel.fromJson(data)));
@@ -183,7 +185,7 @@ class _MessageDetailState extends State<MessageDetail> {
       setState(() {
         MessageModel temp = MessageModel.localMessage(
             content: content, isRead: false, from: user, to: roomModel);
-        messages.insert(0,temp);
+        messages.insert(0, temp);
         socketService.handleSendMessage(temp);
       });
     } else {
@@ -206,9 +208,9 @@ class _MessageDetailState extends State<MessageDetail> {
 
   void onNewMessageReceived(MessageModel messageModel) {
     setState(() {
-      messages.add(messageModel);
+      messages.insert(0, messageModel);
     });
-
+    print("Inside new Message Received");
     socketService.handleMessageRead(messageModel);
   }
 

@@ -59,10 +59,12 @@ export class SocketGateway implements OnGatewayDisconnect {
 	}
 
 	@SubscribeMessage('onNewMessage')
-	public handleNewMessage(@MessageBody() data: MessageDTO, @ConnectedSocket() client: Socket) {
+	public async handleNewMessage(@MessageBody() data: MessageDTO, @ConnectedSocket() client: Socket) {
 		if (this.connectedClients.find((connectedClient) => connectedClient.userId === data.to.id)) data.isRead = true
-		this.messageService.saveFromDTO(data)
-		if (this.connectedClients.find((connectedClient) => connectedClient.userId === data.to.id) || this.connectedClients.find((connectedClient) => (connectedClient.userId = data.to.id))) client.to(data.to.id).emit('newMessage', data)
+		let result = await this.messageService.saveFromDTO(data)
+		let receipentId = data.to.participant1.id === data.from.id ? data.to.participant2.id : data.to.participant1.id
+		console.log(receipentId)
+		client.to(receipentId).emit('onNewMessage', result)
 	}
 
 	@SubscribeMessage('messageRead')
