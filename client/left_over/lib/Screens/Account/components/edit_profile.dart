@@ -4,6 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:intl/intl.dart';
+import 'package:jwt_decode/jwt_decode.dart';
+import 'package:left_over/Models/User.dart';
+import 'package:left_over/Screens/Account/account_screen.dart';
+import 'package:left_over/Screens/Account/components/profile.dart';
 import 'package:left_over/Screens/Account/components/profile_pic.dart';
 import 'package:left_over/Screens/Login/login_screen.dart';
 import 'package:left_over/Screens/SearchItem/search_item_screen.dart';
@@ -18,23 +22,68 @@ import 'package:http/http.dart' as http;
 import 'package:left_over/components/discover_small_card.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class EditProfileScreen extends StatelessWidget {
+class EditProfileScreen extends StatefulWidget {
   //const EditProfileScreen({Key key}) : super(key: key);
+  @override
+  State<EditProfileScreen> createState() => _EditProfileScreenState();
+}
+
+class _EditProfileScreenState extends State<EditProfileScreen> {
+  User user;
+
+  @override
+  void initState()  {
+    getUserDetailsFromSharedPrefs();
+    super.initState();
+  }
+
   var getName = "";
+
   var getEmail = "";
+
   var getPassword = "";
+
   var getPasswordConfirmation = "";
+
   var getDateofBirth = "";
+
   var getCity = "";
+
   var getAddress = "";
+
+  void getUserDetailsFromSharedPrefs() async {
+    final prefs = await SharedPreferences.getInstance();
+    var token = prefs.getString('token');
+    Map<String, dynamic> payload = Jwt.parseJwt(token);
+    //userId = payload['id'];
+    user = User.fromJson(payload);
+    print(user.city);
+    getName = user.fullName;
+    getEmail = user.email;
+    getPassword = user.password;
+    getPasswordConfirmation = user.password;
+    getDateofBirth = user.dateOfBirth;
+    getCity = user.city;
+    getAddress = user.address;
+    
+  }
+
   var txt = TextEditingController();
+
   var nameController = TextEditingController();
+
   var mailController = TextEditingController();
+
   var passwordController = TextEditingController();
+
   var passwordConfirmController = TextEditingController();
+
   var cityController = TextEditingController();
+
   var addressController = TextEditingController();
+
   int age;
+
   var isValidationOK = true;
 
   @override
@@ -49,7 +98,7 @@ class EditProfileScreen extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
                 RoundedInputField(
-                  hintText: "Full Name",
+                  hintText: getName,
                   icon: Icons.person,
                   onChanged: (value) {
                     getName = value;
@@ -57,7 +106,7 @@ class EditProfileScreen extends StatelessWidget {
                   controller: nameController,
                 ),
                 RoundedInputField(
-                  hintText: "E-mail",
+                  hintText: getEmail,
                   icon: Icons.mail,
                   onChanged: (value) {
                     getEmail = value;
@@ -79,7 +128,7 @@ class EditProfileScreen extends StatelessWidget {
                   controller: passwordConfirmController,
                 ),
                 RoundedDateField(
-                    hintText: "Date of Birth",
+                    hintText: getDateofBirth,
                     textEditingController: txt,
                     onChanged: (value) {
                       getDateofBirth = value;
@@ -108,7 +157,7 @@ class EditProfileScreen extends StatelessWidget {
                       }, currentTime: DateTime.now(), locale: LocaleType.en);
                     }),
                 RoundedInputField(
-                  hintText: "City",
+                  hintText: getCity,
                   icon: Icons.location_city,
                   onChanged: (value) {
                     getCity = value;
@@ -116,7 +165,7 @@ class EditProfileScreen extends StatelessWidget {
                   controller: cityController,
                 ),
                 RoundedInputField(
-                  hintText: "Address",
+                  hintText: getAddress,
                   icon: Icons.location_on,
                   onChanged: (value) {
                     getAddress = value;
@@ -228,14 +277,14 @@ class EditProfileScreen extends StatelessWidget {
                           prefs.setString('token', response.body);
 
                           if (response.statusCode == 500) {
-                            isValidationOK = false;
+                            isValidationOK = true;
                             final scaffold = ScaffoldMessenger.of(context);
                             scaffold.showSnackBar(
                               SnackBar(
                                 content: const Text(
-                                  'You are already have an account!',
+                                  'Profile is successfully updated!',
                                 ),
-                                backgroundColor: redCheck,
+                                backgroundColor: greenBlockColor,
                                 action: SnackBarAction(
                                     label: 'Close',
                                     onPressed: scaffold.hideCurrentSnackBar,
@@ -247,7 +296,7 @@ class EditProfileScreen extends StatelessWidget {
                               context,
                               MaterialPageRoute(
                                 builder: (context) {
-                                  return LoginScreen();
+                                  return ProfileScreen();
                                 },
                               ),
                             );
