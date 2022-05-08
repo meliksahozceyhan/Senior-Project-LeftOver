@@ -5,6 +5,7 @@ import { getRepository } from 'typeorm'
 import { User } from './entity/user.entity'
 import * as bcrypt from 'bcrypt'
 import { JwtService } from '@nestjs/jwt'
+import { UpdateUserDTO } from './entity/update-user.dto'
 
 @Injectable()
 export class UserService extends TypeOrmCrudService<User> {
@@ -41,5 +42,21 @@ export class UserService extends TypeOrmCrudService<User> {
 
 	public async findOneUser(email: string): Promise<User> {
 		return await this.userRepo.findOne({ where: { email: email } })
+	}
+
+	public async updateUser(newUser: UpdateUserDTO): Promise<User> {
+		const userEntity = await this.userRepo.findOne(newUser.id)
+		if (await bcrypt.compare(await bcrypt.hash(newUser.oldPassword as string, 10), userEntity.password as string)) {
+			userEntity.address = newUser.address
+			userEntity.city = newUser.city
+			userEntity.dateOfBirth = newUser.dateOfBirth
+			userEntity.fullName = newUser.fullName
+			userEntity.profileImage = newUser.profileImage
+			userEntity.email = newUser.email
+			userEntity.password = await bcrypt.hash(newUser.newPassword as string, 10)
+		} else {
+			this.throwBadRequestException('The Old password is WRONG!!!')
+		}
+		return this.userRepo.save(userEntity)
 	}
 }

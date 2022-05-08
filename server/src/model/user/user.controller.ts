@@ -1,5 +1,6 @@
-import { Body, Controller, Get, Post, Query, Request } from '@nestjs/common'
+import { Body, Controller, Get, Post, Put, Query, Request } from '@nestjs/common'
 import { SkipAuth } from 'src/decorators/decorators'
+import { UpdateUserDTO } from './entity/update-user.dto'
 import { User } from './entity/user.entity'
 import { UserService } from './user.service'
 
@@ -15,5 +16,10 @@ export class UserController {
 	@Get('/login')
 	public async login(@Request() req, @Query('email') email: string, @Query('password') password: string): Promise<any> {
 		return this.userService.login(email, password)
+	}
+
+	@Put('updateProfile')
+	public async updateProfile(@Body() user: UpdateUserDTO): Promise<User> {
+		return this.userService.updateUser(user)
 	}
 }
