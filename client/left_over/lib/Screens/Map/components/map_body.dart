@@ -67,10 +67,11 @@ class _MapBodyState extends State<MapBody> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       home: Scaffold(
         appBar: AppBar(
           title: Text('Drop Point Locations'),
-          backgroundColor: lilacColor,
+          backgroundColor: darkBackgroundColor,
         ),
         body: GoogleMap(
           mapType: MapType.normal,
@@ -96,7 +97,7 @@ class _MapBodyState extends State<MapBody> {
 
         },
         label: const Text("Current Location"),
-        backgroundColor: lilacColor,
+        backgroundColor: darkBackgroundColor,
         icon: const Icon(Icons.location_searching_rounded),
       ),
       ),

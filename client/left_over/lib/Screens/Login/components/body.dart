@@ -82,6 +82,8 @@ class Body extends StatelessWidget {
                 }
 
                 if (response.statusCode == 200) {
+                  mailController.clear();
+                  passwordController.clear();
                   Navigator.push(
                     context,
                     MaterialPageRoute(
