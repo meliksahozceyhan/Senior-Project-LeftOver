@@ -41,7 +41,7 @@ export class User {
 	@Column({ nullable: false })
 	address: String
 
-	@Column()
+	@Column({nullable:true})
 	profileImage: String
 
 	@OneToMany(() => Item, (item) => item.user)

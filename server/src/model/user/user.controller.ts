@@ -18,8 +18,8 @@ export class UserController {
 		return this.userService.login(email, password)
 	}
 
-	@Put('updateProfile')
-	public async updateProfile(@Body() user: UpdateUserDTO): Promise<User> {
+	@Put('/updateProfile')
+	public async updateProfile(@Body() user: UpdateUserDTO): Promise<String> {
 		return this.userService.updateUser(user)
 	}
 }
