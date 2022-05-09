@@ -40,10 +40,12 @@ class _BodyState extends State<ItemBody> {
     Map<String, String> headers = new Map<String, String>();
     final prefs = await SharedPreferences.getInstance();
     var token = prefs.getString('token');
+    Map<String, dynamic> payload = Jwt.parseJwt(token);
+    User user = User.fromJson(payload);
     headers["Authorization"] = "Bearer " + token;
 
     final response = await http.get(
-        Uri.parse(dotenv.env['API_URL'] + "/item/getItems"),
+        Uri.parse(dotenv.env['API_URL'] + "/item/getItems?userId=" + user.id),
         headers: headers);
 
     var jsonData = jsonDecode(response.body) as List;

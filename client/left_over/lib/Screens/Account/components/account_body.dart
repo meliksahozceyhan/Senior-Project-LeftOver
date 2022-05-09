@@ -17,14 +17,13 @@ class AccountBody extends StatefulWidget {
   _BodyState createState() => _BodyState();
 }
 
-class _BodyState extends State<AccountBody>  {
-  User user ;
+class _BodyState extends State<AccountBody> {
+  User user = User();
   String username = "";
-  String profileImage = "assets/images/profile_avatar.jpg" ;
+  String profileImage = "assets/images/profile_avatar.jpg";
 
   @override
   void initState() {
-    
     // synchronous call if you don't care about the result
     getUserDetailsFromSharedPrefs();
     // anonymous function if you want the result
@@ -41,21 +40,18 @@ class _BodyState extends State<AccountBody>  {
     //username = payload['fullname'];
     setState(() {
       user = User.fromJson(payload);
-      if(user.profileImage != null){
+      if (user.profileImage != null) {
         //profileImage = user.profileImage;
         profileImage = dotenv.env['API_URL'] + "/image" + user.profileImage;
-                      
       }
     });
-    
+
     //print(user.fullName);
     username = user.fullName;
   }
 
-   
   @override
-  Widget build(BuildContext context){   
-     
+  Widget build(BuildContext context) {
     return Center(
         child: SingleChildScrollView(
       //padding: const EdgeInsets.only(top: profileTopPadding),
@@ -70,25 +66,25 @@ class _BodyState extends State<AccountBody>  {
               clipBehavior: Clip.none,
               children: [
                 CircleAvatar(
-                  backgroundImage: AssetImage(profileImage),
-                  //child:  Image.asset(profileImage,fit: BoxFit.cover),
-                ),
+                    backgroundImage: user.profileImage != null
+                        ? NetworkImage(dotenv.env['API_URL'] +
+                            "/image/" +
+                            user.profileImage)
+                        : AssetImage(profileImage)),
                 Positioned(
                   right: -16,
                   bottom: 0,
                   child: SizedBox(
                     height: 46,
                     width: 46,
-              
                   ),
                 ),
-          
               ],
             ),
           ),
           SizedBox(height: 25),
           Text(
-            "HI "+username.toUpperCase()+"," ,
+            "Hi, " + username,
             style: TextStyle(
               color: Colors.white,
               fontSize: 18,
@@ -101,8 +97,7 @@ class _BodyState extends State<AccountBody>  {
               color: pinkBlockColor,
               press: () => Navigator.push(
                     context,
-                    MaterialPageRoute(
-                        builder: (context) => ProfileScreen()),
+                    MaterialPageRoute(builder: (context) => ProfileScreen()),
                   )),
           ProfileMenu(
               text: "Edit Profile",
@@ -118,7 +113,7 @@ class _BodyState extends State<AccountBody>  {
             icon: Icons.logout,
             color: lightPinkBlockColor,
             press: () async {
-              user=null;
+              user = null;
               final prefs = await SharedPreferences.getInstance();
               prefs.setString('token', "");
               Navigator.push(
@@ -130,19 +125,17 @@ class _BodyState extends State<AccountBody>  {
                 ),
               );
               final scaffold = ScaffoldMessenger.of(context);
-                scaffold.showSnackBar(
-                  SnackBar(
-                    content: const Text(
-                      'You are logged out!',
-                    ),
-                    backgroundColor: greenBlockColor,
-                    action: SnackBarAction(
-                      label: 'Close',
-                      onPressed: scaffold.hideCurrentSnackBar,
-                      textColor: Colors.white),
-                    behavior: SnackBarBehavior.floating,
-                  )
-                );
+              scaffold.showSnackBar(SnackBar(
+                content: const Text(
+                  'You are logged out!',
+                ),
+                backgroundColor: greenBlockColor,
+                action: SnackBarAction(
+                    label: 'Close',
+                    onPressed: scaffold.hideCurrentSnackBar,
+                    textColor: Colors.white),
+                behavior: SnackBarBehavior.floating,
+              ));
             },
           ),
         ],
