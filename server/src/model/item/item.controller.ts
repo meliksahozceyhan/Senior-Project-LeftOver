@@ -26,4 +26,9 @@ export class ItemController implements CrudController<Item> {
 	public async searchItems(@Request() req, @Query('searchValue') searchValue: string): Promise<any> {
 		return this.service.searchItems(searchValue)
 	}
+
+	@Get('/getItemsOfUser')
+	public async getItemsOfUser(@Query('userId') userId: string): Promise<Item[]> {
+		return this.service.getItemsOfUser(userId)
+	}
 }

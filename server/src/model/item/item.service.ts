@@ -30,6 +30,12 @@ export class ItemService extends TypeOrmCrudService<Item> {
 		})
 	}
 
+	public async getItemsOfUser(userId: string): Promise<Item[]> {
+		return await this.itemRepository.find({
+			where: { user: userId }
+		})
+	}
+
 	public async handleItemAfterRemove(item: Item) {
 		this.imageService.removeImage(item.itemImage)
 	}

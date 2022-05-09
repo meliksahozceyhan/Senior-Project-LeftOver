@@ -299,11 +299,13 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
         );
       }
     }
-    await uploadItem(getImageId);
+    //await uploadItem(getImageId);
+    //return 
   }
 
   uploadItem(String imageId) async {
-    //print("Inside Upload Item");
+    print("Inside Upload Profile");
+    print(imageId);
     var url = Uri.parse(dotenv.env['API_URL'] + "/user/");
 
     final prefs = await SharedPreferences.getInstance();
@@ -313,7 +315,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     Map data = null;
 
     data = {
-      'user': {'id': userid},
+      'id': userid,
       'fullname': getName,
       'email': getEmail,
       'dateOfBirth': getDateofBirth,
@@ -334,8 +336,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     var response = await http.put(url, headers: headers, body: body);
 
     if (response.statusCode != 201) {
-      var deleteUrl =
-          Uri.parse(dotenv.env['API_URL'] + "/user/updateProfile" + imageId);
+      var deleteUrl = Uri.parse(dotenv.env['API_URL'] + "/image/" + imageId);
       await http.delete(deleteUrl, headers: headers);
     }
     //print("${response.request}");
@@ -358,39 +359,39 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
               children: <Widget>[
                 Container(
                   child: SizedBox(
-                  height: 115,
-                  width: 115,
-                  child: Stack(
-                    fit: StackFit.expand,
-                    clipBehavior: Clip.none,
-                    children: [
-                      changeProfilePicture(),
-                      Positioned(
-                        right: -16,
-                        bottom: 0,
-                        child: SizedBox(
-                          height: 46,
-                          width: 46,
-                          child: TextButton(
-                            style: TextButton.styleFrom(
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(50),
-                                side: BorderSide(color: lightBackgroundColor),
+                    height: 115,
+                    width: 115,
+                    child: Stack(
+                      fit: StackFit.expand,
+                      clipBehavior: Clip.none,
+                      children: [
+                        changeProfilePicture(),
+                        Positioned(
+                          right: -16,
+                          bottom: 0,
+                          child: SizedBox(
+                            height: 46,
+                            width: 46,
+                            child: TextButton(
+                              style: TextButton.styleFrom(
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(50),
+                                  side: BorderSide(color: lightBackgroundColor),
+                                ),
+                                primary: Colors.white,
+                                backgroundColor: lightBackgroundColor,
                               ),
-                              primary: Colors.white,
-                              backgroundColor: lightBackgroundColor,
+                              onPressed: () {
+                                _showDialog();
+                              },
+                              child: Icon(Icons.add),
                             ),
-                            onPressed: () {
-                              _showDialog();
-                            },
-                            child: Icon(Icons.add),
                           ),
-                        ),
-                      )
-                    ],
+                        )
+                      ],
+                    ),
                   ),
-                ),
-                padding: EdgeInsets.all(30),
+                  padding: EdgeInsets.all(30),
                 ),
                 RoundedInputField(
                   hintText: "fullname",
@@ -549,7 +550,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                               builder: (context) => WelcomeScreen()),
                         );
                       } else {
-                        uploadImage();
+                        await uploadImage();
 
                         isValidationOK = true;
                         Future<http.Response> putRequest() async {
