@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:intl/intl.dart';
 import 'package:jwt_decode/jwt_decode.dart';
 import 'package:left_over/Models/User.dart';
-import 'package:left_over/Screens/Account/components/profile_pic.dart';
 import 'package:left_over/constants.dart';
 import 'package:left_over/components/discover_small_card.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -20,11 +21,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   String email = "";
 
-  String dateOfBirth = "";
+  String dateOfBirth = DateTime.now().toString();
 
   String city = "";
 
   String address = "";
+
+  String profileImage = "assets/images/profile_avatar.jpg" ;
 
   @override
   void initState()  {
@@ -37,13 +40,21 @@ class _ProfileScreenState extends State<ProfileScreen> {
     var token = prefs.getString('token');
     Map<String, dynamic> payload = Jwt.parseJwt(token);
     //userId = payload['id'];
-    user = User.fromJson(payload);
-    print(user.city);
-    username = user.fullName;
-    email = user.email;
-    dateOfBirth = user.dateOfBirth;
-    city = user.city;
-    address = user.address;
+    setState(() {
+      user = User.fromJson(payload);
+      username = user.fullName;
+      email = user.email;
+      dateOfBirth = user.dateOfBirth;
+      city = user.city;
+      address = user.address;
+      
+      if(user.profileImage != null){
+        //profileImage = user.profileImage;
+        profileImage = dotenv.env['API_URL'] + "/image" + user.profileImage;
+        //print(profileImage);
+                      
+      }
+    }); 
     
   }
 
@@ -65,7 +76,29 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     SizedBox(
                       height: size.height / 30,
                     ),
-                    ProfilePic(),
+                    SizedBox(
+                      height: 115,
+                      width: 115,
+                      child: Stack(
+                        fit: StackFit.expand,
+                        clipBehavior: Clip.none,
+                        children: [
+                          CircleAvatar(
+                            backgroundImage: AssetImage(profileImage),
+                          ),
+                          Positioned(
+                            right: -16,
+                            bottom: 0,
+                            child: SizedBox(
+                              height: 46,
+                              width: 46,
+              
+                            ),
+                          ),
+          
+                        ],
+                      ),
+                    ),
                     SizedBox(
                       height: size.height / 30,
                     ),
@@ -95,7 +128,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           ),
                           DiscoverSmallCard(
                             title: 'Date of Birth: ',
-                            subtitle: dateOfBirth,
+                            subtitle: DateFormat('dd-MM-yyyy').format(DateTime.parse(dateOfBirth)),
                             gradientStartColor: blueBlockColor,
                             gradientEndColor: lightBlueBlockColor,
                           ),

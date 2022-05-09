@@ -7,7 +7,8 @@ class User {
       password,
       dateOfBirth,
       city,
-      address;
+      address,
+      profileImage;
 
   User({
     this.id,
@@ -19,6 +20,7 @@ class User {
     this.dateOfBirth,
     this.city,
     this.address,
+    this.profileImage,
   });
 
   factory User.fromJson(Map<String, dynamic> json) {
@@ -32,6 +34,7 @@ class User {
       dateOfBirth: json['dateOfBirth'],
       city: json['city'],
       address: json['address'],
+      profileImage: json['profileImage']
     );
   }
 
@@ -44,7 +47,8 @@ class User {
       "fullName": fullName,
       "dateOfBirth": dateOfBirth,
       "city": city,
-      "address": address
+      "address": address,
+      "profileImage":profileImage
     };
   }
 }

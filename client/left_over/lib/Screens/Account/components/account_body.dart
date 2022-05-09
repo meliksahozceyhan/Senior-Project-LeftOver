@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:jwt_decode/jwt_decode.dart';
 import 'package:left_over/Screens/Account/components/edit_profile.dart';
 import 'package:left_over/Screens/Login/login_screen.dart';
 import 'package:left_over/constants.dart';
 import 'package:left_over/models/User.dart';
 import 'package:left_over/Screens/Account/components/profile_menu.dart';
-import 'package:left_over/Screens/Account/components/profile_pic.dart';
 import 'package:left_over/Screens/Account/components/profile.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -19,6 +20,7 @@ class AccountBody extends StatefulWidget {
 class _BodyState extends State<AccountBody>  {
   User user ;
   String username = "";
+  String profileImage = "assets/images/profile_avatar.jpg" ;
 
   @override
   void initState() {
@@ -37,8 +39,16 @@ class _BodyState extends State<AccountBody>  {
     var token = prefs.getString('token');
     Map<String, dynamic> payload = Jwt.parseJwt(token);
     //username = payload['fullname'];
-    user = User.fromJson(payload);
-    print(user.fullName);
+    setState(() {
+      user = User.fromJson(payload);
+      if(user.profileImage != null){
+        //profileImage = user.profileImage;
+        profileImage = dotenv.env['API_URL'] + "/image" + user.profileImage;
+                      
+      }
+    });
+    
+    //print(user.fullName);
     username = user.fullName;
   }
 
@@ -52,7 +62,30 @@ class _BodyState extends State<AccountBody>  {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          ProfilePic(),
+          SizedBox(
+            height: 115,
+            width: 115,
+            child: Stack(
+              fit: StackFit.expand,
+              clipBehavior: Clip.none,
+              children: [
+                CircleAvatar(
+                  backgroundImage: AssetImage(profileImage),
+                  //child:  Image.asset(profileImage,fit: BoxFit.cover),
+                ),
+                Positioned(
+                  right: -16,
+                  bottom: 0,
+                  child: SizedBox(
+                    height: 46,
+                    width: 46,
+              
+                  ),
+                ),
+          
+              ],
+            ),
+          ),
           SizedBox(height: 25),
           Text(
             "HI "+username.toUpperCase()+"," ,
@@ -80,12 +113,6 @@ class _BodyState extends State<AccountBody>  {
                     MaterialPageRoute(
                         builder: (context) => EditProfileScreen()),
                   )),
-          ProfileMenu(
-            text: "Notifications",
-            icon: Icons.notifications,
-            color: lightBlueBlockColor,
-            press: () {},
-          ),
           ProfileMenu(
             text: "Log Out",
             icon: Icons.logout,

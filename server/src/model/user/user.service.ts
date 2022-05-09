@@ -35,7 +35,7 @@ export class UserService extends TypeOrmCrudService<User> {
 	}
 
 	public createToken(user: User): string {
-		const tokenPayload = { id: user.id, email: user.email, fullName: user.fullName, dateOfBirth: user.dateOfBirth, city: user.city, address: user.address }
+		const tokenPayload = { id: user.id, email: user.email, fullName: user.fullName, dateOfBirth: user.dateOfBirth, city: user.city, address: user.address, profileImage: user.profileImage }
 		const token = this.jwtService.sign(tokenPayload)
 		return token
 	}
@@ -44,19 +44,17 @@ export class UserService extends TypeOrmCrudService<User> {
 		return await this.userRepo.findOne({ where: { email: email } })
 	}
 
-	public async updateUser(newUser: UpdateUserDTO): Promise<User> {
+	public async updateUser(newUser: UpdateUserDTO): Promise<String> {
 		const userEntity = await this.userRepo.findOne(newUser.id)
-		if (await bcrypt.compare(await bcrypt.hash(newUser.oldPassword as string, 10), userEntity.password as string)) {
 			userEntity.address = newUser.address
 			userEntity.city = newUser.city
 			userEntity.dateOfBirth = newUser.dateOfBirth
 			userEntity.fullName = newUser.fullName
 			userEntity.profileImage = newUser.profileImage
 			userEntity.email = newUser.email
-			userEntity.password = await bcrypt.hash(newUser.newPassword as string, 10)
-		} else {
-			this.throwBadRequestException('The Old password is WRONG!!!')
-		}
-		return this.userRepo.save(userEntity)
+
+		const savedResult = await this.userRepo.save(userEntity)
+        return this.createToken(savedResult)
+
 	}
 }
