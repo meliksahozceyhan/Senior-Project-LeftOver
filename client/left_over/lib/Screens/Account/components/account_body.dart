@@ -4,10 +4,12 @@ import 'package:image_picker/image_picker.dart';
 import 'package:jwt_decode/jwt_decode.dart';
 import 'package:left_over/Screens/Account/components/edit_profile.dart';
 import 'package:left_over/Screens/Login/login_screen.dart';
+import 'package:left_over/Screens/MyListings/my_listings_screen.dart';
 import 'package:left_over/constants.dart';
 import 'package:left_over/models/User.dart';
 import 'package:left_over/Screens/Account/components/profile_menu.dart';
 import 'package:left_over/Screens/Account/components/profile.dart';
+import 'package:left_over/socket_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AccountBody extends StatefulWidget {
@@ -21,6 +23,7 @@ class _BodyState extends State<AccountBody> {
   User user = User();
   String username = "";
   String profileImage = "assets/images/profile_avatar.jpg";
+  SocketService socketService = SocketService();
 
   @override
   void initState() {
@@ -109,6 +112,15 @@ class _BodyState extends State<AccountBody> {
                         builder: (context) => EditProfileScreen()),
                   )),
           ProfileMenu(
+              text: "My Listings",
+              icon: Icons.view_list_outlined,
+              color: lightYellowBlockColor,
+              press: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const MyListingsItemScreen()),
+                  )),
+          ProfileMenu(
             text: "Log Out",
             icon: Icons.logout,
             color: lightPinkBlockColor,
@@ -116,6 +128,7 @@ class _BodyState extends State<AccountBody> {
               user = null;
               final prefs = await SharedPreferences.getInstance();
               prefs.setString('token', "");
+              socketService.socket.disconnect();
               Navigator.push(
                 context,
                 MaterialPageRoute(

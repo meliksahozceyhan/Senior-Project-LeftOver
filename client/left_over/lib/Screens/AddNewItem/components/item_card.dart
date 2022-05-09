@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:left_over/constants.dart';
-import 'package:left_over/Models/Product.dart';
+import 'package:left_over/models/Product.dart';
 
 import '../../../constants.dart';
 
