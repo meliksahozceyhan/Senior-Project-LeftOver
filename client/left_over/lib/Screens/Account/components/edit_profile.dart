@@ -1,6 +1,5 @@
 import 'dart:convert';
-import 'dart:io' ;
-
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
@@ -24,7 +23,6 @@ import 'package:left_over/constants.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
-
 class EditProfileScreen extends StatefulWidget {
   //const EditProfileScreen({Key key}) : super(key: key);
   @override
@@ -32,10 +30,10 @@ class EditProfileScreen extends StatefulWidget {
 }
 
 class _EditProfileScreenState extends State<EditProfileScreen> {
-  User user;
+  User user = User();
 
   @override
-  void initState()  {
+  void initState() {
     getUserDetailsFromSharedPrefs();
     super.initState();
   }
@@ -61,7 +59,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   //var getNewPassword = "";
 
   Future<File> file;
-  String base64Image ;
+  String base64Image;
   File tmpFile;
   String background = "assets/images/profile_avatar.jpg";
 
@@ -74,32 +72,36 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
       user = User.fromJson(payload);
       getName = user.fullName;
       getEmail = user.email;
-      getDateofBirth =  DateFormat('dd-MM-yyyy').format(DateTime.parse(user.dateOfBirth));
+      getDateofBirth =
+          DateFormat('dd-MM-yyyy').format(DateTime.parse(user.dateOfBirth));
       getCity = user.city;
       getAddress = user.address;
       //getOldPassword = user.password;
       //getNewPassword = "";
       getImageId = user.profileImage;
 
-       if(getImageId != null){
-         background = getImageId;
+      if (getImageId != null) {
+        background = getImageId;
       }
-      
+
       DateTime currentDate = DateTime.now();
-      age = currentDate.year - int.parse(getDateofBirth.substring(getDateofBirth.length-5)) ; 
+      age = currentDate.year -
+          int.parse(getDateofBirth.substring(getDateofBirth.length - 5));
       int month1 = currentDate.month;
-      int month2 = int.parse(getDateofBirth.substring(getDateofBirth.length-8,getDateofBirth.length-5));
+      int month2 = int.parse(getDateofBirth.substring(
+          getDateofBirth.length - 8, getDateofBirth.length - 5));
       if (month2 > month1) {
         age--;
       } else if (month1 == month2) {
         int day1 = currentDate.day;
-        int day2 = int.parse(getDateofBirth.substring(0,getDateofBirth.length-8));
+        int day2 =
+            int.parse(getDateofBirth.substring(0, getDateofBirth.length - 8));
         if (day2 > day1) {
           age--;
         }
       }
 
-      nameController.text = getName ;
+      nameController.text = getName;
       mailController.text = getEmail;
       birthDateController.text = getDateofBirth;
       cityController.text = getCity;
@@ -107,9 +109,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
 
       //passwordController.clear();
       //newPasswordController.clear();
-
     });
-
   }
 
   var birthDateController = TextEditingController();
@@ -128,7 +128,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
 
   int age;
 
-  var isValidationOK = true;  
+  var isValidationOK = true;
 
   void _showDialog() {
     showDialog(
@@ -176,13 +176,13 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
 
   chooseImageFromGallery() {
     setState(() {
-      file = ImagePicker.pickImage(source: ImageSource.gallery)  ;
+      file = ImagePicker.pickImage(source: ImageSource.gallery);
     });
   }
 
   chooseImageFromCamera() {
     setState(() {
-      file = ImagePicker.pickImage(source: ImageSource.camera) ;
+      file = ImagePicker.pickImage(source: ImageSource.camera);
     });
   }
 
@@ -195,19 +195,21 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
             null != snapshot.data) {
           tmpFile = snapshot.data;
           base64Image = base64Encode(snapshot.data.readAsBytesSync());
-          return CircleAvatar(backgroundImage: FileImage(snapshot.data) ); 
+          return CircleAvatar(backgroundImage: FileImage(snapshot.data));
           // Image.file(
           //       snapshot.data,
           //       fit: BoxFit.fill,
           //     );
         } else if (null != snapshot.error) {
           return CircleAvatar(
-            backgroundImage: AssetImage(background),
-            );
+            backgroundImage: AssetImage("assets/images/profile_avatar.jpg"),
+          );
         } else {
           return CircleAvatar(
-            backgroundImage: AssetImage(background),
-            );
+              backgroundImage: user.profileImage != null
+                  ? NetworkImage(
+                      dotenv.env['API_URL'] + "/image/" + user.profileImage)
+                  : AssetImage('assets/images/profile_avatar.jpg'));
         }
       },
     );
@@ -239,7 +241,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
       if (response.statusCode == 201) {
         print("201");
         final body = json.decode(response.body);
-        print(body["_id"]+"image");
+        print(body["_id"] + "image");
         getImageId = body["_id"];
 
         /*if (getName != "" && getEmail != "" && getDateofBirth != "" && getCity != "" && getAddress != "") {
@@ -296,9 +298,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
           ),
         );
       }
-    } 
+    }
     await uploadItem(getImageId);
-    
   }
 
   uploadItem(String imageId) async {
@@ -312,18 +313,17 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     Map data = null;
 
     data = {
-        'user': {'id': userid},
-        'fullname': getName,
-        'email': getEmail,
-        'dateOfBirth': getDateofBirth,
-        //'oldPassword': getOldPassword,
-        //'newPassword' : getNewPassword,
-        'city': getCity,
-        'address' : getAddress,
-        'profileImage': imageId
+      'user': {'id': userid},
+      'fullname': getName,
+      'email': getEmail,
+      'dateOfBirth': getDateofBirth,
+      //'oldPassword': getOldPassword,
+      //'newPassword' : getNewPassword,
+      'city': getCity,
+      'address': getAddress,
+      'profileImage': imageId
     };
 
-    
     Map<String, String> headers = new Map<String, String>();
     headers["Authorization"] = "Bearer " + token;
     headers["Content-Type"] = "application/json";
@@ -334,7 +334,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     var response = await http.put(url, headers: headers, body: body);
 
     if (response.statusCode != 201) {
-      var deleteUrl = Uri.parse(dotenv.env['API_URL'] + "/user/updateProfile" + imageId);
+      var deleteUrl =
+          Uri.parse(dotenv.env['API_URL'] + "/user/updateProfile" + imageId);
       await http.delete(deleteUrl, headers: headers);
     }
     //print("${response.request}");
@@ -355,7 +356,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
-                SizedBox(
+                Container(
+                  child: SizedBox(
                   height: 115,
                   width: 115,
                   child: Stack(
@@ -380,7 +382,6 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                             ),
                             onPressed: () {
                               _showDialog();
-                  
                             },
                             child: Icon(Icons.add),
                           ),
@@ -388,6 +389,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                       )
                     ],
                   ),
+                ),
+                padding: EdgeInsets.all(30),
                 ),
                 RoundedInputField(
                   hintText: "fullname",
@@ -445,7 +448,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                           }
                         }
                         getDateofBirth = date.toString();
-                        birthDateController.text = DateFormat('dd-MM-yyyy').format(date);
+                        birthDateController.text =
+                            DateFormat('dd-MM-yyyy').format(date);
                       }, currentTime: DateTime.now(), locale: LocaleType.en);
                     }),
                 RoundedInputField(
@@ -473,7 +477,6 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                         getDateofBirth != "" &&
                         getCity != "" &&
                         getAddress != "") {
-
                       /*if (oldPassword == newPassword) {
                         isValidationOK = false;
                         final scaffold = ScaffoldMessenger.of(context);
@@ -490,8 +493,10 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                         ));
                         //passwordController.clear();
                         //newPasswordController.clear();
-                      } else*/ 
-                      if (!RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z]+\.[a-zA-Z]+").hasMatch(getEmail)) {
+                      } else*/
+                      if (!RegExp(
+                              r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z]+\.[a-zA-Z]+")
+                          .hasMatch(getEmail)) {
                         isValidationOK = false;
                         final scaffold = ScaffoldMessenger.of(context);
                         scaffold.showSnackBar(
@@ -534,7 +539,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                         getName = "";
                         getEmail = "";
                         //oldPassword = "";
-                       // newPassword = "";
+                        // newPassword = "";
                         getDateofBirth = "";
                         getCity = "";
                         getAddress = "";
@@ -548,35 +553,40 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
 
                         isValidationOK = true;
                         Future<http.Response> putRequest() async {
-                          var url = Uri.parse(dotenv.env['API_URL'] + "/user/updateProfile");
+                          var url = Uri.parse(
+                              dotenv.env['API_URL'] + "/user/updateProfile");
 
                           //var url = Uri.parse(urlAndParams);
 
                           Map data = {
-                            'id':user.id,
+                            'id': user.id,
                             'email': getEmail,
                             'fullName': getName,
                             'oldPassword': oldPassword,
-                            'newPassword' : newPassword,
-                            'dateOfBirth': DateTime.parse(getDateofBirth.split("-").reversed.join("-")).toString(),
+                            'newPassword': newPassword,
+                            'dateOfBirth': DateTime.parse(getDateofBirth
+                                    .split("-")
+                                    .reversed
+                                    .join("-"))
+                                .toString(),
                             'city': getCity,
                             'address': getAddress,
-                            'profileImage' : getImageId
+                            'profileImage': getImageId
                           };
                           //encode Map to JSON
                           var body = json.encode(data);
 
                           final prefs = await SharedPreferences.getInstance();
                           var token = prefs.getString('token');
-                          Map<String, String> headers = new Map<String, String>();
+                          Map<String, String> headers =
+                              new Map<String, String>();
                           headers["Authorization"] = "Bearer " + token;
                           headers["Content-Type"] = "application/json";
 
                           //print(headers);
 
-                          var response = await http.put(url,
-                              headers: headers,
-                              body: body);
+                          var response =
+                              await http.put(url, headers: headers, body: body);
                           //print(response.statusCode);
                           //print(response.body);
                           if (response.statusCode == 200) {
@@ -600,8 +610,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => ProfileScreen()),
-                              
+                                  builder: (context) => ProfileScreen()),
                             );
                           }
                           return response;
@@ -637,7 +646,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                       getName = "";
                       getEmail = "";
                       oldPassword = "";
-                      newPassword= "";
+                      newPassword = "";
                       getDateofBirth = "";
                       getCity = "";
                       getAddress = "";

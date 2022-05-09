@@ -15,7 +15,7 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
-  User user;
+  User user = User();
 
   String username = "";
 
@@ -27,10 +27,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   String address = "";
 
-  String profileImage = "assets/images/profile_avatar.jpg" ;
+  String profileImage = "assets/images/profile_avatar.jpg";
 
   @override
-  void initState()  {
+  void initState() {
     getUserDetailsFromSharedPrefs();
     super.initState();
   }
@@ -47,21 +47,20 @@ class _ProfileScreenState extends State<ProfileScreen> {
       dateOfBirth = user.dateOfBirth;
       city = user.city;
       address = user.address;
-      
-      if(user.profileImage != null){
+
+      if (user.profileImage != null) {
         //profileImage = user.profileImage;
-        profileImage = dotenv.env['API_URL'] + "/image" + user.profileImage;
+        profileImage = dotenv.env['API_URL'] + "/image/" + user.profileImage;
         //print(profileImage);
-                      
+
       }
-    }); 
-    
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    
+
     return Scaffold(
       appBar: buildAppBar(context),
       body: SafeArea(
@@ -84,18 +83,19 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         clipBehavior: Clip.none,
                         children: [
                           CircleAvatar(
-                            backgroundImage: AssetImage(profileImage),
-                          ),
+                              backgroundImage: user.profileImage != null
+                                  ? NetworkImage(dotenv.env['API_URL'] +
+                                      "/image/" +
+                                      user.profileImage)
+                                  : AssetImage(profileImage)),
                           Positioned(
                             right: -16,
                             bottom: 0,
                             child: SizedBox(
                               height: 46,
                               width: 46,
-              
                             ),
                           ),
-          
                         ],
                       ),
                     ),
@@ -128,7 +128,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           ),
                           DiscoverSmallCard(
                             title: 'Date of Birth: ',
-                            subtitle: DateFormat('dd-MM-yyyy').format(DateTime.parse(dateOfBirth)),
+                            subtitle: DateFormat('dd-MM-yyyy')
+                                .format(DateTime.parse(dateOfBirth)),
                             gradientStartColor: blueBlockColor,
                             gradientEndColor: lightBlueBlockColor,
                           ),

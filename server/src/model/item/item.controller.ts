@@ -18,12 +18,12 @@ export class ItemController implements CrudController<Item> {
 	constructor(public service: ItemService) {}
 
 	@Get('/getItems')
-	public async getItems(@Request() req): Promise<any> {
-		return this.service.getItems()
+	public async getItems(@Request() req, @Query('userId') userId: string): Promise<any> {
+		return this.service.getItems(userId)
 	}
 
-    @Get('/searchItems')
+	@Get('/searchItems')
 	public async searchItems(@Request() req, @Query('searchValue') searchValue: string): Promise<any> {
-		return this.service.searchItems(searchValue);
+		return this.service.searchItems(searchValue)
 	}
 }

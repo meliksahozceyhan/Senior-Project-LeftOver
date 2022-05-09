@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { TypeOrmCrudService } from '@nestjsx/crud-typeorm'
 import { ImageService } from 'src/image/image.service'
-import { getRepository, ILike, LessThanOrEqual, Like, Not, Repository } from 'typeorm'
+import { Equal, getRepository, ILike, LessThanOrEqual, Like, Not, Repository } from 'typeorm'
 import { Item } from './entity/item.entity'
 
 @Injectable()
@@ -12,9 +12,12 @@ export class ItemService extends TypeOrmCrudService<Item> {
 		super(itemRepo)
 	}
 
-	public async getItems(): Promise<Item[]> {
+	public async getItems(userId: string): Promise<Item[]> {
 		return await this.itemRepository.find({
-			where: [{ expirationDate: Not(LessThanOrEqual(new Date())) }, { expirationDate: null }]
+			where: [
+				{ expirationDate: Not(LessThanOrEqual(new Date())), user: Not(Equal(userId)) },
+				{ expirationDate: null, user: Not(Equal(userId)) }
+			]
 		})
 	}
 
