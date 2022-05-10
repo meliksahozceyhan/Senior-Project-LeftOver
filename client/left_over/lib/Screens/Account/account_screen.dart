@@ -10,7 +10,7 @@ import 'components/account_body.dart';
 
 class AccountScreen extends StatefulWidget {
   const AccountScreen({Key key}) : super(key: key);
-
+  static int selectedIndex = 0;
   @override
   _AccountScreenState createState() => _AccountScreenState();
 }
@@ -24,15 +24,15 @@ class _AccountScreenState extends State<AccountScreen> {
     MessageBody(),
     AccountBody()
   ];
-  int selectedIndex = 0;
-
+ 
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: screens[selectedIndex],
+      body: screens[AccountScreen.selectedIndex],
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
-        currentIndex: selectedIndex,
+        currentIndex: AccountScreen.selectedIndex,
         showSelectedLabels: false,
         showUnselectedLabels: false,
         items: const <BottomNavigationBarItem>[
@@ -46,7 +46,7 @@ class _AccountScreenState extends State<AccountScreen> {
         selectedItemColor: yellowBlockColor,
         backgroundColor: navBlueColor,
         onTap: (i) => setState(() {
-          selectedIndex = i;
+          AccountScreen.selectedIndex = i;
         }),
       ),
     );
