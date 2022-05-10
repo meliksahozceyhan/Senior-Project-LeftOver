@@ -13,6 +13,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'categorries.dart';
 import 'item_card.dart';
 
+import 'dart:math' as math; 
+
 class ItemBody extends StatefulWidget {
   const ItemBody({Key key}) : super(key: key);
 
@@ -23,14 +25,15 @@ class ItemBody extends StatefulWidget {
 class _BodyState extends State<ItemBody> {
   List<Product> products = [];
 
-  var _postJson = [];
-  static var _sortedList = [];
+  List<Product>_postJson = [];
+  List<Product> _sortedList = [];
   static int selectedCategoryIndex = 0;
   static int defaultCategory =
       selectedCategoryIndex; // both 0 at the beginning which is consumable
   var ascending = false;
   var descending = false;
   static int sortCount = 0;
+  var selectedSub = 'All';
 
   SocketService socketService = SocketService();
 
@@ -52,20 +55,37 @@ class _BodyState extends State<ItemBody> {
 
     setState(() {
       selectedCategoryIndex = CategoriesState.selectedIndex;
+      
       _postJson = //unsorted original list from json
           List<Product>.from(jsonData.map((model) => Product.fromJson(model)))
               .where((item) =>
                   item.category ==
                   CategoriesState.categories[CategoriesState.selectedIndex])
               .toList();
+
       _sortedList = _postJson;
 
-      if (defaultCategory != selectedCategoryIndex) {
-        //if selected category is changed then it detects the change
+      // if(selectedSub != 'All'){
+      //   _postJson = //unsorted original list from json
+      //       List<Product>.from(jsonData.map((model) => Product.fromJson(model)))
+      //           .where((item) =>
+      //               item.subCategory == selectedSub)
+      //           .toList();
+      //           //selectedSub = 'All';
+      // }else if(selectedSub == 'All'){
+      //   _postJson = //unsorted original list from json
+      //       List<Product>.from(jsonData.map((model) => Product.fromJson(model)))
+      //           .where((item) =>
+      //               item.category ==
+      //               CategoriesState.categories[CategoriesState.selectedIndex])
+      //           .toList();
+      // }
+
+      if (defaultCategory != selectedCategoryIndex ) {
+        //if selected category is changed then it detects the change , it returns default all items in selected category without sort without selected specific sub
         sortCount = 0; // so it cancels sorting selection
         _postJson = //unsorted original list from json
-            List<Product>.from(jsonData.map((model) => Product.fromJson(model)))
-                .where((item) =>
+            List<Product>.from(jsonData.map((model) => Product.fromJson(model))).where((item) =>
                     item.category ==
                     CategoriesState.categories[CategoriesState.selectedIndex])
                 .toList();
@@ -74,6 +94,13 @@ class _BodyState extends State<ItemBody> {
         descending = false;
         defaultCategory =
             selectedCategoryIndex; //sets default as selected to be able to control later changes
+        selectedSub="All";
+      }
+
+      if(selectedSub != 'All'){
+        _sortedList = _sortedList.where((item) =>
+                    item.subCategory == selectedSub)
+                .toList();
       }
 
       if (ascending == true && descending == false) {
@@ -83,7 +110,15 @@ class _BodyState extends State<ItemBody> {
         _sortedList = _sortedList.reversed.toList();
       } else {
         _sortedList =
-            _postJson; //to turn back original list in case both orderin is false
+            List<Product>.from(jsonData.map((model) => Product.fromJson(model))).where((item) =>
+                    item.category ==
+                    CategoriesState.categories[CategoriesState.selectedIndex])
+                .toList(); //to turn back original list in case both orderin is false
+         if(selectedSub != 'All'){
+        _sortedList = _sortedList.where((item) =>
+                    item.subCategory == selectedSub)
+                .toList();
+      }
       }
     });
   }
@@ -154,20 +189,95 @@ class _BodyState extends State<ItemBody> {
                         sortCount += 1;
                         if (sortCount % 2 == 1) {
                           ascending = true;
+                          print("ascending");
                           descending = false;
                           print(sortCount);
                         } else if (sortCount != 0 && sortCount % 2 == 0) {
                           descending = true;
+                          print("descending");
                           ascending = false;
                           print(sortCount);
                         }
                         print('sort is pressed');
                         fetchProduct();
                       },
-                    ),
+                    ),              
                   ]),
             ),
-            Categories(),
+            // Container(
+            //   child: Row(
+            //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            //       children: [
+            //         Categories(),
+                    // IconButton(
+                    //   icon: const Icon(
+                    //     Icons.arrow_drop_down_circle,
+                    //     size: 30,
+                    //     color: Colors.white,
+                    //   ),
+                    //   onPressed: () {
+                        
+                    //     //fetchProduct();
+                    //   },
+                    // ),              
+            //       ])),
+    
+            Row(children: [
+              Categories(),
+              Spacer(),
+              PopupMenuButton(
+                icon: Icon( Icons.arrow_drop_down_circle,
+                size: 30,
+                color: Colors.white),
+                itemBuilder:  selectedCategoryIndex == 0 ? (_) => const<PopupMenuItem<String>>[
+                  
+                  PopupMenuItem<String>(
+                    child: Text('All'), value: 'All'),
+                  PopupMenuItem<String>(
+                    child: Text('Bakery'), value: 'Bakery'),
+                  PopupMenuItem<String>(
+                    child: Text('Charcuterie'), value: 'Charcuterie'),
+                  PopupMenuItem<String>(
+                    child: Text('GreenGrocery'), value: 'GreenGrocery'),
+                  PopupMenuItem<String>(
+                    child: Text('Other'), value: 'Other'),
+                ] : (_) => const<PopupMenuItem<String>>[
+                  
+                  PopupMenuItem<String>(
+                    child: Text('All'), value: 'All'),
+                  PopupMenuItem<String>(
+                    child: Text('TopWear'), value: 'TopWear'),
+                  PopupMenuItem<String>(
+                    child: Text('BottomClothing'), value: 'BottomClothing'),
+                  PopupMenuItem<String>(
+                    child: Text('Book'), value: 'Book'),
+                  PopupMenuItem<String>(
+                    child: Text('Shoes'), value: 'Shoes'),
+                  PopupMenuItem<String>(
+                    child: Text('Accessories'), value: 'Accessories'),
+                  PopupMenuItem<String>(
+                    child: Text('Decoration'), value: 'Decoration'),
+                  PopupMenuItem<String>(
+                    child: Text('Tools'), value: 'Tools'),
+                  PopupMenuItem<String>(
+                    child: Text('Other'), value: 'Other'),
+                ] ,
+                onSelected: (value) {
+                  setState(() {
+                    selectedSub = value;
+                    fetchProduct();
+                  });
+                  
+                },                
+                // onCanceled: (){
+                //   setState(() {
+                //     fetchProduct();
+                //     selectedSub = 'All';
+                //   });
+                // }
+              )
+            ],),
+                     
             Expanded(
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: kDefaultPaddin),

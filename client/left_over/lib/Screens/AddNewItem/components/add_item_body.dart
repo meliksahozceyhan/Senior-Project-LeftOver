@@ -43,7 +43,7 @@ class _NewItemBodyState extends State<AddNewItemBody> {
   //static int imageMethod; //0 for gallery , 1 for camera
 
   static List<List> spinnerItems = [
-    ['Bakery', 'Charcuterie', 'GreenGrocery'],
+    ['Bakery', 'Charcuterie', 'GreenGrocery','Other'],
     [
       'TopWear',
       'BottomClothing',
@@ -51,7 +51,8 @@ class _NewItemBodyState extends State<AddNewItemBody> {
       'Shoes',
       'Accessories',
       'Decoration',
-      'Tools'
+      'Tools',
+      'Other'
     ]
   ];
   static List<String> conditionList = [
