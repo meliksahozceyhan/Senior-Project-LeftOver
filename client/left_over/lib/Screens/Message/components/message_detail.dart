@@ -81,6 +81,22 @@ class _MessageDetailState extends State<MessageDetail> {
         "&pageNumber=$page&messageCount=$messagePerPage");
 
     final response = await http.get(url, headers: headers);
+    if (response.statusCode == 500) {
+      final scaffold = ScaffoldMessenger.of(context);
+      scaffold.showSnackBar(
+        SnackBar(
+          content: const Text(
+            'Something went wrong on the server side',
+          ),
+          backgroundColor: redCheck,
+          action: SnackBarAction(
+              label: 'Close',
+              onPressed: scaffold.hideCurrentSnackBar,
+              textColor: Colors.white),
+          behavior: SnackBarBehavior.floating,
+        ),
+      );
+    }
     if (response.statusCode == 200) {
       var responseJson = jsonDecode(response.body) as List;
       setState(() {

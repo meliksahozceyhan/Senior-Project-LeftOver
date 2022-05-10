@@ -13,7 +13,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'categorries.dart';
 import 'item_card.dart';
 
-import 'dart:math' as math; 
+import 'dart:math' as math;
 
 class ItemBody extends StatefulWidget {
   const ItemBody({Key key}) : super(key: key);
@@ -25,7 +25,7 @@ class ItemBody extends StatefulWidget {
 class _BodyState extends State<ItemBody> {
   List<Product> products = [];
 
-  List<Product>_postJson = [];
+  List<Product> _postJson = [];
   List<Product> _sortedList = [];
   static int selectedCategoryIndex = 0;
   static int defaultCategory =
@@ -51,11 +51,28 @@ class _BodyState extends State<ItemBody> {
         Uri.parse(dotenv.env['API_URL'] + "/item/getItems?userId=" + user.id),
         headers: headers);
 
+    if (response.statusCode == 500) {
+      final scaffold = ScaffoldMessenger.of(context);
+      scaffold.showSnackBar(
+        SnackBar(
+          content: const Text(
+            'Something went wrong on the server side',
+          ),
+          backgroundColor: redCheck,
+          action: SnackBarAction(
+              label: 'Close',
+              onPressed: scaffold.hideCurrentSnackBar,
+              textColor: Colors.white),
+          behavior: SnackBarBehavior.floating,
+        ),
+      );
+    }
+
     var jsonData = jsonDecode(response.body) as List;
 
     setState(() {
       selectedCategoryIndex = CategoriesState.selectedIndex;
-      
+
       _postJson = //unsorted original list from json
           List<Product>.from(jsonData.map((model) => Product.fromJson(model)))
               .where((item) =>
@@ -81,11 +98,12 @@ class _BodyState extends State<ItemBody> {
       //           .toList();
       // }
 
-      if (defaultCategory != selectedCategoryIndex ) {
+      if (defaultCategory != selectedCategoryIndex) {
         //if selected category is changed then it detects the change , it returns default all items in selected category without sort without selected specific sub
         sortCount = 0; // so it cancels sorting selection
         _postJson = //unsorted original list from json
-            List<Product>.from(jsonData.map((model) => Product.fromJson(model))).where((item) =>
+            List<Product>.from(jsonData.map((model) => Product.fromJson(model)))
+                .where((item) =>
                     item.category ==
                     CategoriesState.categories[CategoriesState.selectedIndex])
                 .toList();
@@ -94,13 +112,13 @@ class _BodyState extends State<ItemBody> {
         descending = false;
         defaultCategory =
             selectedCategoryIndex; //sets default as selected to be able to control later changes
-        selectedSub="All";
+        selectedSub = "All";
       }
 
-      if(selectedSub != 'All'){
-        _sortedList = _sortedList.where((item) =>
-                    item.subCategory == selectedSub)
-                .toList();
+      if (selectedSub != 'All') {
+        _sortedList = _sortedList
+            .where((item) => item.subCategory == selectedSub)
+            .toList();
       }
 
       if (ascending == true && descending == false) {
@@ -109,16 +127,17 @@ class _BodyState extends State<ItemBody> {
         _sortedList.sort();
         _sortedList = _sortedList.reversed.toList();
       } else {
-        _sortedList =
-            List<Product>.from(jsonData.map((model) => Product.fromJson(model))).where((item) =>
-                    item.category ==
-                    CategoriesState.categories[CategoriesState.selectedIndex])
-                .toList(); //to turn back original list in case both orderin is false
-         if(selectedSub != 'All'){
-        _sortedList = _sortedList.where((item) =>
-                    item.subCategory == selectedSub)
-                .toList();
-      }
+        _sortedList = List<Product>.from(
+                jsonData.map((model) => Product.fromJson(model)))
+            .where((item) =>
+                item.category ==
+                CategoriesState.categories[CategoriesState.selectedIndex])
+            .toList(); //to turn back original list in case both orderin is false
+        if (selectedSub != 'All') {
+          _sortedList = _sortedList
+              .where((item) => item.subCategory == selectedSub)
+              .toList();
+        }
       }
     });
   }
@@ -201,7 +220,7 @@ class _BodyState extends State<ItemBody> {
                         print('sort is pressed');
                         fetchProduct();
                       },
-                    ),              
+                    ),
                   ]),
             ),
             // Container(
@@ -209,75 +228,79 @@ class _BodyState extends State<ItemBody> {
             //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
             //       children: [
             //         Categories(),
-                    // IconButton(
-                    //   icon: const Icon(
-                    //     Icons.arrow_drop_down_circle,
-                    //     size: 30,
-                    //     color: Colors.white,
-                    //   ),
-                    //   onPressed: () {
-                        
-                    //     //fetchProduct();
-                    //   },
-                    // ),              
+            // IconButton(
+            //   icon: const Icon(
+            //     Icons.arrow_drop_down_circle,
+            //     size: 30,
+            //     color: Colors.white,
+            //   ),
+            //   onPressed: () {
+
+            //     //fetchProduct();
+            //   },
+            // ),
             //       ])),
-    
-            Row(children: [
-              Categories(),
-              Spacer(),
-              PopupMenuButton(
-                icon: Icon( Icons.arrow_drop_down_circle,
-                size: 30,
-                color: Colors.white),
-                itemBuilder:  selectedCategoryIndex == 0 ? (_) => const<PopupMenuItem<String>>[
-                  
-                  PopupMenuItem<String>(
-                    child: Text('All'), value: 'All'),
-                  PopupMenuItem<String>(
-                    child: Text('Bakery'), value: 'Bakery'),
-                  PopupMenuItem<String>(
-                    child: Text('Charcuterie'), value: 'Charcuterie'),
-                  PopupMenuItem<String>(
-                    child: Text('GreenGrocery'), value: 'GreenGrocery'),
-                  PopupMenuItem<String>(
-                    child: Text('Other'), value: 'Other'),
-                ] : (_) => const<PopupMenuItem<String>>[
-                  
-                  PopupMenuItem<String>(
-                    child: Text('All'), value: 'All'),
-                  PopupMenuItem<String>(
-                    child: Text('TopWear'), value: 'TopWear'),
-                  PopupMenuItem<String>(
-                    child: Text('BottomClothing'), value: 'BottomClothing'),
-                  PopupMenuItem<String>(
-                    child: Text('Book'), value: 'Book'),
-                  PopupMenuItem<String>(
-                    child: Text('Shoes'), value: 'Shoes'),
-                  PopupMenuItem<String>(
-                    child: Text('Accessories'), value: 'Accessories'),
-                  PopupMenuItem<String>(
-                    child: Text('Decoration'), value: 'Decoration'),
-                  PopupMenuItem<String>(
-                    child: Text('Tools'), value: 'Tools'),
-                  PopupMenuItem<String>(
-                    child: Text('Other'), value: 'Other'),
-                ] ,
-                onSelected: (value) {
-                  setState(() {
-                    selectedSub = value;
-                    fetchProduct();
-                  });
-                  
-                },                
-                // onCanceled: (){
-                //   setState(() {
-                //     fetchProduct();
-                //     selectedSub = 'All';
-                //   });
-                // }
-              )
-            ],),
-                     
+
+            Row(
+              children: [
+                Categories(),
+                Spacer(),
+                PopupMenuButton(
+                  icon: Icon(Icons.arrow_drop_down_circle,
+                      size: 30, color: Colors.white),
+                  itemBuilder: selectedCategoryIndex == 0
+                      ? (_) => const <PopupMenuItem<String>>[
+                            PopupMenuItem<String>(
+                                child: Text('All'), value: 'All'),
+                            PopupMenuItem<String>(
+                                child: Text('Bakery'), value: 'Bakery'),
+                            PopupMenuItem<String>(
+                                child: Text('Charcuterie'),
+                                value: 'Charcuterie'),
+                            PopupMenuItem<String>(
+                                child: Text('GreenGrocery'),
+                                value: 'GreenGrocery'),
+                            PopupMenuItem<String>(
+                                child: Text('Other'), value: 'Other'),
+                          ]
+                      : (_) => const <PopupMenuItem<String>>[
+                            PopupMenuItem<String>(
+                                child: Text('All'), value: 'All'),
+                            PopupMenuItem<String>(
+                                child: Text('TopWear'), value: 'TopWear'),
+                            PopupMenuItem<String>(
+                                child: Text('BottomClothing'),
+                                value: 'BottomClothing'),
+                            PopupMenuItem<String>(
+                                child: Text('Book'), value: 'Book'),
+                            PopupMenuItem<String>(
+                                child: Text('Shoes'), value: 'Shoes'),
+                            PopupMenuItem<String>(
+                                child: Text('Accessories'),
+                                value: 'Accessories'),
+                            PopupMenuItem<String>(
+                                child: Text('Decoration'), value: 'Decoration'),
+                            PopupMenuItem<String>(
+                                child: Text('Tools'), value: 'Tools'),
+                            PopupMenuItem<String>(
+                                child: Text('Other'), value: 'Other'),
+                          ],
+                  onSelected: (value) {
+                    setState(() {
+                      selectedSub = value;
+                      fetchProduct();
+                    });
+                  },
+                  // onCanceled: (){
+                  //   setState(() {
+                  //     fetchProduct();
+                  //     selectedSub = 'All';
+                  //   });
+                  // }
+                )
+              ],
+            ),
+
             Expanded(
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: kDefaultPaddin),

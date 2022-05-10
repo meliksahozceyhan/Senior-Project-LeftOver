@@ -41,6 +41,23 @@ class _MyListingsItemBodyState extends State<MyListingsItemBody> {
             dotenv.env['API_URL'] + "/item/getItemsOfUser?userId=" + user.id),
         headers: headers);
 
+    if (response.statusCode == 500) {
+      final scaffold = ScaffoldMessenger.of(context);
+      scaffold.showSnackBar(
+        SnackBar(
+          content: const Text(
+            'Something went wrong on the server side',
+          ),
+          backgroundColor: redCheck,
+          action: SnackBarAction(
+              label: 'Close',
+              onPressed: scaffold.hideCurrentSnackBar,
+              textColor: Colors.white),
+          behavior: SnackBarBehavior.floating,
+        ),
+      );
+    }
+
     var jsonData = jsonDecode(response.body) as List;
 
     setState(() {
@@ -94,14 +111,13 @@ class _MyListingsItemBodyState extends State<MyListingsItemBody> {
   AppBar buildAppBar(BuildContext context) {
     return AppBar(
       leading: GestureDetector(
-        onTap: (){
-          AccountScreen.selectedIndex=5;
-           Navigator.pushReplacement(
-                              context,
-          MaterialPageRoute(
-                                  builder: (context) => AccountScreen()));
+        onTap: () {
+          AccountScreen.selectedIndex = 5;
+          Navigator.pushReplacement(context,
+              MaterialPageRoute(builder: (context) => AccountScreen()));
         },
-        child: const Icon(Icons.arrow_back),),
+        child: const Icon(Icons.arrow_back),
+      ),
       backgroundColor: darkishBlue,
       title: Text("Edit Profile"),
       centerTitle: true,
