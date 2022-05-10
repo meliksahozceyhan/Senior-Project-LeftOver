@@ -23,7 +23,7 @@ class MessageCard extends StatelessWidget {
             margin: EdgeInsets.fromLTRB(MediaQuery.of(context).size.width/2-20, 10, 0, 10),
             width: MediaQuery.of(context).size.width/2,
             decoration: BoxDecoration(
-                color: kPrimaryColor, borderRadius: BorderRadius.circular(8)),
+                color: blueBlockColor, borderRadius: BorderRadius.circular(8)),
           )
         ],
       );
@@ -39,7 +39,7 @@ class MessageCard extends StatelessWidget {
 
             width: MediaQuery.of(context).size.width/2,
             decoration: BoxDecoration(
-                color: kPrimaryColor, borderRadius: BorderRadius.circular(8)),
+                color: lightBlueBlockColor, borderRadius: BorderRadius.circular(8)),
             margin: EdgeInsets.fromLTRB(0, 10, MediaQuery.of(context).size.width/2-20, 10),
           )
         ],
