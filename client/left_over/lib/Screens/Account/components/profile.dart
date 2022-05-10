@@ -3,6 +3,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:intl/intl.dart';
 import 'package:jwt_decode/jwt_decode.dart';
 import 'package:left_over/Models/User.dart';
+import 'package:left_over/Screens/Account/account_screen.dart';
 import 'package:left_over/constants.dart';
 import 'package:left_over/components/discover_small_card.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -160,6 +161,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   AppBar buildAppBar(BuildContext context) {
     return AppBar(
+       leading: GestureDetector(
+        onTap: (){
+          AccountScreen.selectedIndex=5;
+           Navigator.pushReplacement(
+                              context,
+          MaterialPageRoute(
+                                  builder: (context) => AccountScreen()));
+        },
+        child: const Icon(Icons.arrow_back),),
       backgroundColor: darkishBlue,
       title: Text("My Profile"),
       centerTitle: true,

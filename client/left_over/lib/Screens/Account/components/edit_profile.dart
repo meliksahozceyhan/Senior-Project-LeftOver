@@ -19,6 +19,7 @@ import 'package:left_over/components/rounded_button.dart';
 import 'package:left_over/components/rounded_date_field.dart';
 import 'package:left_over/components/rounded_input_field.dart';
 import 'package:left_over/components/rounded_password_field.dart';
+import 'package:left_over/Screens/Account/account_screen.dart';
 import 'package:left_over/constants.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
@@ -608,7 +609,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                               ),
                             );
 
-                            Navigator.push(
+                            Navigator.pushReplacement(
                               context,
                               MaterialPageRoute(
                                   builder: (context) => ProfileScreen()),
@@ -663,6 +664,15 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
 
   AppBar buildAppBar(BuildContext context) {
     return AppBar(
+      leading: GestureDetector(
+        onTap: (){
+          AccountScreen.selectedIndex=5;
+           Navigator.pushReplacement(
+                              context,
+          MaterialPageRoute(
+                                  builder: (context) => AccountScreen()));
+        },
+        child: const Icon(Icons.arrow_back),),
       backgroundColor: darkishBlue,
       title: Text("Edit Profile"),
       centerTitle: true,
