@@ -64,14 +64,48 @@ class _MapBodyState extends State<MapBody> {
     super.initState();
   }
 
+  void _showDialog() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          insetPadding: const EdgeInsets.symmetric(horizontal: 30),
+          title: const Text('If you want to add drop point for recycling items, you need to get in touch with technical staff.\n\n\n phone: 0XXX XXX XX XX\n \ne-mail: techsupport@leftover.com',
+              style: TextStyle(color: Colors.white, fontSize: 14)),
+          backgroundColor: darkBackgroundColor,
+          actions: <Widget>[
+            TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: const Text('Close',
+                    style: TextStyle(color: greenBlockColor))),
+          ],
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
         appBar: AppBar(
-          title: Text('Drop Point Locations'),
+          title: Text('Drop Point Locations',),
           backgroundColor: darkBackgroundColor,
+          actions: [
+            TextButton(
+              style: TextButton.styleFrom(
+                textStyle: const TextStyle(fontSize: 16),
+              ),
+              onPressed: ()  async {
+                  print("Request Item Pressed");
+                  _showDialog();
+                },
+            child: const Text('Add',
+                style: TextStyle(color: lightPinkBlockColor))),
+      ],
         ),
         body: GoogleMap(
           mapType: MapType.normal,

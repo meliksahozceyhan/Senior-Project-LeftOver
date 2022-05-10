@@ -17,15 +17,18 @@ class CategoriesState extends State<Categories> {
   static int selectedIndex = 0;
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     return Padding(
       padding: const EdgeInsets.only(left: 10.0, top: 20),
       //padding: const EdgeInsets.symmetric(vertical: kDefaultPaddin),
       child: SizedBox(
         height: categoryHeight,
+        width: size.width - 100 ,
         child: ListView.builder(
           scrollDirection: Axis.horizontal,
           itemCount: categories.length,
           itemBuilder: (context, index) => buildCategory(index),
+
         ),
       ),
     );
