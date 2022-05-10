@@ -16,7 +16,7 @@ import { SnakeNamingStrategy } from 'typeorm-naming-strategies'
 				password: configService.get('database.password'),
 				database: configService.get('database.database'),
 				schema: configService.get('database.schema'),
-				entities: ['dist/**/*.entity.js'],
+				entities: ['dist/**/*.entity{.js,.ts}'],
 				migrationsTableName: 'typeorm_migrations',
 				migrations: ['src/**/*.migration{.ts,.js}'],
 				cli: {
