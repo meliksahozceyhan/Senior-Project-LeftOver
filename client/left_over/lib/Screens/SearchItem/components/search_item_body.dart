@@ -41,6 +41,23 @@ class _BodyState extends State<SearchItemBody> {
 
     var jsonData = jsonDecode(response.body) as List;
 
+    if (response.statusCode == 500) {
+      final scaffold = ScaffoldMessenger.of(context);
+      scaffold.showSnackBar(
+        SnackBar(
+          content: const Text(
+            'Something went wrong on the server side',
+          ),
+          backgroundColor: redCheck,
+          action: SnackBarAction(
+              label: 'Close',
+              onPressed: scaffold.hideCurrentSnackBar,
+              textColor: Colors.white),
+          behavior: SnackBarBehavior.floating,
+        ),
+      );
+    }
+
     if (this.mounted) {
       setState(() {
         _postJson =
