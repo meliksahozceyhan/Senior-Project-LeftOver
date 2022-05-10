@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:left_over/Screens/AddNewItem/components/add_item_body.dart';
 import 'package:left_over/Screens/Map/components/map_body.dart';
 import 'package:left_over/Screens/Message/components/message_body.dart';
+import 'package:left_over/Screens/MyListings/components/my_listings_item_body.dart';
 import 'package:left_over/Screens/SearchItem/components/search_item_body.dart';
 import 'package:left_over/Screens/item/components/item_body.dart';
 import 'package:left_over/Screens/Account/account_screen.dart';

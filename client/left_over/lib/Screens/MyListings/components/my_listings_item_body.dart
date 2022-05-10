@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:jwt_decode/jwt_decode.dart';
+import 'package:left_over/Screens/Account/account_screen.dart';
 import 'package:left_over/Screens/item/components/item_card.dart';
 import 'package:left_over/Screens/MyListings/components/my_listing_details_screen.dart';
 import 'package:left_over/constants.dart';
@@ -76,7 +77,7 @@ class _MyListingsItemBodyState extends State<MyListingsItemBody> {
                 ),
                 itemBuilder: (context, index) => ItemCard(
                       product: products[index],
-                      press: () => Navigator.push(
+                      press: () => Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(
                             builder: (context) => MyListingDetailScreen(
@@ -87,6 +88,24 @@ class _MyListingsItemBodyState extends State<MyListingsItemBody> {
           ),
         ),
       ],
+    );
+  }
+
+  AppBar buildAppBar(BuildContext context) {
+    return AppBar(
+      leading: GestureDetector(
+        onTap: (){
+          AccountScreen.selectedIndex=5;
+           Navigator.pushReplacement(
+                              context,
+          MaterialPageRoute(
+                                  builder: (context) => AccountScreen()));
+        },
+        child: const Icon(Icons.arrow_back),),
+      backgroundColor: darkishBlue,
+      title: Text("Edit Profile"),
+      centerTitle: true,
+      elevation: 0,
     );
   }
 }
