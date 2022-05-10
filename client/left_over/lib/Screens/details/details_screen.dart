@@ -131,6 +131,20 @@ class DetailsScreen extends StatelessWidget {
                   Map<String, dynamic> payload = Jwt.parseJwt(token);
                   User user = User.fromJson(payload);
                   socketService.requestItem(product, user);
+                  final scaffold = ScaffoldMessenger.of(context);
+                  scaffold.showSnackBar(
+                    SnackBar(
+                      content: const Text(
+                        'You have requested the item!',
+                      ),
+                      backgroundColor: greenBlockColor,
+                      action: SnackBarAction(
+                      label: 'Close',
+                      onPressed: scaffold.hideCurrentSnackBar,
+                      textColor: Colors.white),
+                      behavior: SnackBarBehavior.floating,
+                    ),
+                  );
                 },
             child: const Text('Request',
                 style: TextStyle(color: lightPinkBlockColor))),

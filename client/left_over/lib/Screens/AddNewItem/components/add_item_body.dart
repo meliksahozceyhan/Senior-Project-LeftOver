@@ -4,7 +4,10 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
 import 'package:jwt_decode/jwt_decode.dart';
+import 'package:left_over/Screens/Account/account_screen.dart';
 import 'package:left_over/Screens/Login/components/background.dart';
+import 'package:left_over/Screens/MyListings/components/my_listings_item_body.dart';
+import 'package:left_over/Screens/MyListings/my_listings_screen.dart';
 import 'package:left_over/components/rounded_input_field.dart';
 import 'package:left_over/components/rounded_date_field.dart';
 import 'package:left_over/components/rounded_button.dart';
@@ -189,9 +192,10 @@ class _NewItemBodyState extends State<AddNewItemBody> {
         if (getItemName != "" && getCondition != "" && getSubcategory != "") {
           await uploadItem(body["_id"]);
           //navigator to item datail page
-          Navigator.push(
+          
+          Navigator.pushReplacement(
             context,
-            MaterialPageRoute(builder: (context) => ItemScreen()),
+            MaterialPageRoute(builder: (context) => MyListingsItemScreen()),
           );
           final scaffold = ScaffoldMessenger.of(context);
           scaffold.showSnackBar(

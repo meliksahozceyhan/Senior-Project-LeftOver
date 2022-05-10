@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:jwt_decode/jwt_decode.dart';
+import 'package:left_over/Screens/Account/account_screen.dart';
 import 'package:left_over/Screens/MyListings/my_listings_screen.dart';
 import 'package:left_over/constants.dart';
 import 'package:left_over/helpers/NavigationService.dart';
@@ -136,10 +137,25 @@ class MyListingDetailScreen extends StatelessWidget {
                   headers: headers);
               print(response.statusCode);
               if (response.statusCode == 200) {
-                Navigator.push(
-                    NavigationService.navigatorKey.currentContext,
-                    MaterialPageRoute(
-                        builder: (context) => const MyListingsItemScreen()));
+                final scaffold = ScaffoldMessenger.of(context);
+                scaffold.showSnackBar(
+                  SnackBar(
+                    content: const Text(
+                      'Item successfully deleted!',
+                    ),
+                    backgroundColor: greenBlockColor,
+                    action: SnackBarAction(
+                    label: 'Close',
+                    onPressed: scaffold.hideCurrentSnackBar,
+                    textColor: Colors.white),
+                    behavior: SnackBarBehavior.floating,
+                  ),
+                );
+                Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => MyListingsItemScreen()),
+                            );
               }
             },
             child: const Text('Delete',
